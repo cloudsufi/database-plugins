@@ -19,6 +19,8 @@ package io.cdap.plugin.mysql.stepsdesign;
 import io.cdap.e2e.utils.CdfHelper;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.MysqlClient;
+import io.cdap.plugin.mysql.actions.MySQLPropertiesPageActions;
+import io.cdap.plugin.mysql.locators.MySQLPropertiesPage;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import stepsdesign.BeforeActions;
@@ -46,5 +48,15 @@ public class Mysql implements CdfHelper {
                                                            PluginPropertyUtils.pluginProp("targetTable"));
     Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
                         "of the records in the source table", recordsMatched);
+  }
+
+  @Then("Select Mysql Connection")
+  public void clickOnMysqlConnectionButton() {
+    MySQLPropertiesPageActions.clickOnMysqlConnectionButton();
+  }
+
+  @Then("Use new connection")
+  public void clickOnNewMySQLConnection() {
+    MySQLPropertiesPageActions.clickOnMySQLConnection();
   }
 }
