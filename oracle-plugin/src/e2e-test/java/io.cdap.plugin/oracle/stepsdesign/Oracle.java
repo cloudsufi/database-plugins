@@ -19,6 +19,8 @@ package io.cdap.plugin.oracle.stepsdesign;
 import io.cdap.e2e.utils.CdfHelper;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.OracleClient;
+import io.cdap.plugin.oracle.actions.OracleActions;
+import io.cdap.plugin.utils.E2ETestConstants;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import stepsdesign.BeforeActions;
@@ -48,6 +50,20 @@ public class Oracle implements CdfHelper {
                                                            PluginPropertyUtils.pluginProp("targetTable"));
     Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
                          "of the records in the source table", recordsMatched);
+  }
+
+  @Then("Enter Oracle plugin with connection arguments {string}")
+  public void enterOraclePluginWithConnectionArguments(String jsonConnectionArgumentsField) {
+    OracleActions.enterConnectionArguments(jsonConnectionArgumentsField);
+  }
+
+  @Then("Verify Oracle plugin in-line error message for incorrect Reference Name: {string}")
+  public void verifyOraclePluginInLineErrorMessageForIncorrectReferenceName(String fields) {
+    OracleActions.verifyGroupByPluginPropertyInlineErrorMessageForRow
+      ("referenceName",
+       PluginPropertyUtils.errorProp(E2ETestConstants.ERROR_MSG_INVALID_REFERENCE_NAME)
+         .replace("REFERENCE", PluginPropertyUtils.pluginProp(fields)));
+    OracleActions.verifyGroupByPluginPropertyInlineErrorMessageForColor("referenceName");
   }
 
 }
