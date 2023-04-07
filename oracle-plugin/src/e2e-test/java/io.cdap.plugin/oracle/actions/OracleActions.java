@@ -34,7 +34,7 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.Map;
 
 /**
- * GroupBy plugin related Actions.
+ * Oracle plugin related Actions.
  */
 
 public class OracleActions {

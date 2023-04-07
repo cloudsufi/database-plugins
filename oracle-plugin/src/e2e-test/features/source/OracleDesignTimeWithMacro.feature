@@ -31,6 +31,8 @@ Feature: Oracle source- Verify Oracle source plugin design time macro scenarios
     Then Click on the Macro button of Property: "transactionIsolationLevel" and set the value to: "oracleTransactionLevel"
     Then Click on the Macro button of Property: "database" and set the value to: "oracleDatabase"
     Then Click on the Macro button of Property: "connectionArguments" and set the value to: "oracleConnectionArguments"
+    Then Enter input plugin property: "referenceName" with value: "sourceRef"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
 
@@ -49,10 +51,9 @@ Feature: Oracle source- Verify Oracle source plugin design time macro scenarios
     Then Select radio button plugin property: "role" with value: "sysdba"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
-    Then Click on the Macro button of Property: "importQuery" and set the value to: "oracleImportQuery"
-    Then Click on the Macro button of Property: "boundingQuery" and set the value to: "oracleBoundingQuery"
     Then Click on the Macro button of Property: "splitBy" and set the value to: "oracleSplitBy"
-    Then Click on the Macro button of Property: "numSplits" and set the value to: "oracleNumSplits"
     Then Click on the Macro button of Property: "fetchSize" and set the value to: "oracleFetchSize"
+    Then Click on the Macro button of Property: "boundingQuery" and set the value in textarea: "oracleBoundingQuery"
+    Then Click on the Macro button of Property: "importQuery" and set the value in textarea: "oracleImportQuery"
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
