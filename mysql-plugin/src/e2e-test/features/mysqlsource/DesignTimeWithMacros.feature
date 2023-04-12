@@ -10,49 +10,41 @@
 # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations under
-# the License..
+# the License.
 
-Feature: MySQL Source - Design time scenarios
+Feature: MySQL Source - Design time scenarios (macro)
 
-  @TS-MYSQL-DSGN-01 @MYSQL_SOURCE_TEST
-  Scenario: Verify user can validate successfully when plugin is configured for table with connection and basic details
-    Given Open Datafusion Project to configure pipeline
+  @TS-MYSQL-DSGN-MACRO-01
+  Scenario: Verify user should be able to validate plugin with macros for Connection section
+  Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "MySQL" from the plugins list as: "Source"
     Then Navigate to the properties page of plugin: "MySQL"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    And Click on the Macro button of Property: "jdbcPluginName" and set the value to: "DriverName"
+    And Click on the Macro button of Property: "host" and set the value to: "Host"
+    And Click on the Macro button of Property: "port" and set the value to: "Port"
+    And Click on the Macro button of Property: "user" and set the value to: "Username"
+    And Click on the Macro button of Property: "password" and set the value to: "Password"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
 
-  @TS-MYSQL-SOURCE-DSGN-08 @MYSQL_SOURCE_TEST @CONNECTION
-  Scenario: Verify the MySQL Source plugin using connection manager functionality
+  @TS-MYSQL-DSGN-MACRO-02
+  Scenario: Verify user should be able to validate plugin with macros for Basic section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "MySQL" from the plugins list as: "Source"
     Then Navigate to the properties page of plugin: "MySQL"
-    And Click plugin property: "switch-useConnection"
-    And Click on the Browse Connections button
-    And Click on the Add Connection button
-    And Select Mysql Connection
-    And Enter input plugin property: "name" with value: "connection.name"
-    Then Enter input plugin property: "referenceName" with value: "sourceRef"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Select dropdown plugin property: "jdbcPluginName" with option value: "driverName"
     Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Click on the Test Connection button
-    And Verify the test connection is successful
-    Then  Click on the Create button
-    And Use new connection
+    And Click on the Macro button of Property: "referenceName" and set the value to: "refName"
+    And Click on the Macro button of Property: "database" and set the value to: "databaseName"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
+    Then Validate "MySQL" plugin properties
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
