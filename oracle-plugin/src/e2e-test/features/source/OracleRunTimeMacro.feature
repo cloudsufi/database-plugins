@@ -259,7 +259,6 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Enter input plugin property: "referenceName" with value: "BQReferenceName"
     Then Click on the Macro button of Property: "projectId" and set the value to: "bqProjectId"
     Then Click on the Macro button of Property: "datasetProjectId" and set the value to: "bqDatasetProjectId"
-    Then Override Service account details if set in environment variables
     Then Click on the Macro button of Property: "dataset" and set the value to: "bqDataset"
     Then Click on the Macro button of Property: "table" and set the value to: "bqTable"
     Then Click on the Macro button of Property: "truncateTableMacroInput" and set the value to: "bqTruncateTable"

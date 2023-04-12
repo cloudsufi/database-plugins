@@ -95,18 +95,12 @@ public class TestSetupHooks_BQ {
     BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " created successfully");
   }
 
-  @After(order = 1, value = "@BQ_SOURCE_TEST or @BQ_SOURCE_DELIMITED_TEST")
+  @After(order = 1, value = "@BQ_SOURCE_TEST")
   public static void deleteTempSourceBQTable() throws IOException, InterruptedException {
     String bqSourceTable = PluginPropertyUtils.pluginProp("bqSourceTable");
     BigQueryClient.dropBqQuery(bqSourceTable);
     BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " deleted successfully");
     PluginPropertyUtils.removePluginProp("bqSourceTable");
-  }
-
-  @Before(order = 1, value = "@BQ_SOURCE_DELIMITED_TEST")
-  public static void createSourceBQTableForNormalizeTest() throws IOException, InterruptedException {
-    createSourceBQTableWithQueries(PluginPropertyUtils.pluginProp("recordSplitterCreateBQTableQueryFile"),
-                                   PluginPropertyUtils.pluginProp("recordSplitterInsertBQDataQueryFile"));
   }
 
   private static void createSourceBQTableWithQueries(String bqCreateTableQueryFile, String bqInsertDataQueryFile)
@@ -147,34 +141,5 @@ public class TestSetupHooks_BQ {
     }
     PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
     BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
-  }
-
-  @Before(order = 1)
-  public static void overrideServiceAccountFilePathIfProvided() {
-    if (beforeAllFlag) {
-      String serviceAccountType = System.getenv("SERVICE_ACCOUNT_TYPE");
-      if (serviceAccountType != null && !serviceAccountType.isEmpty()) {
-        if (serviceAccountType.equalsIgnoreCase("FilePath")) {
-          PluginPropertyUtils.addPluginProp("serviceAccountType", "filePath");
-          String serviceAccountFilePath = System.getenv("SERVICE_ACCOUNT_FILE_PATH");
-          if (!(serviceAccountFilePath == null) && !serviceAccountFilePath.equalsIgnoreCase("auto-detect")) {
-            PluginPropertyUtils.addPluginProp("serviceAccount", serviceAccountFilePath);
-          }
-          return;
-        }
-        if (serviceAccountType.equalsIgnoreCase("JSON")) {
-          PluginPropertyUtils.addPluginProp("serviceAccountType", "JSON");
-          String serviceAccountJSON = System.getenv("SERVICE_ACCOUNT_JSON").replaceAll("[\r\n]+", " ");
-          if (!(serviceAccountJSON == null) && !serviceAccountJSON.equalsIgnoreCase("auto-detect")) {
-            PluginPropertyUtils.addPluginProp("serviceAccount", serviceAccountJSON);
-          }
-          return;
-        }
-        Assert.fail("ServiceAccount override failed - ServiceAccount type set in environment variable " +
-                      "'SERVICE_ACCOUNT_TYPE' with invalid value: '" + serviceAccountType + "'. " +
-                      "Value should be either 'FilePath' or 'JSON'");
-      }
-      beforeAllFlag = false;
-    }
   }
 }
