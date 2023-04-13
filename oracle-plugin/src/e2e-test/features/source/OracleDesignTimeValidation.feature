@@ -17,7 +17,6 @@
 @Oracle
 Feature: Oracle source- Verify Oracle source plugin design time validation scenarios
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message with invalid reference test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -36,7 +35,6 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify Oracle plugin in-line error message for incorrect Reference Name: "oracleInvalidReference"
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message with blank bounding query
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -57,7 +55,6 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify that the Plugin Property: "boundingQuery" is displaying an in-line error message: "errorMessageBoundingQuery"
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message with change in number of splits
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -77,7 +74,6 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify that the Plugin Property: "numSplits" is displaying an in-line error message: "errorMessageBlankSplitBy"
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message with blank split By field
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -97,7 +93,6 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify that the Plugin Property: "splitBy" is displaying an in-line error message: "errorMessageBlankSplitBy"
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message when number of Split value is not a number
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -117,7 +112,6 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify that the Plugin Property: "numSplits" is displaying an in-line error message: "errorMessageNumberOfSplitNotNumber"
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message when number of Split value is changed to zero
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -137,7 +131,6 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify that the Plugin Property: "numSplits" is displaying an in-line error message: "errorMessageInvalidNumberOfSplits"
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message when fetch size is changed to zero
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -157,7 +150,7 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify that the Plugin Property: "fetchSize" is displaying an in-line error message: "errorMessageInvalidFetchSize"
 
-  @Oracle_Required
+  @ORACLE_SOURCE_TEST
   Scenario: To verify Oracle source plugin validation error message with invalid database
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -174,9 +167,8 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Replace input plugin property: "database" with value: "invalidDatabase"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Click on the Validate button
-    Then Verify that the Plugin is displaying an error message: "errorMessageInvalidDatabase" on the header
+    Then Verify that the Plugin is displaying an error message: "errorMessageInvalidSourceDatabase" on the header
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message with invalid import query
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -196,7 +188,6 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify that the Plugin Property: "importQuery" is displaying an in-line error message: "errorMessageInvalidImportQuery"
 
-  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message with blank username
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

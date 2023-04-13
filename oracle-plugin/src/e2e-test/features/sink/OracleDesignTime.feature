@@ -16,7 +16,7 @@
 
 @Oracle
 Feature: Oracle sink - Verify Oracle sink plugin design time scenarios
-  @Oracle_Required
+
   Scenario: To verify Oracle sink plugin validation errors for mandatory fields
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -29,7 +29,6 @@ Feature: Oracle sink - Verify Oracle sink plugin design time scenarios
       | referenceName  |
       | tableName      |
 
-  @Oracle_Required
   Scenario: To verify Oracle sink plugin validation with connection and basic details for connectivity
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -49,7 +48,6 @@ Feature: Oracle sink - Verify Oracle sink plugin design time scenarios
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
 
-  @Oracle_Required
   Scenario: To verify Oracle sink plugin validation with connection arguments
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -70,7 +68,6 @@ Feature: Oracle sink - Verify Oracle sink plugin design time scenarios
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
 
-  @Oracle_Required
   Scenario: To verify Oracle sink plugin validation with advanced details with batch value
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -89,5 +86,3 @@ Feature: Oracle sink - Verify Oracle sink plugin design time scenarios
     Then Replace input plugin property: "defaultBatchValue" with value: "batchValue"
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
-
-

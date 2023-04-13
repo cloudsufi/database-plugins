@@ -17,7 +17,7 @@
 @Oracle
 Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
 
-  @Oracle_Required
+  @ORACLE_SOURCE_TEST
   Scenario: To verify Oracle sink plugin validation error message with invalid reference test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -36,7 +36,7 @@ Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
     Then Click on the Validate button
     Then Verify Oracle plugin in-line error message for incorrect Reference Name: "oracleInvalidReference"
 
-  @Oracle_Required
+  @ORACLE_SOURCE_TEST
   Scenario: To verify Oracle sink plugin validation error message with invalid database
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -66,15 +66,16 @@ Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Select radio button plugin property: "connectionType" with value: "service"
+    Then Replace input plugin property: "database" with value: "invalidDatabase"
+    Then Replace input plugin property: "tableName" with value: "oracleInvalidTable"
     Then Select radio button plugin property: "role" with value: "sysdba"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
-    Then Replace input plugin property: "database" with value: "invalidDatabase"
-    Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Click on the Validate button
-    Then Verify that the Plugin is displaying an error message: "errorMessageInvalidDatabase" on the header
+    Then Verify that the Plugin is displaying an error message: "errorMessageInvalidSinkDatabase" on the header
 
-  @Oracle_Required
+  @ORACLE_SOURCE_TEST
   Scenario: To verify Oracle sink plugin validation error message with invalid table name
+    Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "Oracle" from the plugins list as: "Source"
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -107,9 +108,8 @@ Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "invalidTable"
     Then Click on the Validate button
-    Then Verify that the Plugin is displaying an error message: "errorMessageInvalidTable" on the header
+    Then Verify Oracle plugin in-line error message for incorrect Table Name: "oracleInvalidTable"
 
-  @Oracle_Required
   Scenario: To verify Oracle sink plugin validation error message with blank username
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"

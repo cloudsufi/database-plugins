@@ -79,4 +79,12 @@ public class Oracle implements CdfHelper {
                         CdfPipelineRunAction.getCountDisplayedOnSourcePluginAsRecordsOut(), targetBQRecordsCount);
   }
 
+  @Then("Verify Oracle plugin in-line error message for incorrect Table Name: {string}")
+  public void verifyOraclePluginInLineErrorMessageForIncorrectTableName(String fields) {
+    OracleActions.verifyGroupByPluginPropertyInlineErrorMessageForRow
+      ("tableName",
+       PluginPropertyUtils.errorProp(E2ETestConstants.ERROR_MSG_INVALID_TABLE_NAME)
+         .replace("TABLE", PluginPropertyUtils.pluginProp(fields)));
+    OracleActions.verifyGroupByPluginPropertyInlineErrorMessageForColor("tableName");
+  }
 }

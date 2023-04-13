@@ -20,4 +20,5 @@ package io.cdap.plugin.utils;
  */
 public class E2ETestConstants {
   public static final String ERROR_MSG_INVALID_REFERENCE_NAME = "errorMessageOracleInvalidReferenceName";
+  public static final String ERROR_MSG_INVALID_TABLE_NAME = "errorMessageInvalidTableName";
 }
