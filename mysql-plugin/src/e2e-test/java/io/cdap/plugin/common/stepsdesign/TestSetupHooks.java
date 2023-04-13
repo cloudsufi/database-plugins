@@ -16,18 +16,25 @@
 
 package io.cdap.plugin.common.stepsdesign;
 
+import com.google.cloud.bigquery.BigQueryException;
+import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.MysqlClient;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Assert;
+import stepsdesign.BeforeActions;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
  * MYSQL test hooks.
  */
 public class TestSetupHooks {
+  public static String bqTargetTable = StringUtils.EMPTY;
 
   private static void setTableName() {
     String randomString = RandomStringUtils.randomAlphabetic(10);
@@ -69,4 +76,25 @@ public class TestSetupHooks {
       PluginPropertyUtils.pluginProp("targetTable")});
   }
 
+  @Before(order = 1, value = "@BQ_SINK")
+  public static void setTempTargetBQTable() {
+    bqTargetTable = "TestSN_table" + RandomStringUtils.randomAlphanumeric(10);
+    PluginPropertyUtils.addPluginProp("bqtarget.table", bqTargetTable);
+    BeforeActions.scenario.write("BigQuery Target table name: " + bqTargetTable);
+  }
+
+  @After(order = 1, value = "@BQ_SINK_CLEANUP")
+  public static void deleteTempTargetBQTable() throws IOException, InterruptedException {
+    try {
+      BigQueryClient.dropBqQuery(bqTargetTable);
+      BeforeActions.scenario.write("BigQuery Target table: " + bqTargetTable + " is deleted successfully");
+      bqTargetTable = StringUtils.EMPTY;
+    } catch (BigQueryException e) {
+      if (e.getCode() == 404) {
+        BeforeActions.scenario.write("BigQuery Target Table: " + bqTargetTable + " does not exist");
+      } else {
+        Assert.fail(e.getMessage());
+      }
+    }
+  }
 }
