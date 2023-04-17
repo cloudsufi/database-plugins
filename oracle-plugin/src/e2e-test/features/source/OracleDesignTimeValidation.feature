@@ -17,6 +17,18 @@
 @Oracle
 Feature: Oracle source- Verify Oracle source plugin design time validation scenarios
 
+  Scenario: To verify Oracle source plugin validation errors for mandatory fields
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "Oracle" from the plugins list as: "Source"
+    Then Navigate to the properties page of plugin: "Oracle"
+    Then Click on the Validate button
+    Then Verify mandatory property error for below listed properties:
+      | jdbcPluginName |
+      | database       |
+      | referenceName  |
+      | importQuery    |
+
   Scenario: To verify Oracle source plugin validation error message with invalid reference test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -33,7 +45,7 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Click on the Validate button
-    Then Verify Oracle plugin in-line error message for incorrect Reference Name: "oracleInvalidReference"
+    Then Verify that the Plugin Property: "referenceName" is displaying an in-line error message: "errorMessageOracleInvalidReferenceName"
 
   Scenario: To verify Oracle source plugin validation error message with blank bounding query
     Given Open Datafusion Project to configure pipeline

@@ -17,18 +17,6 @@
 @Oracle
 Feature: Oracle source- Verify Oracle source plugin design time scenarios
 
-  Scenario: To verify Oracle source plugin validation errors for mandatory fields
-    Given Open Datafusion Project to configure pipeline
-    When Expand Plugin group in the LHS plugins list: "Source"
-    When Select plugin: "Oracle" from the plugins list as: "Source"
-    Then Navigate to the properties page of plugin: "Oracle"
-    Then Click on the Validate button
-    Then Verify mandatory property error for below listed properties:
-      | jdbcPluginName |
-      | database       |
-      | referenceName  |
-      | importQuery    |
-
   @ORACLE_SOURCE_TEST
   Scenario: To verify Oracle source plugin validation with connection and basic details for connectivity
     Given Open Datafusion Project to configure pipeline
@@ -65,7 +53,7 @@ Feature: Oracle source- Verify Oracle source plugin design time scenarios
     Then Select radio button plugin property: "role" with value: "sysdba"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
-    Then Enter Oracle plugin with connection arguments "connectionArgumentsList"
+    Then Enter key value pairs for plugin property: "connectionArguments" with values from json: "connectionArgumentsList"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Click on the Get Schema button
     Then Verify the Output Schema matches the Expected Schema: "outputSchema"

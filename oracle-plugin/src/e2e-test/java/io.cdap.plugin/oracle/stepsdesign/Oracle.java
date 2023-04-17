@@ -21,14 +21,11 @@ import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.CdfHelper;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.OracleClient;
-import io.cdap.plugin.oracle.actions.OracleActions;
-import io.cdap.plugin.utils.E2ETestConstants;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
 import stepsdesign.BeforeActions;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
@@ -56,20 +53,6 @@ public class Oracle implements CdfHelper {
                          "of the records in the source table", recordsMatched);
   }
 
-  @Then("Enter Oracle plugin with connection arguments {string}")
-  public void enterOraclePluginWithConnectionArguments(String jsonConnectionArgumentsField) {
-    OracleActions.enterConnectionArguments(jsonConnectionArgumentsField);
-  }
-
-  @Then("Verify Oracle plugin in-line error message for incorrect Reference Name: {string}")
-  public void verifyOraclePluginInLineErrorMessageForIncorrectReferenceName(String fields) {
-    OracleActions.verifyGroupByPluginPropertyInlineErrorMessageForRow
-      ("referenceName",
-       PluginPropertyUtils.errorProp(E2ETestConstants.ERROR_MSG_INVALID_REFERENCE_NAME)
-         .replace("REFERENCE", PluginPropertyUtils.pluginProp(fields)));
-    OracleActions.verifyGroupByPluginPropertyInlineErrorMessageForColor("referenceName");
-  }
-
   @Then("Validate OUT record count is equal to records transferred to target BigQuery table")
   public void validateOUTRecordCountIsEqualToRecordsTransferredToTargetBigQueryTable()
     throws IOException, InterruptedException, IOException {
@@ -77,14 +60,5 @@ public class Oracle implements CdfHelper {
     BeforeActions.scenario.write("No of Records Transferred to BigQuery:" + targetBQRecordsCount);
     Assert.assertEquals("Out records should match with target BigQuery table records count",
                         CdfPipelineRunAction.getCountDisplayedOnSourcePluginAsRecordsOut(), targetBQRecordsCount);
-  }
-
-  @Then("Verify Oracle plugin in-line error message for incorrect Table Name: {string}")
-  public void verifyOraclePluginInLineErrorMessageForIncorrectTableName(String fields) {
-    OracleActions.verifyGroupByPluginPropertyInlineErrorMessageForRow
-      ("tableName",
-       PluginPropertyUtils.errorProp(E2ETestConstants.ERROR_MSG_INVALID_TABLE_NAME)
-         .replace("TABLE", PluginPropertyUtils.pluginProp(fields)));
-    OracleActions.verifyGroupByPluginPropertyInlineErrorMessageForColor("tableName");
   }
 }

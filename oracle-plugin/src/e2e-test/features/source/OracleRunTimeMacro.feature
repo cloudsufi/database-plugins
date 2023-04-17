@@ -17,7 +17,7 @@
 @Oracle
 Feature: Oracle - Verify Oracle source data transfer with macro arguments
 
-  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST @Oracle_Required
+  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST
   Scenario: To verify data is getting transferred from Oracle to Oracle successfully using macro arguments in connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -29,10 +29,11 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "oracleDriverName"
     Then Click on the Macro button of Property: "host" and set the value to: "oracleHost"
     Then Click on the Macro button of Property: "port" and set the value to: "oraclePort"
-    Then Click on the Macro button of Property: "user" and set the value to: "oracleUser"
+    Then Click on the Macro button of Property: "user" and set the value to: "oracleUsername"
     Then Click on the Macro button of Property: "password" and set the value to: "oraclePassword"
     Then Click on the Macro button of Property: "database" and set the value to: "oracleDatabase"
-    Then Click on the Macro button of Property: "connectionArguments" and set the value to: "oracleConnectionArguments"
+    Then Select radio button plugin property: "connectionType" with value: "service"
+    Then Select radio button plugin property: "role" with value: "sysdba"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Validate "Oracle" plugin properties
@@ -54,12 +55,11 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Enter runtime argument value "driverName" for key "oracleDriverName"
-    Then Enter runtime argument value "host" for key "oracleHost"
-    Then Enter runtime argument value "port" for key "oraclePort"
-    Then Enter runtime argument value "username" for key "oracleUser"
-    Then Enter runtime argument value "password" for key "oraclePassword"
+    Then Enter runtime argument value from environment variable "host" for key "oracleHost"
+    Then Enter runtime argument value from environment variable "port" for key "oraclePort"
+    Then Enter runtime argument value from environment variable "username" for key "oracleUsername"
+    Then Enter runtime argument value from environment variable "password" for key "oraclePassword"
     Then Enter runtime argument value "databaseName" for key "oracleDatabase"
-    Then Enter runtime argument value "connectionArgumentsList" for key "oracleConnectionArguments"
     Then Run the preview of pipeline with runtime arguments
     Then Wait till pipeline preview is in running state
     Then Open and capture pipeline preview logs
@@ -74,7 +74,6 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Enter runtime argument value from environment variable "username" for key "oracleUsername"
     Then Enter runtime argument value from environment variable "password" for key "oraclePassword"
     Then Enter runtime argument value "databaseName" for key "oracleDatabase"
-    Then Enter runtime argument value "connectionArgumentsList" for key "oracleConnectionArguments"
     Then Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
@@ -82,7 +81,7 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Close the pipeline logs
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST @Oracle_Required
+  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST
   Scenario: To verify data is getting transferred from Oracle to Oracle successfully using macro arguments in basic section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -139,7 +138,7 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Close the pipeline logs
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST @Oracle_Required
+  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST
   Scenario: To verify pipeline preview fails when invalid connection details provided using macro arguments
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -151,7 +150,7 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "oracleDriverName"
     Then Click on the Macro button of Property: "host" and set the value to: "oracleHost"
     Then Click on the Macro button of Property: "port" and set the value to: "oraclePort"
-    Then Click on the Macro button of Property: "user" and set the value to: "oracleUser"
+    Then Click on the Macro button of Property: "user" and set the value to: "oracleUsername"
     Then Click on the Macro button of Property: "password" and set the value to: "oraclePassword"
     Then Click on the Macro button of Property: "database" and set the value to: "oracleDatabase"
     Then Select radio button plugin property: "connectionType" with value: "service"
@@ -179,17 +178,13 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Enter runtime argument value "invalidDriverName" for key "oracleDriverName"
     Then Enter runtime argument value "invalidHost" for key "oracleHost"
     Then Enter runtime argument value "invalidPort" for key "oraclePort"
-    Then Enter runtime argument value "invalidUserName" for key "oracleUser"
+    Then Enter runtime argument value "invalidUserName" for key "oracleUsername"
     Then Enter runtime argument value "invalidPassword" for key "oraclePassword"
     Then Enter runtime argument value "invalidDatabaseName" for key "oracleDatabase"
     Then Run the preview of pipeline with runtime arguments
-    Then Wait till pipeline preview is in running state
-    Then Open and capture pipeline preview logs
-    Then Verify the preview run status of pipeline in the logs is "failed"
-    Then Close the pipeline logs
-    Then Close the preview
+    Then Verify the preview of pipeline is "Failed"
 
-  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST @Oracle_Required
+  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST
   Scenario: To verify pipeline preview fails when invalid table name provided in import query using macro arguments
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -228,11 +223,7 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Preview and run the pipeline
     Then Enter runtime argument value "invalidTableNameImportQuery" for key "oracleInvalidImportQuery"
     Then Run the preview of pipeline with runtime arguments
-    Then Wait till pipeline preview is in running state
-    Then Open and capture pipeline preview logs
-    Then Verify the preview run status of pipeline in the logs is "failed"
-    Then Close the pipeline logs
-    Then Close the preview
+    Then Verify the preview of pipeline is "Failed"
 
   @ORACLE_SOURCE_TEST @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from Oracle source to BigQuery sink using macro arguments

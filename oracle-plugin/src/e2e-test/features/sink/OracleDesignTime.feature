@@ -17,18 +17,6 @@
 @Oracle
 Feature: Oracle sink - Verify Oracle sink plugin design time scenarios
 
-  Scenario: To verify Oracle sink plugin validation errors for mandatory fields
-    Given Open Datafusion Project to configure pipeline
-    When Expand Plugin group in the LHS plugins list: "Sink"
-    When Select plugin: "Oracle" from the plugins list as: "Sink"
-    Then Navigate to the properties page of plugin: "Oracle"
-    Then Click on the Validate button
-    Then Verify mandatory property error for below listed properties:
-      | jdbcPluginName |
-      | database       |
-      | referenceName  |
-      | tableName      |
-
   Scenario: To verify Oracle sink plugin validation with connection and basic details for connectivity
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -64,7 +52,7 @@ Feature: Oracle sink - Verify Oracle sink plugin design time scenarios
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Replace input plugin property: "dbSchemaName" with value: "schema"
-    Then Enter Oracle plugin with connection arguments "connectionArgumentsList"
+    Then Enter key value pairs for plugin property: "connectionArguments" with values from json: "connectionArgumentsList"
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
 
