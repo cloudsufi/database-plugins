@@ -12,10 +12,114 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-Feature: MySQL Source - Run time scenarios
+Feature: MySQL Source - Run time scenarios (macro)
 
-  @TS-MYSQL-SOURCE-RNTM-01 @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP
-  Scenario: To verify data is getting transferred from Mysql to BigQuery successfully
+  @TS-MYSQL-SOURCE-RNTM--MACRO-01 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  Scenario: To verify data is getting transferred from Mysql to Mysql successfully using macros for Connection section
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "MySQL" from the plugins list as: "Source"
+    When Expand Plugin group in the LHS plugins list: "Sink"
+    When Select plugin: "MySQL" from the plugins list as: "Sink"
+    Then Connect plugins: "MySQL" and "MySQL2" to establish connection
+    Then Navigate to the properties page of plugin: "MySQL"
+    And Click on the Macro button of Property: "jdbcPluginName" and set the value to: "DriverName"
+    And Click on the Macro button of Property: "host" and set the value to: "Host"
+    And Click on the Macro button of Property: "port" and set the value to: "Port"
+    And Click on the Macro button of Property: "user" and set the value to: "Username"
+    And Click on the Macro button of Property: "password" and set the value to: "Password"
+    Then Enter input plugin property: "referenceName" with value: "sourceRef"
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
+    Then Validate "MySQL" plugin properties
+    Then Close the Plugin Properties page
+    Then Navigate to the properties page of plugin: "MySQL2"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Replace input plugin property: "tableName" with value: "targetTable"
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Enter input plugin property: "referenceName" with value: "targetRef"
+    Then Validate "MySQL2" plugin properties
+    Then Close the Plugin Properties page
+    Then Save the pipeline
+    Then Preview and run the pipeline
+    And Enter runtime argument value "driverName" for key "DriverName"
+    And Enter runtime argument value from environment variable "host" for key "Host"
+    And Enter runtime argument value from environment variable "port" for key "Port"
+    And Enter runtime argument value from environment variable "username" for key "Username"
+    And Enter runtime argument value from environment variable "password" for key "Password"
+    And Run the preview of pipeline with runtime arguments
+    Then Verify the preview of pipeline is "success"
+    Then Deploy the pipeline
+    Then Run the Pipeline in Runtime
+    And Enter runtime argument value "driverName" for key "DriverName"
+    And Enter runtime argument value from environment variable "host" for key "Host"
+    And Enter runtime argument value from environment variable "port" for key "Port"
+    And Enter runtime argument value from environment variable "username" for key "Username"
+    And Enter runtime argument value from environment variable "password" for key "Password"
+    Then Wait till pipeline is in running state
+    Then Open and capture logs
+    Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target table is equal to the values from source table
+
+  @TS-MYSQL-SOURCE-RNTM-MACRO-02 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  Scenario: To verify data is getting transferred from Mysql to Mysql successfully using macros for Basic section
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "MySQL" from the plugins list as: "Source"
+    When Expand Plugin group in the LHS plugins list: "Sink"
+    When Select plugin: "MySQL" from the plugins list as: "Sink"
+    Then Connect plugins: "MySQL" and "MySQL2" to establish connection
+    Then Navigate to the properties page of plugin: "MySQL"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    And Click on the Macro button of Property: "database" and set the value to: "databaseName"
+    And Click on the Macro button of Property: "boundingQuery" and set the value to: "boundQuery"
+    And Click on the Macro button of Property: "numSplits" and set the value to: "numOfSplits"
+    And Click on the Macro button of Property: "fetchSize" and set the value to: "fetchSize"
+    And Click on the Macro button of Property: "importQuery" and set the value to: "importQuery"
+    Then Validate "MySQL" plugin properties
+    Then Close the Plugin Properties page
+    Then Navigate to the properties page of plugin: "MySQL2"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Replace input plugin property: "tableName" with value: "targetTable"
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Enter input plugin property: "referenceName" with value: "targetRef"
+    Then Validate "MySQL2" plugin properties
+    Then Close the Plugin Properties page
+    Then Save the pipeline
+    Then Preview and run the pipeline
+    And Enter runtime argument value "databaseName" for key "databaseName"
+    And Enter runtime argument value "importQuery" for key "importQuery"
+    And Enter runtime argument value "boundQuery" for key "boundQuery"
+    And Enter runtime argument value "no.of.splits" for key "numOfSplits"
+    And Enter runtime argument value "fetchsize" for key "fetchSize"
+    And Run the preview of pipeline with runtime arguments
+    Then Verify the preview of pipeline is "success"
+    Then Deploy the pipeline
+    Then Run the Pipeline in Runtime
+    And Enter runtime argument value "databaseName" for key "databaseName"
+    And Enter runtime argument value from environment variable "importQuery" for key "importQuery"
+    And Enter runtime argument value from environment variable "boundQuery" for key "boundQuery"
+    And Enter runtime argument value from environment variable "no.of.splits" for key "numOfSplits"
+    And Enter runtime argument value from environment variable "fetchsize" for key "fetchSize"
+    Then Wait till pipeline is in running state
+    Then Open and capture logs
+    Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target table is equal to the values from source table
+
+  @TS-MYSQL-SOURCE-RNTM-MACRO-03 @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP
+  Scenario: To verify data is getting transferred from Mysql to BigQuery successfully using macros for Connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "MySQL" from the plugins list as: "Source"
@@ -23,16 +127,14 @@ Feature: MySQL Source - Run time scenarios
     And Select Sink plugin: "BigQueryTable" from the plugins list
     Then Connect plugins: "MySQL" and "BigQuery" to establish connection
     Then Navigate to the properties page of plugin: "MySQL"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    And Click on the Macro button of Property: "jdbcPluginName" and set the value to: "DriverName"
+    And Click on the Macro button of Property: "host" and set the value to: "Host"
+    And Click on the Macro button of Property: "port" and set the value to: "Port"
+    And Click on the Macro button of Property: "user" and set the value to: "Username"
+    And Click on the Macro button of Property: "password" and set the value to: "Password"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     And Navigate to the properties page of plugin: "BigQuery"
@@ -57,15 +159,45 @@ Feature: MySQL Source - Run time scenarios
     And Close the pipeline logs
     And Close the preview
     And Save and Deploy Pipeline
+
+  @TS-MYSQL-SOURCE-RNTM-MACRO-04 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  Scenario: Verify that pipeline fails when user provides invalid Table name in importQuery of plugin with Macros
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "MySQL" from the plugins list as: "Source"
+    When Expand Plugin group in the LHS plugins list: "Sink"
+    When Select plugin: "MySQL" from the plugins list as: "Sink"
+    Then Connect plugins: "MySQL" and "MySQL2" to establish connection
+    Then Navigate to the properties page of plugin: "MySQL"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Enter input plugin property: "referenceName" with value: "sourceRef"
+    Then Replace input plugin property: "database" with value: "databaseName"
+    And Click on the Macro button of Property: "importQuery" and set the value to: "importQuery"
+    Then Validate "MySQL" plugin properties
+    Then Close the Plugin Properties page
+    Then Navigate to the properties page of plugin: "MySQL2"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Replace input plugin property: "tableName" with value: "targetTable"
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Enter input plugin property: "referenceName" with value: "targetRef"
+    Then Validate "MySQL2" plugin properties
+    Then Close the Plugin Properties page
+    And Save and Deploy Pipeline
     And Run the Pipeline in Runtime
+    And Enter runtime argument value "invalid.query" for key "importQuery"
     And Wait till pipeline is in running state
-    And Open and capture logs
-    And Verify the pipeline status is "Succeeded"
-    And Close the pipeline logs
-    Then Validate the values of records transferred to target table is equal to the values from source table
+    And Verify the pipeline status is "Failed"
 
-  @TS-MYSQL-SOURCE-RNTM-02 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
-  Scenario: To verify data is getting transferred from Mysql to Mysql successfully
+  @TS-MYSQL-SOURCE-RNTM-MACRO-04 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  Scenario: Verify that pipeline fails when user provides invalid Credentials for connection with Macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "MySQL" from the plugins list as: "Source"
@@ -74,15 +206,13 @@ Feature: MySQL Source - Run time scenarios
     Then Connect plugins: "MySQL" and "MySQL2" to establish connection
     Then Navigate to the properties page of plugin: "MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    And Click on the Macro button of Property: "host" and set the value to: "Host"
+    And Click on the Macro button of Property: "port" and set the value to: "Port"
+    And Click on the Macro button of Property: "user" and set the value to: "Username"
+    And Click on the Macro button of Property: "password" and set the value to: "Password"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -96,159 +226,11 @@ Feature: MySQL Source - Run time scenarios
     Then Enter input plugin property: "referenceName" with value: "targetRef"
     Then Validate "MySQL2" plugin properties
     Then Close the Plugin Properties page
-    Then Save the pipeline
-    Then Preview and run the pipeline
-    Then Verify the preview of pipeline is "success"
-    Then Click on preview data for MySQL sink
-    Then Verify preview output schema matches the outputSchema captured in properties
-    Then Close the preview data
-    Then Deploy the pipeline
-    Then Run the Pipeline in Runtime
-    Then Wait till pipeline is in running state
-    Then Open and capture logs
-    Then Verify the pipeline status is "Succeeded"
-    Then Validate the values of records transferred to target table is equal to the values from source table
-
-  @TS-MYSQL-SOURCE-RNTM-03 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
-  Scenario: To verify data is getting transferred from Mysql to Mysql successfully when advance section details are set
-    Given Open Datafusion Project to configure pipeline
-    When Expand Plugin group in the LHS plugins list: "Source"
-    When Select plugin: "MySQL" from the plugins list as: "Source"
-    When Expand Plugin group in the LHS plugins list: "Sink"
-    When Select plugin: "MySQL" from the plugins list as: "Sink"
-    Then Connect plugins: "MySQL" and "MySQL2" to establish connection
-    Then Navigate to the properties page of plugin: "MySQL"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Enter input plugin property: "referenceName" with value: "sourceRef"
-    Then Replace input plugin property: "database" with value: "databaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click plugin property: "useCompression"
-    Then Click plugin property: "useAnsiQuotes"
-    Then Click plugin property: "autoReconnect"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
-    Then Validate "MySQL" plugin properties
-    Then Close the Plugin Properties page
-    Then Navigate to the properties page of plugin: "MySQL2"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "database" with value: "databaseName"
-    Then Replace input plugin property: "tableName" with value: "targetTable"
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Enter input plugin property: "referenceName" with value: "targetRef"
-    Then Validate "MySQL2" plugin properties
-    Then Close the Plugin Properties page
-    Then Save the pipeline
-    Then Preview and run the pipeline
-    Then Verify the preview of pipeline is "success"
-    Then Click on preview data for MySQL sink
-    Then Verify preview output schema matches the outputSchema captured in properties
-    Then Close the preview data
-    Then Deploy the pipeline
-    Then Run the Pipeline in Runtime
-    Then Wait till pipeline is in running state
-    Then Open and capture logs
-    Then Verify the pipeline status is "Succeeded"
-    Then Validate the values of records transferred to target table is equal to the values from source table
-
-  @TS-MYSQL-SOURCE-RNTM-04 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
-  Scenario: To verify data is getting transferred from Mysql to Mysql successfully with valid bounding query and split-By field
-    Given Open Datafusion Project to configure pipeline
-    When Expand Plugin group in the LHS plugins list: "Source"
-    When Select plugin: "MySQL" from the plugins list as: "Source"
-    When Expand Plugin group in the LHS plugins list: "Sink"
-    When Select plugin: "MySQL" from the plugins list as: "Sink"
-    Then Connect plugins: "MySQL" and "MySQL2" to establish connection
-    Then Navigate to the properties page of plugin: "MySQL"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Enter input plugin property: "referenceName" with value: "sourceRef"
-    Then Replace input plugin property: "database" with value: "databaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "importQuery"
-    Then Enter textarea plugin property: "boundingQuery" with value: "boundQuery"
-    Then Replace input plugin property: "splitBy" with value: "split.by.field.name"
-    Then Replace input plugin property: "numSplits" with value: "numbersplitsgenerate"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "output.Schema"
-    Then Validate "MySQL" plugin properties
-    Then Close the Plugin Properties page
-    Then Navigate to the properties page of plugin: "MySQL2"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "database" with value: "databaseName"
-    Then Replace input plugin property: "tableName" with value: "targetTable"
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Enter input plugin property: "referenceName" with value: "targetRef"
-    Then Validate "MySQL2" plugin properties
-    Then Close the Plugin Properties page
-    Then Save the pipeline
-    Then Preview and run the pipeline
-    Then Verify the preview of pipeline is "success"
-    Then Click on preview data for MySQL sink
-    Then Verify preview output schema matches the outputSchema captured in properties
-    Then Close the preview data
-    Then Deploy the pipeline
-    Then Run the Pipeline in Runtime
-    Then Wait till pipeline is in running state
-    Then Open and capture logs
-    Then Verify the pipeline status is "Succeeded"
-    Then Validate the values of records transferred to target table is equal to the values from source table
-
-  @TS-MYSQL-SOURCE-RNTM-05 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
-  Scenario : Verify the pipeline fails when plugin is configured with invalid bounding query
-    Given Open Datafusion Project to configure pipeline
-    When Expand Plugin group in the LHS plugins list: "Source"
-    When Select plugin: "MySQL" from the plugins list as: "Source"
-    When Expand Plugin group in the LHS plugins list: "Sink"
-    When Select plugin: "MySQL" from the plugins list as: "Sink"
-    Then Connect plugins: "MySQL" and "MySQL2" to establish connection
-    Then Navigate to the properties page of plugin: "MySQL"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Enter input plugin property: "referenceName" with value: "sourceRef"
-    Then Replace input plugin property: "database" with value: "databaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "importQuery"
-    Then Enter textarea plugin property: "boundingQuery" with value: "invalid.boundQuery"
-    Then Replace input plugin property: "splitBy" with value: "split.by.field.name"
-    Then Replace input plugin property: "numSplits" with value: "numbersplitsgenerate"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "output.Schema"
-    Then Validate "MySQL" plugin properties
-    Then Close the Plugin Properties page
-    Then Navigate to the properties page of plugin: "MySQL2"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "database" with value: "databaseName"
-    Then Replace input plugin property: "tableName" with value: "targetTable"
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Enter input plugin property: "referenceName" with value: "targetRef"
-    Then Validate "MySQL2" plugin properties
-    Then Close the Plugin Properties page
-    Then Save the pipeline
-    Then Preview and run the pipeline
-    Then Verify the preview of pipeline is "success"
-    Then Click on preview data for MySQL sink
-    Then Verify preview output schema matches the outputSchema captured in properties
-    Then Close the preview data
-    Then Deploy the pipeline
-    Then Run the Pipeline in Runtime
-    Then Wait till pipeline is in running state
-    Then Open and capture logs
-    Then Verify the pipeline status is "Succeeded"
-    Then Validate the values of records transferred to target table is equal to the values from source table
+    And Save and Deploy Pipeline
+    And Run the Pipeline in Runtime
+    And Enter runtime argument value from environment variable "invalid.host" for key "Host"
+    And Enter runtime argument value from environment variable "invalid.port" for key "Port"
+    And Enter runtime argument value from environment variable "invalid.username" for key "Username"
+    And Enter runtime argument value from environment variable "invalid.password" for key "Password"
+    And Wait till pipeline is in running state
+    And Verify the pipeline status is "Failed"
