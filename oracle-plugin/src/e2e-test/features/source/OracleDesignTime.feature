@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Oracle
+@Oracle @Oracle_Required
 Feature: Oracle source- Verify Oracle source plugin design time scenarios
 
   @ORACLE_SOURCE_TEST

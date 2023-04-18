@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Oracle
+@Oracle @Oracle_Required
 Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
 
   Scenario: To verify Oracle sink plugin validation errors for mandatory fields
@@ -77,8 +77,8 @@ Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Select radio button plugin property: "connectionType" with value: "service"
-    Then Replace input plugin property: "database" with value: "invalidDatabase"
+    Then Select radio button plugin property: "connectionType" with value: "TNS"
+    Then Replace input plugin property: "database" with value: "invalidDatabaseName"
     Then Replace input plugin property: "tableName" with value: "oracleInvalidTable"
     Then Select radio button plugin property: "role" with value: "sysdba"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -114,13 +114,13 @@ Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Select radio button plugin property: "connectionType" with value: "service"
+    Then Select radio button plugin property: "connectionType" with value: "TNS"
     Then Select radio button plugin property: "role" with value: "sysdba"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "invalidTable"
     Then Click on the Validate button
-    Then Verify that the Plugin Property: "tableName" is displaying an in-line error message: "errorMessageInvalidTableName"
+    Then Verify that the Plugin is displaying an error message: "errorMessageInvalidTableName" on the header
 
   Scenario: To verify Oracle sink plugin validation error message with blank username
     Given Open Datafusion Project to configure pipeline
@@ -164,9 +164,10 @@ Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "Oracle2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "invalidHost" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Select radio button plugin property: "connectionType" with value: "service"
+    Then Select radio button plugin property: "connectionType" with value: "TNS"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "invalidTable"
     Then Select radio button plugin property: "role" with value: "sysdba"

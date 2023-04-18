@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Oracle
+@Oracle @Oracle_Required
 Feature: Oracle source- Verify Oracle source plugin design time validation scenarios
 
   Scenario: To verify Oracle source plugin validation errors for mandatory fields

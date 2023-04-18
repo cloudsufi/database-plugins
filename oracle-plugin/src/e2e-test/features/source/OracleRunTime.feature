@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Oracle
+@Oracle @Oracle_Required
 Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
 
   @ORACLE_SOURCE_TEST @BQ_SINK_TEST

@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Oracle
+@Oracle @Oracle_Required
 Feature: Oracle sink - Verify Oracle sink plugin design time scenarios
 
   Scenario: To verify Oracle sink plugin validation with connection and basic details for connectivity
