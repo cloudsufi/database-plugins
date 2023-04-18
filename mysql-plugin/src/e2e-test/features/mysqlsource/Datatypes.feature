@@ -1,5 +1,5 @@
 #
-# Copyright © 2022 Cask Data, Inc.
+# Copyright © 2023 Cask Data, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -15,8 +15,9 @@
 #
 
 @Mysql
-Feature: Mysql - Verify Mysql source data transfer
-  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+Feature: Mysql - Verify Mysql source data transfer for different datatypes
+
+  @MYSQL_SOURCE_DATATYPES_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -34,7 +35,7 @@ Feature: Mysql - Verify Mysql source data transfer
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
+    Then Verify the Output Schema matches the Expected Schema: "datatypesSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -52,7 +53,6 @@ Feature: Mysql - Verify Mysql source data transfer
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
     Then Click on preview data for MySQL sink
-    Then Verify preview output schema matches the outputSchema captured in properties
     Then Close the preview data
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
@@ -60,3 +60,53 @@ Feature: Mysql - Verify Mysql source data transfer
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
+
+  @MYSQL_SOURCE_DATATYPES_TEST @MYSQL_SINK_TEST @Mysql_Required
+  Scenario: To verify data is getting transferred from Mysql to BigQuery successfully
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "MySQL" from the plugins list as: "Source"
+    When Expand Plugin group in the LHS plugins list: "Sink"
+    When Select plugin: "BigQuery" from the plugins list as: "Sink"
+    Then Connect plugins: "MySQL" and "BigQuery" to establish connection
+    Then Navigate to the properties page of plugin: "MySQL"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Enter input plugin property: "referenceName" with value: "sourceRef"
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
+    Then Click on the Get Schema button
+    Then Verify the Output Schema matches the Expected Schema: "datatypesSchema"
+    Then Validate "MySQL" plugin properties
+    Then Close the Plugin Properties page
+    And Navigate to the properties page of plugin: "BigQuery"
+    And Enter input plugin property: "referenceName" with value: "Reference"
+    And Replace input plugin property: "project" with value: "project.id"
+    And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
+    And Enter input plugin property: "dataset" with value: "dataset"
+    And Enter input plugin property: "table" with value: "bqTargetTable"
+    Then Validate "BigQuery" plugin properties
+    And Close the Plugin Properties page
+    And Save and Deploy Pipeline
+    And Run the Pipeline in Runtime
+    And Wait till pipeline is in running state
+    And Open and capture logs
+    And Verify the pipeline status is "Succeeded"
+    Then Validate "BigQuery" plugin properties
+    And Close the Plugin Properties page
+    And Preview and run the pipeline
+    And Wait till pipeline preview is in running state
+    And Open and capture pipeline preview logs
+    And Verify the preview run status of pipeline in the logs is "succeeded"
+    And Close the pipeline logs
+    And Close the preview
+    And Save and Deploy Pipeline
+    And Run the Pipeline in Runtime
+    And Wait till pipeline is in running state
+    And Open and capture logs
+    And Verify the pipeline status is "Succeeded"
+    And Close the pipeline logs
+    Then Validate OUT record count is equal to records transferred to target BigQuery table

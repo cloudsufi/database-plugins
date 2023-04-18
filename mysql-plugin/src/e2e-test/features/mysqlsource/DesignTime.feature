@@ -1,4 +1,4 @@
-# Copyright © 2022 Cask Data, Inc.
+# Copyright © 2023 Cask Data, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -15,7 +15,7 @@
 Feature: MySQL Source - Design time scenarios
 
   @TS-MYSQL-SOURCE-DSGN-01 @MYSQL_SOURCE_TEST
-  Scenario: Verify user can validate successfully when plugin is configured for table with connection and basic details
+  Scenario: Verify user is able to validate the plugin when configured for basic Section.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "MySQL" from the plugins list as: "Source"
@@ -33,7 +33,7 @@ Feature: MySQL Source - Design time scenarios
     Then Validate "MySQL" plugin properties
 
   @TS-MYSQL-SOURCE-DSGN-02 @MYSQL_SOURCE_TEST @CONNECTION
-  Scenario: Verify the MySQL Source plugin using connection manager functionality
+  Scenario: Verify user is able validate the plugin with connection management functionality
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "MySQL" from the plugins list as: "Source"
