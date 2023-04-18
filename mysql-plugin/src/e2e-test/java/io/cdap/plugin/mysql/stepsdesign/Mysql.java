@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 Cask Data, Inc.
+ * Copyright © 2023 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -16,15 +16,21 @@
 
 package io.cdap.plugin.mysql.stepsdesign;
 
+import io.cdap.e2e.pages.actions.CdfBigQueryPropertiesActions;
+import io.cdap.e2e.pages.actions.CdfPipelineRunAction;
+import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.CdfHelper;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.MysqlClient;
 import io.cdap.plugin.mysql.actions.MySQLPropertiesPageActions;
 import io.cdap.plugin.mysql.locators.MySQLPropertiesPage;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import stepsdesign.BeforeActions;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -58,5 +64,14 @@ public class Mysql implements CdfHelper {
   @Then("Use new connection")
   public void clickOnNewMySQLConnection() {
     MySQLPropertiesPageActions.clickOnMySQLConnection();
+  }
+
+  @Then("Validate OUT record count is equal to records transferred to target BigQuery table")
+  public void validateOUTRecordCountIsEqualToRecordsTransferredToTargetBigQueryTable()
+          throws IOException, InterruptedException, IOException {
+    int targetBQRecordsCount = BigQueryClient.countBqQuery(PluginPropertyUtils.pluginProp("bqTargetTable"));
+    BeforeActions.scenario.write("No of Records Transferred to BigQuery:" + targetBQRecordsCount);
+    Assert.assertEquals("Out records should match with target BigQuery table records count",
+            CdfPipelineRunAction.getCountDisplayedOnSourcePluginAsRecordsOut(), targetBQRecordsCount);
   }
 }
