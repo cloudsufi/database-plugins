@@ -14,7 +14,7 @@
 
 Feature: MySQL Source - Run time scenarios
 
-  @TS-MYSQL-SOURCE-RNTM-01 @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP
+  @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP
   Scenario: To verify data is getting transferred from Mysql to BigQuery successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -64,7 +64,7 @@ Feature: MySQL Source - Run time scenarios
     And Close the pipeline logs
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @TS-MYSQL-SOURCE-RNTM-02 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully when advance section details are set
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -112,7 +112,7 @@ Feature: MySQL Source - Run time scenarios
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @TS-MYSQL-SOURCE-RNTM-03 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully with valid bounding query and split-By field
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -160,8 +160,8 @@ Feature: MySQL Source - Run time scenarios
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @TS-MYSQL-SOURCE-RNTM-04 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
-  Scenario : Verify the pipeline fails when plugin is configured with invalid bounding query
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  Scenario: Verify the pipeline fails when plugin is configured with invalid bounding query
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "MySQL" from the plugins list as: "Source"

@@ -14,7 +14,7 @@
 
 Feature: MySQL Source - Run time scenarios (macro)
 
-  @TS-MYSQL-SOURCE-RNTM--MACRO-01 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully using macros for Connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -65,7 +65,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @TS-MYSQL-SOURCE-RNTM-MACRO-02 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully using macros for Basic section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -118,7 +118,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @TS-MYSQL-SOURCE-RNTM-MACRO-03 @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP
+  @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP
   Scenario: To verify data is getting transferred from Mysql to BigQuery successfully using macros for Connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -160,7 +160,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     And Close the preview
     And Save and Deploy Pipeline
 
-  @TS-MYSQL-SOURCE-RNTM-MACRO-04 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify that pipeline fails when user provides invalid Table name in importQuery of plugin with Macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -196,7 +196,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     And Wait till pipeline is in running state
     And Verify the pipeline status is "Failed"
 
-  @TS-MYSQL-SOURCE-RNTM-MACRO-04 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify that pipeline fails when user provides invalid Credentials for connection with Macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

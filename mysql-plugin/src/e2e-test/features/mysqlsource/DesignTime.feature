@@ -14,7 +14,7 @@
 
 Feature: MySQL Source - Design time scenarios
 
-  @TS-MYSQL-SOURCE-DSGN-01 @MYSQL_SOURCE_TEST
+  @MYSQL_SOURCE_TEST
   Scenario: Verify user is able to validate the plugin when configured for basic Section.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -32,7 +32,7 @@ Feature: MySQL Source - Design time scenarios
     Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
 
-  @TS-MYSQL-SOURCE-DSGN-02 @MYSQL_SOURCE_TEST @CONNECTION
+  @MYSQL_SOURCE_TEST @CONNECTION
   Scenario: Verify user is able validate the plugin with connection management functionality
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -60,7 +60,7 @@ Feature: MySQL Source - Design time scenarios
     Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
 
-  @TS-MYSQL-SOURCE-DSGN-03 @MYSQL_SOURCE_TEST
+  @MYSQL_SOURCE_TEST
     Scenario: Verify user should be able to validate successfully by setting the advanced section fields
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

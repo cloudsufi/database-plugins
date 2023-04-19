@@ -14,7 +14,6 @@
 
 Feature: MySQL Source - Design time validation scenarios
 
-  @TS-MYSQL-SOURCE-DSGN-ERROR-01
   Scenario: Verify UserName field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -32,7 +31,6 @@ Feature: MySQL Source - Design time validation scenarios
     Then Validate "MySQL" plugin properties
     Then Verify that the Plugin is displaying an error message: "invalid.username.message" on the header
 
-  @TS-MYSQL-SOURCE-DSGN-ERROR-02
   Scenario: Verify Password field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -48,7 +46,6 @@ Feature: MySQL Source - Design time validation scenarios
     Then Validate "MySQL" plugin properties
     Then Verify that the Plugin is displaying an error message: "invalid.password.message" on the header
 
-  @TS-MYSQL-SOURCE-DSGN-ERROR-03
   Scenario: Verify Database field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -64,7 +61,6 @@ Feature: MySQL Source - Design time validation scenarios
     Then Validate "MySQL" plugin properties
     Then Verify that the Plugin is displaying an error message: "invalid.databasename.message" on the header
 
-  @TS-MYSQL-SOURCE-DSGN-ERROR-04
   Scenario: Verify ImportQuery Field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -81,7 +77,6 @@ Feature: MySQL Source - Design time validation scenarios
     Then Validate "MySQL" plugin properties
     Then Verify that the Plugin is displaying an error message: "invalid.query.message" on the header
 
-  @TS-MYSQL-SOURCE-DSGN-ERROR-05
   Scenario: Verify the Number of Splits to generate field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -117,7 +112,6 @@ Feature: MySQL Source - Design time validation scenarios
     Then Validate "MySQL" plugin properties
     Then Verify that the Plugin Property: "boundingQuery" is displaying an in-line error message: "boundingQuery.error.message"
 
-  @TS-MYSQL-SOURCE-DSGN-ERROR-07
   Scenario: Verify the Split-By field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -135,7 +129,6 @@ Feature: MySQL Source - Design time validation scenarios
     Then Validate "MySQL" plugin properties
     Then Verify that the Plugin Property: "Split-By Field Name" is displaying an in-line error message: "splitfield.error.message"
 
-  @TS-MYSQL-SOURCE-DSGN-ERROR-08
   Scenario: Verify required fields missing validation messages
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
