@@ -14,7 +14,7 @@
 
 Feature: MySQL Sink - Run time scenarios
 
-  @TS-MYSQL-SINK-RNTM-01 @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP
+  @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP
   Scenario: To verify data is getting transferred from BigQuery to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -54,7 +54,7 @@ Feature: MySQL Sink - Run time scenarios
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @TS-MYSQL-SINK-RNTM-02 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -99,7 +99,7 @@ Feature: MySQL Sink - Run time scenarios
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @TS-MYSQL-SOURCE-RNTM-03 @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully when advance section details are set
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

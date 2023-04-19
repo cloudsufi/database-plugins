@@ -14,7 +14,6 @@
 
 Feature: MySQL Sink - Design time scenarios (macro)
 
-  @TS-MYSQL-SINK-DSGN-MACRO-01
   Scenario: Verify user should be able to validate sink plugin with macros for Connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -44,7 +43,6 @@ Feature: MySQL Sink - Design time scenarios (macro)
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Validate "MySQL" plugin properties
 
-  @TS-MYSQL-SINK-DSGN-MACRO-02
   Scenario: Verify user should be able to validate sink plugin with macros for Basic section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

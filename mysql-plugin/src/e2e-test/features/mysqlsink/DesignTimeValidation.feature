@@ -14,7 +14,6 @@
 
 Feature: MySQL Sink - Design time validation scenarios
 
-  @TS-MYSQL-SINK-DSGN-ERROR-01
   Scenario: Verify Database field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -47,7 +46,6 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Validate "MySQL" plugin properties
     Then Verify that the Plugin is displaying an error message: "invalid.databasename.message" on the header
 
-  @TS-MYSQL-SINK-DSGN-ERROR-02
   Scenario: Verify Table Name Field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -79,7 +77,7 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Enter input plugin property: "referenceName" with value: "targetRef"
     Then Validate "MySQL2" plugin properties
     Then Verify that the Plugin is displaying an error message: "invalidtableName.error.message" on the header
-  @TS-MYSQL-SINK-DSGN-ERROR-03
+
   Scenario: Verify Reference Name field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -112,7 +110,6 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Validate "MySQL2" plugin properties
     Then Verify that the Plugin Property: "referenceName" is displaying an in-line error message: "invalidreferenceName.error.message"
 
-  @TS-MYSQL-SINK-DSGN-ERROR-03
   Scenario: Verify the Username field validation error message with blank value
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -145,7 +142,6 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Validate "MySQL2" plugin properties
     Then Verify that the Plugin is displaying an error message: "invalid.username" on the header
 
-  @TS-MYSQL-SINK-DSGN-ERROR-03
   Scenario: Verify the Host/Port validation error when values are not provided
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

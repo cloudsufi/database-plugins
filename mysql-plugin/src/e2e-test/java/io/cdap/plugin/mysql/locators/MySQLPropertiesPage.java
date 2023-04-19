@@ -31,7 +31,7 @@ public class MySQLPropertiesPage {
     @FindBy(how = How.XPATH, using = "//div[@data-cy='connector-MySQL']")
     public static WebElement connectorMysql;
 
-    public static WebElement MySQLConnection(String connectionName) {
+    public static WebElement mySQLConnection(String connectionName) {
         return SeleniumDriver.getDriver().findElement(
                 By.xpath("//div[contains(text(),'" + connectionName + "')]"));
     }

@@ -28,7 +28,12 @@ import org.junit.Assert;
 import stepsdesign.BeforeActions;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 
 /**
  * MYSQL test hooks.
@@ -96,5 +101,73 @@ public class TestSetupHooks {
         Assert.fail(e.getMessage());
       }
     }
+  }
+
+  @Before(order = 2, value = "@Mysql_TEST_TABLE")
+  public static void createTargetTable() throws SQLException, ClassNotFoundException {
+    MysqlClient.createTargetTable(PluginPropertyUtils.pluginProp("targetTable")
+            );
+  }
+
+  @After(order = 1, value = "@Mysql_TEST_TABLE")
+  public static void dropTestTables() throws SQLException, ClassNotFoundException {
+    MysqlClient.dropTables(new String[]{PluginPropertyUtils.pluginProp("sourceTable"),
+            PluginPropertyUtils.pluginProp("targetTable")});
+  }
+  /**
+   * Create BigQuery table.
+   */
+  @Before(order = 1, value = "@BQ_SOURCE_TEST")
+  public static void createTempSourceBQTable() throws IOException, InterruptedException {
+    createSourceBQTableWithQueries(PluginPropertyUtils.pluginProp("CreateBQTableQueryFile"),
+            PluginPropertyUtils.pluginProp("InsertBQDataQueryFile"));
+  }
+
+  @After(order = 1, value = "@BQ_SOURCE_TEST")
+  public static void deleteTempSourceBQTable() throws IOException, InterruptedException {
+    String bqSourceTable = PluginPropertyUtils.pluginProp("bqSourceTable");
+    BigQueryClient.dropBqQuery(bqSourceTable);
+    BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " deleted successfully");
+    PluginPropertyUtils.removePluginProp("bqSourceTable");
+  }
+
+  private static void createSourceBQTableWithQueries(String bqCreateTableQueryFile, String bqInsertDataQueryFile)
+          throws IOException, InterruptedException {
+    String bqSourceTable = "E2E_SOURCE_" + UUID.randomUUID().toString().replaceAll("-", "_");
+
+    String createTableQuery = StringUtils.EMPTY;
+    try {
+      createTableQuery = new String(Files.readAllBytes(Paths.get(TestSetupHooks.class.getResource
+              ("/" + bqCreateTableQueryFile).toURI()))
+              , StandardCharsets.UTF_8);
+      createTableQuery = createTableQuery.replace("DATASET", PluginPropertyUtils.pluginProp("dataset"))
+              .replace("TABLE_NAME", bqSourceTable);
+    } catch (Exception e) {
+      BeforeActions.scenario.write("Exception in reading " + bqCreateTableQueryFile + " - " + e.getMessage());
+      Assert.fail("Exception in BigQuery testdata prerequisite setup " +
+              "- error in reading create table query file " + e.getMessage());
+    }
+
+    String insertDataQuery = StringUtils.EMPTY;
+    try {
+      insertDataQuery = new String(Files.readAllBytes(Paths.get(TestSetupHooks.class.getResource
+              ("/" + bqInsertDataQueryFile).toURI()))
+              , StandardCharsets.UTF_8);
+      insertDataQuery = insertDataQuery.replace("DATASET", PluginPropertyUtils.pluginProp("dataset"))
+              .replace("TABLE_NAME", bqSourceTable);
+    } catch (Exception e) {
+      BeforeActions.scenario.write("Exception in reading " + bqInsertDataQueryFile + " - " + e.getMessage());
+      Assert.fail("Exception in BigQuery testdata prerequisite setup " +
+              "- error in reading insert data query file " + e.getMessage());
+    }
+    BigQueryClient.getSoleQueryResult(createTableQuery);
+    try {
+      BigQueryClient.getSoleQueryResult(insertDataQuery);
+    } catch (NoSuchElementException e) {
+      // Insert query does not return any record.
+      // Iterator on TableResult values in getSoleQueryResult method throws NoSuchElementException
+    }
+    PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
+    BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
   }
 }
