@@ -15,7 +15,7 @@
 #
 
 @Oracle @Oracle_Required
-Feature: Oracle - Verify Oracle source data transfer with macro arguments
+Feature: Oracle - Verify Oracle plugin data transfer with macro arguments
 
   @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST
   Scenario: To verify data is getting transferred from Oracle to Oracle successfully using macro arguments in connection section
@@ -39,17 +39,17 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "Oracle2"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "oracleDriverName"
+    Then Click on the Macro button of Property: "host" and set the value to: "oracleHost"
+    Then Click on the Macro button of Property: "port" and set the value to: "oraclePort"
+    Then Click on the Macro button of Property: "user" and set the value to: "oracleUsername"
+    Then Click on the Macro button of Property: "password" and set the value to: "oraclePassword"
+    Then Select radio button plugin property: "connectionType" with value: "service"
+    Then Select radio button plugin property: "role" with value: "sysdba"
+    Then Enter input plugin property: "referenceName" with value: "targetRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Replace input plugin property: "dbSchemaName" with value: "schema"
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Enter input plugin property: "referenceName" with value: "targetRef"
-    Then Select radio button plugin property: "connectionType" with value: "service"
-    Then Select radio button plugin property: "role" with value: "sysdba"
     Then Validate "Oracle2" plugin properties
     Then Close the Plugin Properties page
     Then Save the pipeline
@@ -107,9 +107,9 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "database" with value: "databaseName"
-    Then Replace input plugin property: "tableName" with value: "targetTable"
-    Then Replace input plugin property: "dbSchemaName" with value: "schema"
+    Then Click on the Macro button of Property: "database" and set the value to: "oracleDatabaseName"
+    Then Click on the Macro button of Property: "tableName" and set the value to: "oracleTableName"
+    Then Click on the Macro button of Property: "dbSchemaName" and set the value to: "oracleSchemaName"
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "targetRef"
@@ -121,6 +121,9 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Preview and run the pipeline
     Then Enter runtime argument value "splitByColumn" for key "oracleSplitByColumn"
     Then Enter runtime argument value "selectQuery" for key "oracleImportQuery"
+    Then Enter runtime argument value "databaseName" for key "oracleDatabaseName"
+    Then Enter runtime argument value "targetTable" for key "oracleTableName"
+    Then Enter runtime argument value "schema" for key "oracleSchemaName"
     Then Run the preview of pipeline with runtime arguments
     Then Wait till pipeline preview is in running state
     Then Open and capture pipeline preview logs
@@ -131,6 +134,9 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Run the Pipeline in Runtime
     Then Enter runtime argument value "splitByColumn" for key "oracleSplitByColumn"
     Then Enter runtime argument value "selectQuery" for key "oracleImportQuery"
+    Then Enter runtime argument value "databaseName" for key "oracleDatabaseName"
+    Then Enter runtime argument value "targetTable" for key "oracleTableName"
+    Then Enter runtime argument value "schema" for key "oracleSchemaName"
     Then Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
@@ -160,15 +166,15 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "Oracle2"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "oracleDriverName"
+    Then Click on the Macro button of Property: "host" and set the value to: "oracleHost"
+    Then Click on the Macro button of Property: "port" and set the value to: "oraclePort"
+    Then Click on the Macro button of Property: "user" and set the value to: "oracleUsername"
+    Then Click on the Macro button of Property: "password" and set the value to: "oraclePassword"
+    Then Click on the Macro button of Property: "database" and set the value to: "oracleDatabase"
+    Then Enter input plugin property: "referenceName" with value: "targetRef"
     Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Replace input plugin property: "dbSchemaName" with value: "schema"
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Enter input plugin property: "referenceName" with value: "targetRef"
     Then Select radio button plugin property: "connectionType" with value: "service"
     Then Select radio button plugin property: "role" with value: "sysdba"
     Then Validate "Oracle2" plugin properties
@@ -185,7 +191,7 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Verify the preview of pipeline is "Failed"
 
   @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST
-  Scenario: To verify pipeline preview fails when invalid table name provided in import query using macro arguments
+  Scenario: To verify pipeline preview fails when invalid basic details provided using macro arguments
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "Oracle" from the plugins list as: "Source"
@@ -209,9 +215,9 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "database" with value: "databaseName"
-    Then Replace input plugin property: "tableName" with value: "targetTable"
-    Then Replace input plugin property: "dbSchemaName" with value: "schema"
+    Then Click on the Macro button of Property: "database" and set the value to: "oracleDatabaseName"
+    Then Click on the Macro button of Property: "tableName" and set the value to: "oracleTableName"
+    Then Click on the Macro button of Property: "dbSchemaName" and set the value to: "oracleSchemaName"
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "targetRef"
@@ -222,6 +228,9 @@ Feature: Oracle - Verify Oracle source data transfer with macro arguments
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Enter runtime argument value "invalidTableNameImportQuery" for key "oracleInvalidImportQuery"
+    Then Enter runtime argument value "invalidDatabaseName" for key "oracleDatabaseName"
+    Then Enter runtime argument value "oracleInvalidTable" for key "oracleTableName"
+    Then Enter runtime argument value "schema" for key "oracleSchemaName"
     Then Run the preview of pipeline with runtime arguments
     Then Verify the preview of pipeline is "Failed"
 

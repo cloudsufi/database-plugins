@@ -61,13 +61,15 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Select radio button plugin property: "role" with value: "sysdba"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "invalidDatabaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
+    Then Enter textarea plugin property: "importQuery" with value: "invalidImportQuery"
     Then Replace input plugin property: "splitBy" with value: "splitBy"
     Then Replace input plugin property: "numSplits" with value: "numberOfSplits"
     Then Click on the Validate button
     Then Verify that the Plugin Property: "boundingQuery" is displaying an in-line error message: "errorMessageBoundingQuery"
+    Then Verify that the Plugin Property: "numSplits" is displaying an in-line error message: "errorMessageBoundingQuery"
+    Then Verify that the Plugin Property: "importQuery" is displaying an in-line error message: "errorMessageInvalidImportQuery"
 
-  Scenario: To verify Oracle source plugin validation error message with change in number of splits
+  Scenario: To verify Oracle source plugin validation error message with number of splits without split by field name
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "Oracle" from the plugins list as: "Source"
@@ -85,24 +87,6 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Replace input plugin property: "numSplits" with value: "numberOfSplits"
     Then Click on the Validate button
     Then Verify that the Plugin Property: "numSplits" is displaying an in-line error message: "errorMessageBlankSplitBy"
-
-  Scenario: To verify Oracle source plugin validation error message with blank split By field
-    Given Open Datafusion Project to configure pipeline
-    When Expand Plugin group in the LHS plugins list: "Source"
-    When Select plugin: "Oracle" from the plugins list as: "Source"
-    Then Navigate to the properties page of plugin: "Oracle"
-    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    Then Select radio button plugin property: "connectionType" with value: "service"
-    Then Select radio button plugin property: "role" with value: "sysdba"
-    Then Enter input plugin property: "referenceName" with value: "sourceRef"
-    Then Replace input plugin property: "database" with value: "DatabaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Replace input plugin property: "numSplits" with value: "numberOfSplits"
-    Then Click on the Validate button
     Then Verify that the Plugin Property: "splitBy" is displaying an in-line error message: "errorMessageBlankSplitBy"
 
   Scenario: To verify Oracle source plugin validation error message when number of Split value is not a number
