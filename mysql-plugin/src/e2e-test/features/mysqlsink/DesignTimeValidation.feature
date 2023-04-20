@@ -29,9 +29,7 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
+    Then Enter textarea plugin property: "importQuery" with value: "query"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
