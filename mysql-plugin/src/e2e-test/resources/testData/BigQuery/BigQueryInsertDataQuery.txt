@@ -1,4 +1,4 @@
-insert into `DATASET.TABLE_NAME` (id, lASTNAME) values
-('1','Shelby'),
-('2','Simpson'),
-('3','Williams');
+insert into `DATASET.TABLE_NAME` (id, lastName) values
+(1,'BHATNAGAR'),
+(2,'KUMAR');
+

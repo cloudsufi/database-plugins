@@ -1,1 +1,1 @@
-create table `DATASET.TABLE_NAME` (id INT, lASTNAME STRING)
+create table `DATASET.TABLE_NAME` (id INT, lastName STRING)

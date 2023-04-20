@@ -104,15 +104,15 @@ public class TestSetupHooks {
   }
 
   @Before(order = 2, value = "@Mysql_TEST_TABLE")
-  public static void createTargetTable() throws SQLException, ClassNotFoundException {
+  public static void createMysqlTestTable() throws SQLException, ClassNotFoundException {
     MysqlClient.createTargetTable(PluginPropertyUtils.pluginProp("targetTable")
             );
   }
 
   @After(order = 1, value = "@Mysql_TEST_TABLE")
   public static void dropTestTables() throws SQLException, ClassNotFoundException {
-    MysqlClient.dropTables(new String[]{PluginPropertyUtils.pluginProp("sourceTable"),
-            PluginPropertyUtils.pluginProp("targetTable")});
+    MysqlClient.dropTables(new String[]{PluginPropertyUtils.pluginProp("targetTable"),
+            PluginPropertyUtils.pluginProp("schema")});
   }
   /**
    * Create BigQuery table.
@@ -169,5 +169,12 @@ public class TestSetupHooks {
     }
     PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
     BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
+  }
+
+  @Before(order = 1, value = "@CONNECTION")
+  public static void setNewConnectionName() {
+    String connectionName = "Mysql" + RandomStringUtils.randomAlphanumeric(10);
+    PluginPropertyUtils.addPluginProp("connection.name", connectionName);
+    BeforeActions.scenario.write("New Connection name: " + connectionName);
   }
 }
