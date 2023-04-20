@@ -61,4 +61,17 @@ public class Oracle implements CdfHelper {
     Assert.assertEquals("Out records should match with target BigQuery table records count",
                         CdfPipelineRunAction.getCountDisplayedOnSourcePluginAsRecordsOut(), targetBQRecordsCount);
   }
+
+  @Then("Validate records transferred to target table with record counts of BigQuery table")
+  public void validateRecordsTransferredToTargetTableWithRecordCountsOfBigQueryTable()
+    throws IOException, InterruptedException, SQLException, ClassNotFoundException {
+    int bqSourceRecordCount = BigQueryClient.countBqQuery(PluginPropertyUtils.pluginProp("bqSourceTable"));
+    BeforeActions.scenario.write("No of Records from source BigQuery table:" + bqSourceRecordCount);
+    int countRecords = OracleClient.countRecord(PluginPropertyUtils.pluginProp("targetTable"),
+                                                PluginPropertyUtils.pluginProp("schema"));
+    Assert.assertEquals("Number of records transferred should be equal to records out ",
+                        countRecords, recordOut());
+    BeforeActions.scenario.write("No of Records transferred to Oracle table:" + countRecords);
+    Assert.assertEquals(bqSourceRecordCount, countRecords);
+  }
 }

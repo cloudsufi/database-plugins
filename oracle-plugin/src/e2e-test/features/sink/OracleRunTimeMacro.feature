@@ -86,3 +86,4 @@ Feature: Oracle - Verify data transfer to Oracle sink with macro arguments
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
+    Then Validate records transferred to target table with record counts of BigQuery table

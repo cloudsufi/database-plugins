@@ -32,6 +32,7 @@ Feature: Oracle - Verify data transfer from BigQuery source to Oracle sink
     Then Enter input plugin property: "dataset" with value: "dataset"
     Then Enter input plugin property: "table" with value: "bqSourceTable"
     Then Click on the Get Schema button
+    Then Verify the Output Schema matches the Expected Schema: "bqOutputDatatypesSchema"
     Then Validate "BigQuery" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "Oracle"
@@ -63,6 +64,7 @@ Feature: Oracle - Verify data transfer from BigQuery source to Oracle sink
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+    Then Validate records transferred to target table with record counts of BigQuery table
 
   @BQ_SOURCE_TEST @ORACLE_TEST_TABLE
   Scenario: To verify data is getting transferred from BigQuery source to Oracle sink successfully when connection arguments are set
@@ -79,6 +81,7 @@ Feature: Oracle - Verify data transfer from BigQuery source to Oracle sink
     Then Enter input plugin property: "dataset" with value: "dataset"
     Then Enter input plugin property: "table" with value: "bqSourceTable"
     Then Click on the Get Schema button
+    Then Verify the Output Schema matches the Expected Schema: "bqOutputDatatypesSchema"
     Then Validate "BigQuery" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "Oracle"
@@ -111,3 +114,4 @@ Feature: Oracle - Verify data transfer from BigQuery source to Oracle sink
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+    Then Validate records transferred to target table with record counts of BigQuery table
