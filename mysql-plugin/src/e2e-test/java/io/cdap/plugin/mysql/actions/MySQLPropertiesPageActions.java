@@ -18,13 +18,16 @@ package io.cdap.plugin.mysql.actions;
 
 import io.cdap.e2e.utils.ElementHelper;
 import io.cdap.e2e.utils.PluginPropertyUtils;
+import io.cdap.e2e.utils.SeleniumHelper;
 import io.cdap.plugin.mysql.locators.MySQLPropertiesPage;
 
 /**
  * My SQL source - Properties page - Actions.
  */
 public class MySQLPropertiesPageActions {
-
+    static {
+        SeleniumHelper.getPropertiesLocators(MySQLPropertiesPage.class);
+    }
     public static void clickOnMysqlConnectionButton() {
         ElementHelper.clickOnElement(MySQLPropertiesPage.connectorMysql);
     }

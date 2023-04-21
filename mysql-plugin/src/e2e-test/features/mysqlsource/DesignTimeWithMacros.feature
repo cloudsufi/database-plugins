@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
+@Mysql
 Feature: MySQL Source - Design time scenarios (macro)
 
   Scenario: Verify user should be able to validate plugin with macros for Connection section
@@ -39,13 +40,9 @@ Feature: MySQL Source - Design time scenarios (macro)
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-    And Click on the Macro button of Property: "referenceName" and set the value to: "refName"
-    And Click on the Macro button of Property: "database" and set the value to: "databaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Validate "MySQL" plugin properties
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
-    Then Replace input plugin property: "database" with value: "databaseName"
+    And Click on the Macro button of Property: "database" and set the value to: "databaseName"
+    And Click on the Macro button of Property: "fetchSize" and set the value to: "fetchsize"
+    And Click on the Macro button of Property: "splitBy" and set the value to: "splitbyfield"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties

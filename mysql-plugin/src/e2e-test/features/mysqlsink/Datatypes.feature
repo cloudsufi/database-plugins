@@ -54,4 +54,5 @@ Feature: Mysql - Verify Mysql sink data transfer for different datatypes
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 

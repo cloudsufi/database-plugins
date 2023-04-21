@@ -38,7 +38,7 @@ import java.util.TimeZone;
 public class MysqlClient {
   private static final String database = PluginPropertyUtils.pluginProp("databaseName");
 
-  private static Connection getMysqlConnection() throws SQLException, ClassNotFoundException {
+  public static Connection getMysqlConnection() throws SQLException, ClassNotFoundException {
     Class.forName("com.mysql.cj.jdbc.Driver");
     return DriverManager.getConnection("jdbc:mysql://" + System.getenv("MYSQL_HOST") + ":" +
                                          System.getenv("MYSQL_PORT") + "/" + database,
