@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License..
 
+@Mysql
 Feature: MySQL Source - Design time scenarios
 
   @MYSQL_SOURCE_TEST

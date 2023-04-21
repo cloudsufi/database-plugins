@@ -159,6 +159,11 @@ Feature: MySQL Source - Run time scenarios (macro)
     And Close the pipeline logs
     And Close the preview
     And Save and Deploy Pipeline
+    And Run the Pipeline in Runtime
+    And Wait till pipeline is in running state
+    And Open and capture logs
+    And Verify the pipeline status is "Succeeded"
+    And Close the pipeline logs
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify that pipeline fails when user provides invalid Table name in importQuery of plugin with Macros

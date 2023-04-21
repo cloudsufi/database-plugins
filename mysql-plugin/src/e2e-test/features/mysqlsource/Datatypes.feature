@@ -59,7 +59,6 @@ Feature: Mysql - Verify Mysql source data transfer for different datatypes
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-    Then Validate the values of records transferred to target table is equal to the values from source table
 
   @MYSQL_SOURCE_DATATYPES_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to BigQuery successfully

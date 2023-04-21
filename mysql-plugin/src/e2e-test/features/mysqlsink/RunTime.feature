@@ -52,6 +52,7 @@ Feature: MySQL Sink - Run time scenarios
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully

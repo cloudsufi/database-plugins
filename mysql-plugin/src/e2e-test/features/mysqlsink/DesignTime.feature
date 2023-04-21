@@ -40,24 +40,25 @@ Feature: MySQL Sink - Design time scenarios
     And Click on the Browse Connections button
     And Click on the Add Connection button
     And Select Mysql Connection
-#    And Enter input plugin property: "name" with value: "connection.name"
-#    Then Enter input plugin property: "referenceName" with value: "sourceRef"
-#    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-#    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
-#    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
-#    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-#    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
-#    Then Click on the Test Connection button
-#    And Verify the test connection is successful
-#    Then  Click on the Create button
-#    And Use new connection
-#    Then Enter input plugin property: "referenceName" with value: "sourceRef"
-#    Then Replace input plugin property: "database" with value: "databaseName"
-#    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-#    Then Click on the Get Schema button
-#    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
-#    Then Validate "MySQL" plugin properties
-#    Then Close the Plugin Properties page
+    And Enter input plugin property: "name" with value: "connection.name"
+    Then Enter input plugin property: "referenceName" with value: "sourceRef"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Click on the Test Connection button
+    And Verify the test connection is successful
+    Then  Click on the Create button
+    And Use new connection
+    Then Enter input plugin property: "referenceName" with value: "sourceRef"
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
+    Then Click on the Get Schema button
+    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
+    Then Validate "MySQL" plugin properties
+    Then Close the Plugin Properties page
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @MYSQL_SOURCE_TEST
   Scenario: Verify user should be able to validate sink plugin successfully by setting the advanced section fields
