@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
+@Mysql
 Feature: MySQL Sink - Run time scenarios (macro)
 
   @MYSQL_SINK_TEST @Mysql_Required

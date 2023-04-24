@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License
 
+@Mysql
 Feature: MySQL Sink - Design time validation scenarios
 
   Scenario: Verify Database field validation error message with invalid test data

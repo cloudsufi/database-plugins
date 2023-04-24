@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
+@Mysql
 Feature: MySQL Sink - Design time scenarios (macro)
 
   Scenario: Verify user should be able to validate sink plugin with macros for Connection section
