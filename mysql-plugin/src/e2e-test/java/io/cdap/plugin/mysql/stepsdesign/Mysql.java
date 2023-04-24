@@ -77,7 +77,7 @@ public class Mysql implements CdfHelper {
   }
 
   @Then("Validate the values of records transferred to target Big Query table is equal to the values from source table")
-  public void ValidateTheValuesOfRecordsTransferredToTargetBigQueryTableIsEqualToTheValuesFromSourceTable()
+  public void validateTheValuesOfRecordsTransferredToTargetTable()
           throws IOException, InterruptedException, IOException, SQLException, ClassNotFoundException {
     int targetBQRecordsCount = BigQueryClient.countBqQuery(PluginPropertyUtils.pluginProp("bqTargetTable"));
     BeforeActions.scenario.write("No of Records Transferred to BigQuery:" + targetBQRecordsCount);
