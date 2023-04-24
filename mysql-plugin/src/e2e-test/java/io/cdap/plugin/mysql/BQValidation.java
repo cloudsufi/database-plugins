@@ -40,7 +40,8 @@
 //
 //        try (Connection connect = MysqlClient.getMysqlConnection()) {
 //            connect.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
-//            Statement statement1 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
+//            Statement statement1 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+//            ResultSet.CONCUR_UPDATABLE,
 //                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
 //
 //            ResultSet rsSource = statement1.executeQuery(getSourceQuery);
