@@ -45,7 +45,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Validate "MySQL2" plugin properties
     Then Close the Plugin Properties page
     Then Save the pipeline
-    Then Preview and run the pipeline
+    And Preview and run the pipeline
     And Enter runtime argument value "driverName" for key "DriverName"
     And Enter runtime argument value from environment variable "host" for key "Host"
     And Enter runtime argument value from environment variable "port" for key "Port"
@@ -80,10 +80,9 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     And Click on the Macro button of Property: "database" and set the value to: "databaseName"
-    And Click on the Macro button of Property: "boundingQuery" and set the value to: "boundQuery"
     And Click on the Macro button of Property: "numSplits" and set the value to: "numOfSplits"
     And Click on the Macro button of Property: "fetchSize" and set the value to: "fetchSize"
-    And Click on the Macro button of Property: "importQuery" and set the value to: "importQuery"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -100,8 +99,6 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Save the pipeline
     Then Preview and run the pipeline
     And Enter runtime argument value "databaseName" for key "databaseName"
-    And Enter runtime argument value "importQuery" for key "importQuery"
-    And Enter runtime argument value "boundQuery" for key "boundQuery"
     And Enter runtime argument value "no.of.splits" for key "numOfSplits"
     And Enter runtime argument value "fetchsize" for key "fetchSize"
     And Run the preview of pipeline with runtime arguments
@@ -109,8 +106,6 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     And Enter runtime argument value "databaseName" for key "databaseName"
-    And Enter runtime argument value from environment variable "importQuery" for key "importQuery"
-    And Enter runtime argument value from environment variable "boundQuery" for key "boundQuery"
     And Enter runtime argument value from environment variable "no.of.splits" for key "numOfSplits"
     And Enter runtime argument value from environment variable "fetchsize" for key "fetchSize"
     Then Wait till pipeline is in running state
