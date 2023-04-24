@@ -151,7 +151,7 @@ public class TestSetupHooks {
   }
 
   /**
-   * Create BigQuery table
+   * Create BigQuery table.
    */
   @Before(order = 1, value = "@BQ_SOURCE_TEST")
   public static void createTempSourceBQTable() throws IOException, InterruptedException {

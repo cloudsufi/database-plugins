@@ -76,7 +76,8 @@ public class Oracle implements CdfHelper {
     Assert.assertEquals(bqSourceRecordCount, countRecords);
   }
 
-//  @Then("Validate the values of records transferred to target Big Query table is equal to the values from source table")
+//  @Then("Validate the values of records transferred to target Big Query table is equal to the values from source
+//  table")
 //  public void validateTheValuesOfRecordsTransferedToTargetBigQueryTableIsEqualToTheValuesFromSourceTable()
 //    throws IOException, InterruptedException, IOException, SQLException, ClassNotFoundException {
 //    int targetBQRecordsCount = BigQueryClient.countBqQuery(PluginPropertyUtils.pluginProp("bqTargetTable"));
@@ -86,7 +87,7 @@ public class Oracle implements CdfHelper {
 //
 //    boolean recordsMatched = BQValidation.validateBQAndDBRecordValues(PluginPropertyUtils.pluginProp("schema"),
 //                                                                      PluginPropertyUtils.pluginProp("sourceTable"),
-//                                                                      PluginPropertyUtils.pluginProp("bqTargetTable"));
+//                                                                    PluginPropertyUtils.pluginProp("bqTargetTable"));
 //    Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
 //                        "of the records in the source table", recordsMatched);
 //  }
