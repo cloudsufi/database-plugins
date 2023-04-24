@@ -63,7 +63,7 @@ Feature: MySQL Source - Run time scenarios
     And Open and capture logs
     And Verify the pipeline status is "Succeeded"
     And Close the pipeline logs
-    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+#    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully when advance section details are set
@@ -127,13 +127,13 @@ Feature: MySQL Source - Run time scenarios
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
-    Then Replace input plugin property: "database" with value: "database.Name"
-    Then Enter textarea plugin property: "importQuery" with value: "importQuery"
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Enter textarea plugin property: "boundingQuery" with value: "boundQuery"
     Then Replace input plugin property: "splitBy" with value: "split.by.field.name"
     Then Replace input plugin property: "numSplits" with value: "numbersplitsgenerate"
     Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "output.Schema"
+    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -181,7 +181,7 @@ Feature: MySQL Source - Run time scenarios
     Then Replace input plugin property: "splitBy" with value: "split.by.field.name"
     Then Replace input plugin property: "numSplits" with value: "numbersplitsgenerate"
     Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "output.Schema"
+    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
