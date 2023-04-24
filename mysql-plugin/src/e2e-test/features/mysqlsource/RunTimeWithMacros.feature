@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
+@Mysql
 Feature: MySQL Source - Run time scenarios (macro)
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required

@@ -14,7 +14,7 @@
 
 @Mysql
 Feature: MySQL Sink - Design time validation scenarios
-
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify Database field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -30,7 +30,7 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "query"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -42,9 +42,10 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "invalid.database"
     Then Replace input plugin property: "tableName" with value: "targetTable"
-    Then Validate "MySQL" plugin properties
-    Then Verify that the Plugin is displaying an error message: "invalid.databasename.message" on the header
+    Then Click on the Validate button
+    Then Verify that the Plugin is displaying an error message: "invalid.sink.database.message" on the header
 
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify Table Name Field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -61,8 +62,6 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -74,9 +73,10 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "targetRef"
-    Then Validate "MySQL2" plugin properties
-    Then Verify that the Plugin is displaying an error message: "invalidtableName.error.message" on the header
+    Then Click on the Validate button
+    Then Verify that the Plugin Property: "tableName" is displaying an in-line error message: "invalidtableName.error.message"
 
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify Reference Name field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -93,8 +93,6 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -106,9 +104,10 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "invalid.referenceName"
-    Then Validate "MySQL2" plugin properties
+    Then Click on the Validate button
     Then Verify that the Plugin Property: "referenceName" is displaying an in-line error message: "invalidreferenceName.error.message"
 
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify the Username field validation error message with blank value
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -125,8 +124,6 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -135,13 +132,13 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "targetRef"
-    Then Validate "MySQL2" plugin properties
-    Then Verify that the Plugin is displaying an error message: "invalid.username" on the header
+    Then Click on the Validate button
+    Then Verify that the Plugin Property: "user" is displaying an in-line error message: "blank.username.message"
 
-  Scenario: Verify the Host/Port validation error when values are not provided
+  @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  Scenario: Verify the host validation error message with blank value
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "MySQL" from the plugins list as: "Source"
@@ -157,18 +154,15 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
-    Then Replace input plugin property: "host" with value: "inavlid.host" for Credentials and Authorization related fields
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
-    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "targetRef"
-    Then Validate "MySQL2" plugin properties
+    Then Click on the Validate button
     Then Verify that the Plugin is displaying an error message: "invalid.host.message" on the header
+

@@ -119,8 +119,13 @@ public class TestSetupHooks {
    */
   @Before(order = 1, value = "@BQ_SOURCE_TEST")
   public static void createTempSourceBQTable() throws IOException, InterruptedException {
-    createSourceBQTableWithQueries(PluginPropertyUtils.pluginProp("CreateBQTableQueryFile"),
-            PluginPropertyUtils.pluginProp("InsertBQDataQueryFile"));
+    String bqSourceTable = "Table_" + RandomStringUtils.randomAlphanumeric(10);
+    String bqSourceDataset = PluginPropertyUtils.pluginProp("dataset");
+
+    BigQueryClient.getSoleQueryResult("create table `" + bqSourceDataset + "." + bqSourceTable + "` as " +
+            "SELECT * FROM UNNEST([ STRUCT('1' AS Id, 'BHATNAGAR' AS Lastname)])");
+    PluginPropertyUtils.addPluginProp("bqtable", bqSourceTable);
+    BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " created successfully");
   }
 
   @After(order = 1, value = "@BQ_SOURCE_TEST")
@@ -160,8 +165,13 @@ public class TestSetupHooks {
       Assert.fail("Exception in BigQuery testdata prerequisite setup " +
               "- error in reading insert data query file " + e.getMessage());
     }
+    System.out.println("Table query" + createTableQuery);
+
     BigQueryClient.getSoleQueryResult(createTableQuery);
+
     try {
+      System.out.println("Data query : " + insertDataQuery);
+
       BigQueryClient.getSoleQueryResult(insertDataQuery);
     } catch (NoSuchElementException e) {
       // Insert query does not return any record.
