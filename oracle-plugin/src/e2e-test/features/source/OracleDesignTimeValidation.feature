@@ -146,7 +146,7 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
     Then Click on the Validate button
     Then Verify that the Plugin Property: "fetchSize" is displaying an in-line error message: "errorMessageInvalidFetchSize"
 
-  @ORACLE_SOURCE_TEST
+  @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST
   Scenario: To verify Oracle source plugin validation error message with invalid database
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
