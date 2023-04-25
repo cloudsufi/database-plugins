@@ -54,13 +54,15 @@ Feature: MySQL Source - Run time scenarios (macro)
     And Enter runtime argument value from environment variable "password" for key "Password"
     And Run the preview of pipeline with runtime arguments
     Then Verify the preview of pipeline is "success"
-    Then Deploy the pipeline
-    Then Run the Pipeline in Runtime
+    And Close the preview
+    And Deploy the pipeline
+    And Run the Pipeline in Runtime
     And Enter runtime argument value "driverName" for key "DriverName"
     And Enter runtime argument value from environment variable "host" for key "Host"
     And Enter runtime argument value from environment variable "port" for key "Port"
     And Enter runtime argument value from environment variable "username" for key "Username"
     And Enter runtime argument value from environment variable "password" for key "Password"
+    And Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
@@ -80,8 +82,8 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Enter input plugin property: "referenceName" with value: "targetRef"
     And Click on the Macro button of Property: "database" and set the value to: "databaseName"
-    And Click on the Macro button of Property: "numSplits" and set the value to: "numOfSplits"
     And Click on the Macro button of Property: "fetchSize" and set the value to: "fetchSize"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Validate "MySQL" plugin properties
@@ -100,15 +102,15 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Save the pipeline
     Then Preview and run the pipeline
     And Enter runtime argument value "databaseName" for key "databaseName"
-    And Enter runtime argument value "no.of.splits" for key "numOfSplits"
     And Enter runtime argument value "fetchsize" for key "fetchSize"
     And Run the preview of pipeline with runtime arguments
     Then Verify the preview of pipeline is "success"
+    Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     And Enter runtime argument value "databaseName" for key "databaseName"
-    And Enter runtime argument value from environment variable "no.of.splits" for key "numOfSplits"
-    And Enter runtime argument value from environment variable "fetchsize" for key "fetchSize"
+    And Enter runtime argument value "fetchsize" for key "fetchSize"
+    And Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
@@ -140,26 +142,28 @@ Feature: MySQL Source - Run time scenarios (macro)
     And Enter input plugin property: "dataset" with value: "dataset"
     And Enter input plugin property: "table" with value: "bqtarget.table"
     Then Validate "BigQuery" plugin properties
-    And Close the Plugin Properties page
-    And Save and Deploy Pipeline
-    And Run the Pipeline in Runtime
-    And Wait till pipeline is in running state
-    And Open and capture logs
-    And Verify the pipeline status is "Succeeded"
-    Then Validate "BigQuery" plugin properties
-    And Close the Plugin Properties page
-    And Preview and run the pipeline
-    And Wait till pipeline preview is in running state
-    And Open and capture pipeline preview logs
-    And Verify the preview run status of pipeline in the logs is "succeeded"
-    And Close the pipeline logs
-    And Close the preview
-    And Save and Deploy Pipeline
-    And Run the Pipeline in Runtime
-    And Wait till pipeline is in running state
-    And Open and capture logs
-    And Verify the pipeline status is "Succeeded"
-    And Close the pipeline logs
+    Then Close the Plugin Properties page
+    Then Save the pipeline
+    Then Preview and run the pipeline
+    And Enter runtime argument value from environment variable "host" for key "Host"
+    And Enter runtime argument value from environment variable "port" for key "Port"
+    And Enter runtime argument value from environment variable "user" for key "Username"
+    And Enter runtime argument value from environment variable "password" for key "Password"
+    And Run the preview of pipeline with runtime arguments
+    Then Verify the preview of pipeline is "success"
+    Then Close the preview
+    Then Deploy the pipeline
+    Then Run the Pipeline in Runtime
+    And Enter runtime argument value from environment variable "host" for key "Host"
+    And Enter runtime argument value from environment variable "port" for key "Port"
+    And Enter runtime argument value from environment variable "user" for key "Username"
+    And Enter runtime argument value from environment variable "password" for key "Password"
+    And Run the Pipeline in Runtime with runtime arguments
+    Then Wait till pipeline is in running state
+    Then Open and capture logs
+    Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target table is equal to the values from source table
+
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify that pipeline fails when user provides invalid Table name in importQuery of plugin with Macros
@@ -177,7 +181,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
-    And Click on the Macro button of Property: "importQuery" and set the value to: "importQuery"
+    And Click on the Macro button of Property: "importQuery" and set the value in textarea: "importQuery"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"
@@ -194,6 +198,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     And Save and Deploy Pipeline
     And Run the Pipeline in Runtime
     And Enter runtime argument value "invalid.query" for key "importQuery"
+    And Run the Pipeline in Runtime with runtime arguments
     And Wait till pipeline is in running state
     And Verify the pipeline status is "Failed"
 
@@ -229,9 +234,10 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Close the Plugin Properties page
     And Save and Deploy Pipeline
     And Run the Pipeline in Runtime
-    And Enter runtime argument value from environment variable "invalid.host" for key "Host"
-    And Enter runtime argument value from environment variable "invalid.port" for key "Port"
-    And Enter runtime argument value from environment variable "invalid.username" for key "Username"
-    And Enter runtime argument value from environment variable "invalid.password" for key "Password"
+    And Enter runtime argument value "invalid.host" for key "Host"
+    And Enter runtime argument value "invalid.port" for key "Port"
+    And Enter runtime argument value "invalid.username" for key "Username"
+    And Enter runtime argument value "invalid.password" for key "Password"
+    And Run the Pipeline in Runtime with runtime arguments
     And Wait till pipeline is in running state
     And Verify the pipeline status is "Failed"
