@@ -15,7 +15,7 @@
 @Mysql
 Feature: MySQL Sink - Run time scenarios (macro)
 
-  @BQ_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_SOURCE_TEST @Mysql_Required @Mysql_TEST_TABLE
   Scenario: Verify user should be able to preview a pipeline when plugin is configured or fetching table details using macros.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -52,7 +52,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Run the preview of pipeline with runtime arguments
     Then Verify the preview of pipeline is "success"
 
-  @MYSQL_SINK_TEST @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_SOURCE_TEST @Mysql_Required
   Scenario: Verify user should be able to deploy and run a pipeline when plugin is configured or fetching table details using macros.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -76,7 +76,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Click on the Macro button of Property: "password" and set the value to: "Password"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
+    Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Save the pipeline
@@ -92,7 +92,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     Then Verify the pipeline status is "Succeeded"
 #    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
-  @MYSQL_SINK_TEST @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_SOURCE_TEST @Mysql_Required
   Scenario: Verify that the pipeline fails when user provides invalid Table Name of plugin with Macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -123,11 +123,12 @@ Feature: MySQL Sink - Run time scenarios (macro)
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     And Enter runtime argument value "invalid.tableName" for key "tableName"
+    And Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
     And Verify the pipeline status is "Failed"
 
-  @MYSQL_SINK_TEST @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_SOURCE_TEST @Mysql_Required
   Scenario: Verify that the pipeline fails when user provides invalid Credentials for connection with Macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -159,5 +160,6 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Enter runtime argument value from environment variable "invalid.port" for key "Port"
     And Enter runtime argument value from environment variable "invalid.username" for key "Username"
     And Enter runtime argument value from environment variable "invalid.password" for key "Password"
+    And Run the Pipeline in Runtime with runtime arguments
     And Wait till pipeline is in running state
     And Verify the pipeline status is "Failed"

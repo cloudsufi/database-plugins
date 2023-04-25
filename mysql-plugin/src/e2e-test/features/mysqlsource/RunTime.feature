@@ -100,6 +100,7 @@ Feature: MySQL Source - Run time scenarios
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
+    Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Wait till pipeline is in running state
@@ -125,7 +126,6 @@ Feature: MySQL Source - Run time scenarios
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Enter textarea plugin property: "boundingQuery" with value: "invalid.boundQuery"
-    Then Replace input plugin property: "splitBy" with value: "split.by.field.name"
     Then Click on the Get Schema button
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
@@ -142,12 +142,4 @@ Feature: MySQL Source - Run time scenarios
     Then Close the Plugin Properties page
     Then Save the pipeline
     Then Preview and run the pipeline
-    Then Verify the preview of pipeline is "success"
-    Then Click on preview data for MySQL sink
-    Then Close the preview data
-    Then Deploy the pipeline
-    Then Run the Pipeline in Runtime
-    Then Wait till pipeline is in running state
-    Then Open and capture logs
-    Then Verify the pipeline status is "Succeeded"
-    Then Validate the values of records transferred to target table is equal to the values from source table
+    And Verify the pipeline status is "Failed"

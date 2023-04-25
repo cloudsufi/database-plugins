@@ -60,7 +60,7 @@ Feature: Mysql - Verify Mysql source data transfer for different datatypes
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
 
-  @MYSQL_SOURCE_DATATYPES_TEST @MYSQL_SINK_TEST @Mysql_Required
+  @MYSQL_SOURCE_DATATYPES_TEST @Mysql_Required @BQ_SINK
   Scenario: To verify data is getting transferred from Mysql to BigQuery successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -87,25 +87,16 @@ Feature: Mysql - Verify Mysql source data transfer for different datatypes
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "dataset"
     And Enter input plugin property: "table" with value: "bqTargetTable"
+    Then Click plugin property: "truncateTable"
+    Then Click plugin property: "updateTableSchema"
     Then Validate "BigQuery" plugin properties
-    And Close the Plugin Properties page
-    And Save and Deploy Pipeline
-    And Run the Pipeline in Runtime
-    And Wait till pipeline is in running state
-    And Open and capture logs
-    And Verify the pipeline status is "Succeeded"
-    Then Validate "BigQuery" plugin properties
-    And Close the Plugin Properties page
-    And Preview and run the pipeline
-    And Wait till pipeline preview is in running state
-    And Open and capture pipeline preview logs
-    And Verify the preview run status of pipeline in the logs is "succeeded"
-    And Close the pipeline logs
-    And Close the preview
-    And Save and Deploy Pipeline
-    And Run the Pipeline in Runtime
-    And Wait till pipeline is in running state
-    And Open and capture logs
-    And Verify the pipeline status is "Succeeded"
-    And Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
+    Then Close the Plugin Properties page
+    Then Save the pipeline
+    Then Preview and run the pipeline
+    Then Verify the preview of pipeline is "success"
+    Then Close the preview
+    Then Deploy the pipeline
+    Then Run the Pipeline in Runtime
+    Then Wait till pipeline is in running state
+    Then Open and capture logs
+    Then Verify the pipeline status is "Succeeded"

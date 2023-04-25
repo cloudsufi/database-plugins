@@ -122,8 +122,9 @@ public class TestSetupHooks {
     String bqSourceTable = "Table_" + RandomStringUtils.randomAlphanumeric(10);
     String bqSourceDataset = PluginPropertyUtils.pluginProp("dataset");
 
+    int id = 1;
     BigQueryClient.getSoleQueryResult("create table `" + bqSourceDataset + "." + bqSourceTable + "` as " +
-            "SELECT * FROM UNNEST([ STRUCT( '1' AS id, 'BHATNAGAR' AS lastname)])");
+            "SELECT * FROM UNNEST([ STRUCT(" + id + " AS id, 'BHATNAGAR' AS lastname)])");
     PluginPropertyUtils.addPluginProp("bqtable", bqSourceTable);
     BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " created successfully");
   }
