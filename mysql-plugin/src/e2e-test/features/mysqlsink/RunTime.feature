@@ -24,7 +24,7 @@ Feature: MySQL Sink - Run time scenarios
     And Enter input plugin property: "referenceName" with value: "Reference"
     And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
-    And Enter input plugin property: "dataset" with value: "bqdatabase"
+    And Enter input plugin property: "dataset" with value: "dataset"
     And Enter input plugin property: "table" with value: "bqtable"
     Then Validate "BigQuery" plugin properties
     And Close the Plugin Properties page

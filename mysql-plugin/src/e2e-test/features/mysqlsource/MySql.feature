@@ -16,6 +16,7 @@
 
 @Mysql
 Feature: Mysql - Verify Mysql source data transfer
+
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully
     Given Open Datafusion Project to configure pipeline

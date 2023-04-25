@@ -14,6 +14,7 @@
 
 @Mysql
 Feature: MySQL Sink - Design time validation scenarios
+
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify Database field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
@@ -165,4 +166,3 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Enter input plugin property: "referenceName" with value: "targetRef"
     Then Click on the Validate button
     Then Verify that the Plugin is displaying an error message: "invalid.host.message" on the header
-

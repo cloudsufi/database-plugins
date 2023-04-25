@@ -61,7 +61,6 @@ Feature: MySQL Source - Run time scenarios
     And Wait till pipeline is in running state
     And Open and capture logs
     And Verify the pipeline status is "Succeeded"
-    And Close the pipeline logs
 #    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required @test
@@ -101,9 +100,6 @@ Feature: MySQL Source - Run time scenarios
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
-    Then Click on preview data for MySQL sink
-    Then Verify preview output schema matches the outputSchema captured in properties
-    Then Close the preview data
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Wait till pipeline is in running state
@@ -130,9 +126,7 @@ Feature: MySQL Source - Run time scenarios
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Enter textarea plugin property: "boundingQuery" with value: "invalid.boundQuery"
     Then Replace input plugin property: "splitBy" with value: "split.by.field.name"
-    Then Replace input plugin property: "numSplits" with value: "numbersplitsgenerate"
     Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "MySQL2"

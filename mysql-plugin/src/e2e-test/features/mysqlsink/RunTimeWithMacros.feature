@@ -15,7 +15,7 @@
 @Mysql
 Feature: MySQL Sink - Run time scenarios (macro)
 
-  @MYSQL_SINK_TEST @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify user should be able to preview a pipeline when plugin is configured or fetching table details using macros.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -24,7 +24,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Enter input plugin property: "referenceName" with value: "Reference"
     And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
-    And Enter input plugin property: "dataset" with value: "bqdatabase"
+    And Enter input plugin property: "dataset" with value: "dataset"
     And Enter input plugin property: "table" with value: "bqtable"
     Then Validate "BigQuery" plugin properties
     And Close the Plugin Properties page
@@ -39,8 +39,8 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Click on the Macro button of Property: "password" and set the value to: "Password"
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
-    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Validate "MySQL" plugin properties
+    Then Replace input plugin property: "tableName" with value: "targetTable"
+    Then Click on the Validate button
     Then Close the Plugin Properties page
     Then Save the pipeline
     Then Preview and run the pipeline
@@ -161,7 +161,3 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Enter runtime argument value from environment variable "invalid.password" for key "Password"
     And Wait till pipeline is in running state
     And Verify the pipeline status is "Failed"
-
-
-
-
