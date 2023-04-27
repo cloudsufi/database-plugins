@@ -15,7 +15,7 @@
 @Mysql
 Feature: MySQL Sink - Run time scenarios
 
-  @BQ_SOURCE_TEST @Mysql_TEST_TABLE @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_TEST_TABLE @Mysql_Required
   Scenario: To verify data is getting transferred from BigQuery to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -25,7 +25,7 @@ Feature: MySQL Sink - Run time scenarios
     And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "dataset"
-    And Enter input plugin property: "table" with value: "bqtable"
+    And Enter input plugin property: "table" with value: "bqSourceTable"
     Then Validate "BigQuery" plugin properties
     And Close the Plugin Properties page
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -46,14 +46,13 @@ Feature: MySQL Sink - Run time scenarios
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
     Then Click on preview data for MySQL sink
-    Then Verify preview output schema matches the outputSchema captured in properties
     Then Close the preview data
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-#    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+    #Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully

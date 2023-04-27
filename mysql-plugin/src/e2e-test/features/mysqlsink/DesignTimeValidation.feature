@@ -160,6 +160,7 @@ Feature: MySQL Sink - Design time validation scenarios
     Then Navigate to the properties page of plugin: "MySQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields

@@ -15,7 +15,7 @@
 @Mysql
 Feature: MySQL Sink - Run time scenarios (macro)
 
-  @BQ_SOURCE_TEST @MYSQL_SOURCE_TEST @Mysql_Required @Mysql_TEST_TABLE
+  @BQ_SOURCE_TEST @MYSQL_TEST_TABLE
   Scenario: Verify user should be able to preview a pipeline when plugin is configured or fetching table details using macros.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -25,7 +25,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "dataset"
-    And Enter input plugin property: "table" with value: "bqtable"
+    And Enter input plugin property: "table" with value: "bqSourceTable"
     Then Validate "BigQuery" plugin properties
     And Close the Plugin Properties page
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -52,7 +52,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Run the preview of pipeline with runtime arguments
     Then Verify the preview of pipeline is "success"
 
-  @BQ_SOURCE_TEST @MYSQL_SOURCE_TEST @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_TEST_TABLE @Mysql_Required
   Scenario: Verify user should be able to deploy and run a pipeline when plugin is configured or fetching table details using macros.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -62,7 +62,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "bqdatabase"
-    And Enter input plugin property: "table" with value: "bqtable"
+    And Enter input plugin property: "table" with value: "bqSourceTable"
     Then Validate "BigQuery" plugin properties
     And Close the Plugin Properties page
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -92,7 +92,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     Then Verify the pipeline status is "Succeeded"
 #    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
-  @BQ_SOURCE_TEST @MYSQL_SOURCE_TEST @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_TEST_TABLE @Mysql_Required
   Scenario: Verify that the pipeline fails when user provides invalid Table Name of plugin with Macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -102,7 +102,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "bqdatabase"
-    And Enter input plugin property: "table" with value: "bqtable"
+    And Enter input plugin property: "table" with value: "bqSourceTable"
     Then Validate "BigQuery" plugin properties
     And Close the Plugin Properties page
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -128,7 +128,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     Then Open and capture logs
     And Verify the pipeline status is "Failed"
 
-  @BQ_SOURCE_TEST @MYSQL_SOURCE_TEST @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_TEST_TABLE @Mysql_Required
   Scenario: Verify that the pipeline fails when user provides invalid Credentials for connection with Macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -138,7 +138,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "bqdatabase"
-    And Enter input plugin property: "table" with value: "bqtable"
+    And Enter input plugin property: "table" with value: "bqSourceTable"
     Then Validate "BigQuery" plugin properties
     And Close the Plugin Properties page
     When Expand Plugin group in the LHS plugins list: "Sink"

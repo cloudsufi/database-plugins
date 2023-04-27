@@ -137,7 +137,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Close the Plugin Properties page
     And Navigate to the properties page of plugin: "BigQuery"
     And Enter input plugin property: "referenceName" with value: "Reference"
-    And Replace input plugin property: "project" with value: "projectId"
+    And Replace input plugin property: "project" with value: "project.Id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "dataset"
     And Enter input plugin property: "table" with value: "bqtarget.table"
@@ -145,6 +145,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Close the Plugin Properties page
     Then Save the pipeline
     Then Preview and run the pipeline
+    And Enter runtime argument value "driverName" for key "DriverName"
     And Enter runtime argument value from environment variable "host" for key "Host"
     And Enter runtime argument value from environment variable "port" for key "Port"
     And Enter runtime argument value from environment variable "user" for key "Username"

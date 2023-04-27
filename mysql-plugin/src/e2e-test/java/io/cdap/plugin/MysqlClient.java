@@ -165,6 +165,18 @@ public class MysqlClient {
     }
   }
 
+  public static void createTargetTable1(String targetTable) throws SQLException, ClassNotFoundException {
+    try (Connection connect = getMysqlConnection();
+         Statement statement = connect.createStatement()) {
+      String createTargetTableQuery = "CREATE TABLE IF NOT EXISTS " + targetTable +
+              "(id bigint(20),lastName varchar(255))";
+      statement.executeUpdate(createTargetTableQuery);
+      // Truncate table to clean the data of last failure run.
+      String truncateTargetTableQuery = "TRUNCATE TABLE " + targetTable;
+      statement.executeUpdate(truncateTargetTableQuery);
+    }
+  }
+
   public static void createSourceDatatypesTable(String sourceTable) throws SQLException, ClassNotFoundException {
     try (Connection connect = getMysqlConnection();
          Statement statement = connect.createStatement()) {

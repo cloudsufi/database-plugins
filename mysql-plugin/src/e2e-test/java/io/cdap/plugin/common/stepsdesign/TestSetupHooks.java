@@ -103,40 +103,27 @@ public class TestSetupHooks {
     }
   }
 
-  @Before(order = 2, value = "@Mysql_TEST_TABLE")
-  public static void createMysqlTestTable() throws SQLException, ClassNotFoundException {
-    MysqlClient.createTargetTable(PluginPropertyUtils.pluginProp("targetTable")
-            );
+  @Before(order = 2, value = "@MYSQL_TEST_TABLE")
+  public static void createMysqlTestTable1() throws SQLException, ClassNotFoundException {
+    MysqlClient.createTargetTable1(PluginPropertyUtils.pluginProp("targetTable"));
   }
 
-  @After(order = 1, value = "@Mysql_TEST_TABLE")
+  @After(order = 1, value = "@MYSQL_TEST_TABLE")
   public static void dropTestTables() throws SQLException, ClassNotFoundException {
     MysqlClient.dropTables(new String[]{PluginPropertyUtils.pluginProp("targetTable"),
             PluginPropertyUtils.pluginProp("schema")});
   }
+
   /**
    * Create BigQuery table.
    */
+
   @Before(order = 1, value = "@BQ_SOURCE_TEST")
   public static void createTempSourceBQTable() throws IOException, InterruptedException {
-    String bqSourceTable = "Table_" + RandomStringUtils.randomAlphanumeric(10);
-    String bqSourceDataset = PluginPropertyUtils.pluginProp("dataset");
-
-    int id = 1;
-    BigQueryClient.getSoleQueryResult("create table `" + bqSourceDataset + "." + bqSourceTable + "` as " +
-            "SELECT * FROM UNNEST([ STRUCT(" + id + " AS id, 'BHATNAGAR' AS lastname)])");
-    PluginPropertyUtils.addPluginProp("bqtable", bqSourceTable);
-    BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " created successfully");
+    createSourceBQTableWithQueries(PluginPropertyUtils.pluginProp("CreateBQTableQueryFile"),
+            PluginPropertyUtils.pluginProp("InsertBQDataQueryFile"));
   }
-
   @After(order = 1, value = "@BQ_SOURCE_TEST")
-  public static void deleteTempSourceBQTable() throws IOException, InterruptedException {
-    String bqSourceTable = PluginPropertyUtils.pluginProp("bqSourceTable");
-    BigQueryClient.dropBqQuery(bqSourceTable);
-    BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " deleted successfully");
-    PluginPropertyUtils.removePluginProp("bqSourceTable");
-  }
-
   private static void createSourceBQTableWithQueries(String bqCreateTableQueryFile, String bqInsertDataQueryFile)
           throws IOException, InterruptedException {
     String bqSourceTable = "E2E_SOURCE_" + UUID.randomUUID().toString().replaceAll("-", "_");
