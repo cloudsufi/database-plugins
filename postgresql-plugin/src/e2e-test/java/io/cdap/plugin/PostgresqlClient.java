@@ -37,7 +37,7 @@ import java.util.TimeZone;
 public class PostgresqlClient {
   private static final String database = PluginPropertyUtils.pluginProp("databaseName");
 
-  private static Connection getPostgresqlConnection() throws SQLException, ClassNotFoundException {
+  public static Connection getPostgresqlConnection() throws SQLException, ClassNotFoundException {
     Class.forName("org.postgresql.Driver");
     return DriverManager.getConnection("jdbc:postgresql://" + System.getenv("POSTGRESQL_HOST") + ":" +
                                          System.getenv("POSTGRESQL_PORT") + "/" + database,
@@ -127,6 +127,7 @@ public class PostgresqlClient {
       String datatypesColumns = PluginPropertyUtils.pluginProp("datatypesColumns");
       String createSourceTableQuery = "CREATE TABLE " + schema + "." + sourceTable + datatypesColumns;
       statement.executeUpdate(createSourceTableQuery);
+      System.out.println(createSourceTableQuery);
 
       // Insert dummy data.
       String datatypesValues = PluginPropertyUtils.pluginProp("datatypesValues");
@@ -142,6 +143,17 @@ public class PostgresqlClient {
       String datatypesColumns = PluginPropertyUtils.pluginProp("datatypesColumns");
       String createTargetTableQuery = "CREATE TABLE " + schema + "." + targetTable + " " + datatypesColumns;
       statement.executeUpdate(createTargetTableQuery);
+    }
+  }
+
+  public static void createTargetPostgresqlTable(String targetTable, String schema) throws SQLException,
+    ClassNotFoundException {
+    try (Connection connect = getPostgresqlConnection();
+         Statement statement = connect.createStatement()) {
+      String datatypesColumns = PluginPropertyUtils.pluginProp("bigQueryDatatypesColumns");
+      String createTargetTableQuery = "CREATE TABLE " + schema + "." + targetTable + " " + datatypesColumns;
+      statement.executeUpdate(createTargetTableQuery);
+      System.out.println(createTargetTableQuery);
     }
   }
 

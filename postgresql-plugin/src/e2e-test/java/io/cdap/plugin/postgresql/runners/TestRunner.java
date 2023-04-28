@@ -26,10 +26,12 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"stepsdesign", "io.cdap.plugin.common.stepsdesign", "io.cdap.plugin.postgresql.stepsdesign"},
-  tags = {"@Postgresql"},
-  plugin = {"pretty", "html:target/cucumber-html-report/postgresql",
-    "json:target/cucumber-reports/cucumber-postgresql.json",
-    "junit:target/cucumber-reports/cucumber-postgresql.xml"}
+  tags = {"@PostgreSQL_Source and not @PLUGIN-1526"},
+  /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/PLUGIN-1526
+   */
+  plugin = {"pretty", "html:target/cucumber-html-report/postgresql-source",
+    "json:target/cucumber-reports/cucumber-postgresql-source.json",
+    "junit:target/cucumber-reports/cucumber-postgresql-source.xml"}
 )
 public class TestRunner {
 }
