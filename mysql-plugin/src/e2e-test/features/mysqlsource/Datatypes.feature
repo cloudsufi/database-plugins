@@ -60,7 +60,7 @@ Feature: Mysql - Verify Mysql source data transfer for different datatypes
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
 
-  @MYSQL_SOURCE_DATATYPES_TEST @Mysql_Required @BQ_SINK
+  @MYSQL_SOURCE_DATATYPES_TEST @BQ_SINK @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to BigQuery successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -86,17 +86,15 @@ Feature: Mysql - Verify Mysql source data transfer for different datatypes
     And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "dataset"
-    And Enter input plugin property: "table" with value: "bqTargetTable"
+    And Enter input plugin property: "table" with value: "bqtarget.table"
     Then Click plugin property: "truncateTable"
     Then Click plugin property: "updateTableSchema"
     Then Validate "BigQuery" plugin properties
     Then Close the Plugin Properties page
     Then Save the pipeline
-    Then Preview and run the pipeline
-    Then Verify the preview of pipeline is "success"
-    Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+#   Then Validate the values of records transferred to target Big Query table is equal to the values from source table

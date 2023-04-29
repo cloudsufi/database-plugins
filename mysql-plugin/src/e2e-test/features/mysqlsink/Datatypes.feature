@@ -17,7 +17,7 @@
 @Mysql
 Feature: Mysql - Verify Mysql sink data transfer for different datatypes
 
-  @BQ_SOURCE_TEST @MYSQL_TEST_TABLE
+  @BQ_SOURCE_TEST @MYSQL_TARGET_TABLE
   Scenario: To verify data is getting transferred from BigQuery to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -51,5 +51,5 @@ Feature: Mysql - Verify Mysql sink data transfer for different datatypes
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Wait till pipeline is in running state
-    Then Open and capture pipeline preview logs
+    Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"

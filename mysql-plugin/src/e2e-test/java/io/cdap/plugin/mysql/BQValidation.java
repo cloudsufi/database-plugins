@@ -34,9 +34,9 @@
 //     * @param targetTable table at the BigQuery side
 //     * @return true if the values in source and target side are equal
 //     */
-//    public static boolean validateBQAndDBRecordValues(String schema, String sourceTable, String targetTable)
+//    public static boolean validateBQAndDBRecordValues(String sourceTable, String targetTable)
 //            throws SQLException, ClassNotFoundException {
-//        String getSourceQuery = "SELECT * FROM " + schema + "." + sourceTable;
+//        String getSourceQuery = "SELECT * FROM " + sourceTable;
 //
 //        try (Connection connect = MysqlClient.getMysqlConnection()) {
 //            connect.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);

@@ -213,4 +213,12 @@ public class MysqlClient {
       }
     }
   }
+
+  public static void dropTable(String table) throws SQLException, ClassNotFoundException {
+    try (Connection connect = getMysqlConnection();
+         Statement statement = connect.createStatement()) {
+        String dropTableQuery = "Drop Table " + table;
+        statement.executeUpdate(dropTableQuery);
+    }
+  }
 }

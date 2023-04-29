@@ -103,15 +103,14 @@ public class TestSetupHooks {
     }
   }
 
-  @Before(order = 2, value = "@MYSQL_TEST_TABLE")
-  public static void createMysqlTestTable1() throws SQLException, ClassNotFoundException {
+  @Before(order = 1, value = "@MYSQL_TARGET_TABLE")
+  public static void createMysqlTargetTable() throws SQLException, ClassNotFoundException {
     MysqlClient.createTargetTable1(PluginPropertyUtils.pluginProp("targetTable"));
   }
 
-  @After(order = 1, value = "@MYSQL_TEST_TABLE")
-  public static void dropTestTables() throws SQLException, ClassNotFoundException {
-    MysqlClient.dropTables(new String[]{PluginPropertyUtils.pluginProp("targetTable"),
-            PluginPropertyUtils.pluginProp("schema")});
+  @After(order = 2, value = "@MYSQL_TARGET_TABLE")
+  public static void dropTargetTable() throws SQLException, ClassNotFoundException {
+    MysqlClient.dropTable(PluginPropertyUtils.pluginProp("targetTable"));
   }
 
   /**
@@ -153,13 +152,9 @@ public class TestSetupHooks {
       Assert.fail("Exception in BigQuery testdata prerequisite setup " +
               "- error in reading insert data query file " + e.getMessage());
     }
-    System.out.println("Table query" + createTableQuery);
-
     BigQueryClient.getSoleQueryResult(createTableQuery);
 
     try {
-      System.out.println("Data query : " + insertDataQuery);
-
       BigQueryClient.getSoleQueryResult(insertDataQuery);
     } catch (NoSuchElementException e) {
       // Insert query does not return any record.

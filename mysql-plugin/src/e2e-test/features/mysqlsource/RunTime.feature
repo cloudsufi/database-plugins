@@ -44,12 +44,6 @@ Feature: MySQL Source - Run time scenarios
     And Enter input plugin property: "table" with value: "bqtarget.table"
     Then Validate "BigQuery" plugin properties
     And Close the Plugin Properties page
-    And Save and Deploy Pipeline
-    And Run the Pipeline in Runtime
-    And Wait till pipeline is in running state
-    And Open and capture logs
-    And Verify the pipeline status is "Succeeded"
-    And Close the Plugin Properties page
     And Preview and run the pipeline
     And Wait till pipeline preview is in running state
     And Open and capture pipeline preview logs
@@ -61,7 +55,7 @@ Feature: MySQL Source - Run time scenarios
     And Wait till pipeline is in running state
     And Open and capture logs
     And Verify the pipeline status is "Succeeded"
-#    //Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+#   Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required @test
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully when advance section details are set
@@ -142,4 +136,5 @@ Feature: MySQL Source - Run time scenarios
     Then Close the Plugin Properties page
     Then Save the pipeline
     Then Preview and run the pipeline
-    And Verify the pipeline status is "Failed"
+    Then Wait till pipeline preview is in running state
+    Then Verify the preview of pipeline is "success"

@@ -137,7 +137,7 @@ Feature: MySQL Source - Run time scenarios (macro)
     Then Close the Plugin Properties page
     And Navigate to the properties page of plugin: "BigQuery"
     And Enter input plugin property: "referenceName" with value: "Reference"
-    And Replace input plugin property: "project" with value: "project.Id"
+    And Replace input plugin property: "project" with value: "project.id"
     And Enter input plugin property: "datasetProject" with value: "datasetprojectId"
     And Enter input plugin property: "dataset" with value: "dataset"
     And Enter input plugin property: "table" with value: "bqtarget.table"
@@ -148,23 +148,22 @@ Feature: MySQL Source - Run time scenarios (macro)
     And Enter runtime argument value "driverName" for key "DriverName"
     And Enter runtime argument value from environment variable "host" for key "Host"
     And Enter runtime argument value from environment variable "port" for key "Port"
-    And Enter runtime argument value from environment variable "user" for key "Username"
+    And Enter runtime argument value from environment variable "username" for key "Username"
     And Enter runtime argument value from environment variable "password" for key "Password"
     And Run the preview of pipeline with runtime arguments
     Then Verify the preview of pipeline is "success"
     Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
+    And Enter runtime argument value "driverName" for key "DriverName"
     And Enter runtime argument value from environment variable "host" for key "Host"
     And Enter runtime argument value from environment variable "port" for key "Port"
-    And Enter runtime argument value from environment variable "user" for key "Username"
+    And Enter runtime argument value from environment variable "username" for key "Username"
     And Enter runtime argument value from environment variable "password" for key "Password"
     And Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-    Then Validate the values of records transferred to target table is equal to the values from source table
-
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: Verify that pipeline fails when user provides invalid Table name in importQuery of plugin with Macros

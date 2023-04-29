@@ -15,7 +15,7 @@
 @Mysql
 Feature: MySQL Sink - Run time scenarios
 
-  @BQ_SOURCE_TEST @MYSQL_TEST_TABLE @Mysql_Required
+  @BQ_SOURCE_TEST @MYSQL_TARGET_TABLE @Mysql_Required
   Scenario: To verify data is getting transferred from BigQuery to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
