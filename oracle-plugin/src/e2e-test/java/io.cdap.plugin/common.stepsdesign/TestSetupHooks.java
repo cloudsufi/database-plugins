@@ -169,7 +169,8 @@ public class TestSetupHooks {
 
   private static void createSourceBQTableWithQueries(String bqCreateTableQueryFile, String bqInsertDataQueryFile)
     throws IOException, InterruptedException {
-    String bqSourceTable = "E2E_SOURCE_" + UUID.randomUUID().toString().replaceAll("-", "_");
+    String bqSourceTable = "E2E_SOURCE_" + UUID.randomUUID().toString().substring(0, 5).replaceAll("-",
+                                                                                                   "_");
 
     String createTableQuery = StringUtils.EMPTY;
     try {

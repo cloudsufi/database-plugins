@@ -26,7 +26,9 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"stepsdesign", "io.cdap.plugin.common.stepsdesign", "io.cdap.plugin.oracle.stepsdesign"},
-  tags = {"@Oracle_Required"},
+  tags = {"@Oracle_Required and not @PLUGIN-1535"},
+  /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/PLUGIN-1535
+   */
   plugin = {"pretty", "html:target/cucumber-html-report/oracle-required",
     "json:target/cucumber-reports/cucumber-oracle-required.json",
     "junit:target/cucumber-reports/cucumber-oracle-required.xml"}

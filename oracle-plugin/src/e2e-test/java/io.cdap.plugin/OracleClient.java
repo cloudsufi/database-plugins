@@ -156,6 +156,23 @@ public class OracleClient {
             Assert.assertEquals(String.format("Different TIMESTAMPTZ values found for column : %s", columnName),
                     sourceInstant, targetInstant);
             break;
+          case Types.NUMERIC:
+            long sourceVal = rsSource.getLong(currentColumnCount);
+            long targetVal = rsTarget.getLong(currentColumnCount);
+            Assert.assertTrue(String.valueOf(sourceVal).equals(String.valueOf(targetVal)));
+            break;
+          case OracleSourceSchemaReader.BINARY_DOUBLE:
+            double sourceVAL = rsSource.getDouble(currentColumnCount);
+            double targetVAL = rsTarget.getDouble(currentColumnCount);
+            Assert.assertTrue(String.format("Different values found for column : %s", columnName),
+                              Double.compare(sourceVAL, targetVAL) == 0);
+            break;
+          case OracleSourceSchemaReader.BINARY_FLOAT:
+            Float sourceBytes = rsSource.getFloat(currentColumnCount);
+            Float targetBytes = rsSource.getFloat(currentColumnCount);
+            Assert.assertTrue(String.format("Different values found for column : %s", columnName),
+                              Float.compare(sourceBytes, targetBytes) == 0);
+            break;
           default:
             String sourceString = rsSource.getString(currentColumnCount);
             String targetString = rsTarget.getString(currentColumnCount);

@@ -234,7 +234,7 @@ Feature: Oracle - Verify Oracle plugin data transfer with macro arguments
     Then Run the preview of pipeline with runtime arguments
     Then Verify the preview of pipeline is "Failed"
 
-  @ORACLE_SOURCE_TEST @BQ_SINK_TEST
+  @ORACLE_SOURCE_TEST @BQ_SINK_TEST @ORACLE_SINK_TEST
   Scenario: To verify data is getting transferred from Oracle source to BigQuery sink using macro arguments
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -305,3 +305,4 @@ Feature: Oracle - Verify Oracle plugin data transfer with macro arguments
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
     Then Validate OUT record count is equal to records transferred to target BigQuery table
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
