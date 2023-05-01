@@ -71,9 +71,9 @@ public class MysqlClient {
     try (Connection connect = getMysqlConnection()) {
       connect.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
       Statement statement1 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
-                                                     ResultSet.HOLD_CURSORS_OVER_COMMIT);
+              ResultSet.HOLD_CURSORS_OVER_COMMIT);
       Statement statement2 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
-                                                     ResultSet.HOLD_CURSORS_OVER_COMMIT);
+              ResultSet.HOLD_CURSORS_OVER_COMMIT);
       ResultSet rsSource = statement1.executeQuery(getSourceQuery);
       ResultSet rsTarget = statement2.executeQuery(getTargetQuery);
       return compareResultSetData(rsSource, rsTarget);
