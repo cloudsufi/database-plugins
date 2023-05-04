@@ -28,6 +28,13 @@ import java.sql.Statement;
  *  Big Query client.
  */
 public class BQValidation {
+  public static void main(String[] args) {
+    try {
+      System.out.println(getBigQueryDataAsResultSet("TestSN_tablehHI8cg1Qy3").getMetaData().getColumnCount());
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   /**
    * Extracts entire data from source and target tables.
@@ -53,7 +60,7 @@ public class BQValidation {
 
   public static ResultSet getBigQueryDataAsResultSet(String targetTable) throws SQLException {
     Connection connection = null;
-    DataSource dataSource = new com.simba.googlebigquery.jdbc.DataSource();
+    DataSource dataSource = new DataSource();
     String projectId = PluginPropertyUtils.pluginProp("projectId");
     String datasetId = PluginPropertyUtils.pluginProp("dataset");
 
