@@ -263,7 +263,7 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
-  @ORACLE_SOURCE_TEST @BQ_SINK_TEST @ORACLE_SINK_TEST
+  @BQ_SINK_TEST
   Scenario: To verify the pipeline fails while preview with invalid bounding query setting the required split-By field
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
