@@ -24,7 +24,7 @@ import org.openqa.selenium.support.How;
 
 
 /**
- * My SQL source - Properties page - Locators.
+ * MySQL source - Properties page - Locators.
  */
 public class MySQLPropertiesPage {
 

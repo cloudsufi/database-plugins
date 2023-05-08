@@ -22,7 +22,7 @@ import io.cdap.e2e.utils.SeleniumHelper;
 import io.cdap.plugin.mysql.locators.MySQLPropertiesPage;
 
 /**
- * My SQL source - Properties page - Actions.
+ * MySQL source - Properties page - Actions.
  */
 public class MySQLPropertiesPageActions {
     static {
