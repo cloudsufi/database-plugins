@@ -63,7 +63,7 @@ Feature: MySQL Sink - Run time scenarios (macro)
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-#    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @BQ_SOURCE_TEST @MYSQL_TARGET_TABLE @Mysql_Required
   Scenario: Verify that the pipeline fails when user provides invalid Table Name of plugin with Macros

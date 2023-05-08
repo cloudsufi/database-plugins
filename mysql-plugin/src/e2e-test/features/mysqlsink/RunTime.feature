@@ -45,14 +45,13 @@ Feature: MySQL Sink - Run time scenarios
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
-    Then Click on preview data for MySQL sink
-    Then Close the preview data
+    Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-    #Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+    Then Validate the values of records transferred to target MySQL table is equal to the values from source BigQuery table
 
   @MYSQL_SOURCE_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully

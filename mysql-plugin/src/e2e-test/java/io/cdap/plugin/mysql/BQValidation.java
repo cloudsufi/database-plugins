@@ -65,4 +65,19 @@ public class BQValidation {
 
         return bqResultSet;
     }
+
+    public static boolean validateBqToDBTarget(String sourceTable, String targetTable)
+            throws SQLException, ClassNotFoundException {
+        String getSinkQuery = "SELECT * FROM " + targetTable;
+        try (Connection connect = MysqlClient.getMysqlConnection()) {
+            connect.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            Statement statement1 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
+                    ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            ResultSet rsTarget = statement1.executeQuery(getSinkQuery);
+
+            ResultSet rsSource = getBigQueryDataAsResultSet(sourceTable);
+            System.out.println(MysqlClient.compareResultSetData(rsTarget, rsSource));
+            return MysqlClient.compareResultSetData(rsTarget, rsSource);
+        }
+    }
 }
