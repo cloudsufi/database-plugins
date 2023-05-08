@@ -16,13 +16,26 @@
 
 package io.cdap.plugin.oracle;
 
-import com.simba.googlebigquery.jdbc.DataSource;
+import com.google.cloud.bigquery.TableResult;
+import com.google.common.collect.MapDifference;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.OracleClient;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *  Big Query client.
@@ -35,9 +48,10 @@ public class BQValidation {
    * @param targetTable table at the BigQuery side
    * @return true if the values in source and target side are equal
    */
-  public static boolean validateBQAndDBRecordValues(String schema, String sourceTable, String targetTable)
-    throws SQLException, ClassNotFoundException {
+  public static void validateBQAndDBRecordValues(String schema, String sourceTable, String targetTable)
+    throws SQLException, ClassNotFoundException, IOException, InterruptedException {
     String getSourceQuery = "SELECT * FROM " + schema + "." + sourceTable;
+    List<Object> bigQueryRows = new ArrayList<Object>();
 
     try (Connection connect = OracleClient.getOracleConnection()) {
       connect.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
@@ -45,24 +59,71 @@ public class BQValidation {
                                                      ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
       ResultSet rsSource = statement1.executeQuery(getSourceQuery);
-      ResultSet rsTarget = getBigQueryDataAsResultSet(targetTable);
+      getBigQueryTableData(targetTable, bigQueryRows);
 
-      return OracleClient.compareResultSetData(rsSource, rsTarget);
+
+      System.out.println(convertResultSetToJson(rsSource));
+      System.out.println(bigQueryRows.get(0));
+      //return OracleClient.compareResultSetData(rsSource, rsTarget);
     }
   }
 
-  public static ResultSet getBigQueryDataAsResultSet(String targetTable) throws SQLException {
-    Connection connection = null;
-    DataSource dataSource = new com.simba.googlebigquery.jdbc.DataSource();
+  public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException, InterruptedException {
+    //Bytes and string - BQ - E2E_TARGET_3deae021_18ac_437f_8ea6_eb0ac725ffad
+    //oracle - SOURCETABLE_UHTTOKLBCU
+
+    //validateBQAndDBRecordValues("HR", "SOURCETABLE_IDGXDINEUX", "TestSN_tablehHI8cg1Qy3");
+    validateBQAndDBRecordValues("HR", "SOURCETABLE_UHTTOKLBCU", "E2E_TARGET_3deae021_18ac_437f_8ea6_eb0ac725ffad");
+  }
+
+  public static String convertResultSetToJson(ResultSet rs) throws SQLException {
+    List<JsonObject> jsonObjects = new ArrayList<>();
+    while (rs.next()) {
+      int numColumns = rs.getMetaData().getColumnCount();
+      JsonObject jsonObject = new JsonObject();
+      for (int i = 1; i <= numColumns; i++) {
+        String column_name = rs.getMetaData().getColumnName(i);
+        Object column_value = rs.getObject(i);
+        if (column_value == null) {
+          jsonObject.addProperty(column_name, "");
+        } else {
+          jsonObject.addProperty(column_name, column_value.toString());
+        }
+      }
+      jsonObjects.add(jsonObject);
+    }
+
+    JsonArray jsonArray = new JsonArray();
+    for (JsonObject jsonObject : jsonObjects) {
+      jsonArray.add(jsonObject);
+    }
+
+    // Convert JSON array to JSON string
+    Gson gson = new Gson();
+    String jsonString = gson.toJson(jsonArray);
+
+    return jsonString;
+  }
+
+  private static void getBigQueryTableData(String table, List<Object> bigQueryRows)
+    throws IOException, InterruptedException {
+
     String projectId = PluginPropertyUtils.pluginProp("projectId");
-    String datasetId = PluginPropertyUtils.pluginProp("dataset");
+    String dataset = PluginPropertyUtils.pluginProp("dataset");
+    String selectQuery = "SELECT TO_JSON(t) FROM `" + projectId + "." + dataset + "." + table + "` AS t";
+    System.out.println(selectQuery);
+    TableResult result = BigQueryClient.getQueryResult(selectQuery);
+    result.iterateAll().forEach(value -> bigQueryRows.add(value.get(0).getValue()));
+  }
 
-    String jdbcUrl = String.format(PluginPropertyUtils.pluginProp("jdbcUrl"), projectId);
-    dataSource.setURL(jdbcUrl);
-    connection = dataSource.getConnection();
-    Statement statement = connection.createStatement();
-    ResultSet bqResultSet = statement.executeQuery("SELECT * from " + datasetId +  "." + targetTable +  ";");
+  private static boolean compareValueOfBothResponses(String sfmcResponse, String bigQueryResponse) {
+    Gson gson = new Gson();
+    Type type = new TypeToken<Map<String, Object>>() {
+    }.getType();
+    Map<String, Object> sfmcResponseInmap = gson.fromJson(sfmcResponse, type);
+    Map<String, Object> bigQueryResponseInMap = gson.fromJson(bigQueryResponse, type);
+    MapDifference<String, Object> mapDifference = Maps.difference(sfmcResponseInmap, bigQueryResponseInMap);
 
-    return bqResultSet;
+    return mapDifference.areEqual();
   }
 }

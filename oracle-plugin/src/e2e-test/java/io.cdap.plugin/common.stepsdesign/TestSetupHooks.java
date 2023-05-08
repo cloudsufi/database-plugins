@@ -134,7 +134,7 @@ public class TestSetupHooks {
     BeforeActions.scenario.write("BQ Target table name - " + bqTargetTableName);
   }
 
-  @After(order = 1, value = "@BQ_SINK_TEST")
+  @After(order = 1, value = "@BQ_SINK_TESTT")
   public static void deleteTempTargetBQTable() throws IOException, InterruptedException {
     String bqTargetTableName = PluginPropertyUtils.pluginProp("bqTargetTable");
     try {
