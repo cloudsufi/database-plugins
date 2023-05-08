@@ -338,13 +338,13 @@ public class OracleClient {
   public static void createSourceOracleDatatypesTable(String sourceTable, String schema) throws SQLException,
     ClassNotFoundException {
     try (Connection connect = getOracleConnection(); Statement statement = connect.createStatement()) {
-      String datatypeColumns1 = PluginPropertyUtils.pluginProp("datatypeColumns1");
+      String datatypeColumns1 = PluginPropertyUtils.pluginProp("bigQueryColumns");
       String createSourceTableQuery6 = "CREATE TABLE " + schema + "." + sourceTable + " " + datatypeColumns1;
       statement.executeUpdate(createSourceTableQuery6);
 
       // Insert dummy data.
-      String datatypeValues1 = PluginPropertyUtils.pluginProp("datatypeValues1");
-      String datatypeColumnsList1 = PluginPropertyUtils.pluginProp("datatypeColumnsList1");
+      String datatypeValues1 = PluginPropertyUtils.pluginProp("bigQueryColumnsValues");
+      String datatypeColumnsList1 = PluginPropertyUtils.pluginProp("bigQueryColumnsList");
       statement.executeUpdate("INSERT INTO " + schema + "." + sourceTable + " " + datatypeColumnsList1 + " " +
                                 datatypeValues1);
     }
@@ -353,7 +353,7 @@ public class OracleClient {
   public static void createTargetOracleDatatypesTable(String targetTable, String schema) throws SQLException,
     ClassNotFoundException {
     try (Connection connect = getOracleConnection(); Statement statement = connect.createStatement()) {
-      String datatypeColumns1 = PluginPropertyUtils.pluginProp("datatypeColumns1");
+      String datatypeColumns1 = PluginPropertyUtils.pluginProp("bigQueryColumns");
       String createTargetTableQuery6 = "CREATE TABLE " + schema + "." + targetTable + " " + datatypeColumns1;
       statement.executeUpdate(createTargetTableQuery6);
     }
