@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  Big Query client.
+ *  Big Query client
  */
 public class BQValidation {
 
