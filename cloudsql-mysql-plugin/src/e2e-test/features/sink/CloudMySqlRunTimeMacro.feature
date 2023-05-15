@@ -19,7 +19,7 @@ Feature: CloudMySql - Verify data transfer to CloudMySql sink with macro argumen
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "cdf-athena:us-central1:sql-automation-test-instance"
+    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
     Then Click on the Macro button of Property: "user" and set the value to: "username"
     Then Click on the Macro button of Property: "password" and set the value to: "password"
     Then Enter input plugin property: "referenceName" with value: "RefName"
