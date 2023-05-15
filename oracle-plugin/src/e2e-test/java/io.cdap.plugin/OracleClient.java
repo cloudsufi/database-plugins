@@ -16,13 +16,14 @@
 
 package io.cdap.plugin;
 
+import com.google.cloud.bigquery.TableResult;
 import com.google.common.base.Strings;
+import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.oracle.OracleSourceSchemaReader;
 import org.junit.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
@@ -34,16 +35,24 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
+import javax.json.JsonObject;
 
 /**
  *  Oracle client.
  */
 public class OracleClient {
 
+  public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException,
+    InterruptedException {
+    validateRecordValues("HR", "SOURCETABLE_UHTTOKLBCU", "E2E_TARGET_3deae021_18ac_437f_8ea6_eb0ac725ffad");
+  }
   public static Connection getOracleConnection() throws SQLException, ClassNotFoundException {
     TimeZone timezone = TimeZone.getTimeZone("UTC");
     TimeZone.setDefault(timezone);
@@ -90,8 +99,9 @@ public class OracleClient {
 
   /**
    * Compares the result Set data in source table and sink table.
-   * @param rsSource result set of the source table data
-   * @param rsTarget result set of the target table data
+   * //   * @param rsSource result set of the source table data
+   * //   * @param rsTarget result set of the target table data
+   *
    * @return true if rsSource matches rsTarget
    */
   public static boolean compareResultSetData(ResultSet rsSource, ResultSet rsTarget) throws SQLException {

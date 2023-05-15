@@ -64,8 +64,8 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-#    Then Validate OUT record count is equal to records transferred to target BigQuery table
-#    Then Validate the values of records transferred to target BigQuery table is equal to the values from source Table
+    Then Validate OUT record count is equal to records transferred to target BigQuery table
+    Then Validate the values of records transferred to target BigQuery table is equal to the values from source Table
 
   @ORACLE_SOURCE_DATATYPES_TEST2 @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from Oracle source to BigQuery sink successfully using long datatypes
@@ -87,7 +87,7 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Click on the Get Schema button
-#    Then Verify the Output Schema matches the Expected Schema: "outputDatatypesSchema2"
+    Then Verify the Output Schema matches the Expected Schema: "outputDatatypesSchema2"
     Then Validate "Oracle" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "BigQuery"
@@ -101,19 +101,19 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Validate "BigQuery" plugin properties
     Then Close the Plugin Properties page
     Then Save the pipeline
-#    Then Preview and run the pipeline
-#    Then Wait till pipeline preview is in running state
-#    Then Open and capture pipeline preview logs
-#    Then Verify the preview run status of pipeline in the logs is "succeeded"
-#    Then Close the pipeline logs
-#    Then Close the preview
+    Then Preview and run the pipeline
+    Then Wait till pipeline preview is in running state
+    Then Open and capture pipeline preview logs
+    Then Verify the preview run status of pipeline in the logs is "succeeded"
+    Then Close the pipeline logs
+    Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-#    Then Validate OUT record count is equal to records transferred to target BigQuery table
+    Then Validate OUT record count is equal to records transferred to target BigQuery table
 
   @ORACLE_SOURCE_LONGRAW_TEST @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from Oracle source to BigQuery sink successfully using long raw datatypes
@@ -371,7 +371,7 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
 #    Then Replace input plugin property: "database" with value: "databaseName"
 #    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
 #    Then Click on the Get Schema button
-#    Then Verify the Output Schema matches the Expected Schema: "outputDatatypesSchema"
+##    Then Verify the Output Schema matches the Expected Schema: "outputDatatypesSchema"
 #    Then Validate "Oracle" plugin properties
 #    Then Close the Plugin Properties page
 #    Then Navigate to the properties page of plugin: "BigQuery"

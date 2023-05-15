@@ -28,6 +28,7 @@ import stepsdesign.BeforeActions;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 /**
  *  Oracle Plugin related step design.
@@ -41,7 +42,7 @@ public class Oracle implements CdfHelper {
 
   @Then("Validate the values of records transferred to target table is equal to the values from source table")
   public void validateTheValuesOfRecordsTransferredToTargetTableIsEqualToTheValuesFromSourceTable() throws
-    SQLException, ClassNotFoundException {
+    SQLException, ClassNotFoundException, IOException, InterruptedException {
     int countRecords = OracleClient.countRecord(PluginPropertyUtils.pluginProp("targetTable"),
                                                 PluginPropertyUtils.pluginProp("schema"));
     Assert.assertEquals("Number of records transferred should be equal to records out ",
@@ -78,16 +79,15 @@ public class Oracle implements CdfHelper {
 
   @Then("Validate the values of records transferred to target BigQuery table is equal to the values from source Table")
   public void validateTheValuesOfRecordsTransferredToTargetBigQueryTableIsEqualToTheValuesFromSourceTable()
-    throws InterruptedException, IOException, SQLException, ClassNotFoundException {
+    throws InterruptedException, IOException, SQLException, ClassNotFoundException, ParseException {
     int targetBQRecordsCount = BigQueryClient.countBqQuery(PluginPropertyUtils.pluginProp("bqTargetTable"));
     BeforeActions.scenario.write("No of Records Transferred to BigQuery:" + targetBQRecordsCount);
     Assert.assertEquals("Out records should match with target BigQuery table records count",
                         CdfPipelineRunAction.getCountDisplayedOnSourcePluginAsRecordsOut(), targetBQRecordsCount);
-
-//    boolean recordsMatched = BQValidation.validateBQAndDBRecordValues(PluginPropertyUtils.pluginProp("schema"),
-//      PluginPropertyUtils.pluginProp("sourceTable"),
-//      PluginPropertyUtils.pluginProp("bqTargetTable"));
-//    Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
-//                        "of the records in the source table", recordsMatched);
+    boolean recordsMatched = BQValidation.validateBQAndDBRecordValues(PluginPropertyUtils.pluginProp("schema"),
+                                                                      PluginPropertyUtils.pluginProp("sourceTable"),
+                                                                      PluginPropertyUtils.pluginProp("bqTargetTable"));
+    Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
+                        "of the records in the source table", recordsMatched);
   }
 }
