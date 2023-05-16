@@ -49,10 +49,6 @@ import javax.json.JsonObject;
  */
 public class OracleClient {
 
-  public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException,
-    InterruptedException {
-    validateRecordValues("HR", "SOURCETABLE_UHTTOKLBCU", "E2E_TARGET_3deae021_18ac_437f_8ea6_eb0ac725ffad");
-  }
   public static Connection getOracleConnection() throws SQLException, ClassNotFoundException {
     TimeZone timezone = TimeZone.getTimeZone("UTC");
     TimeZone.setDefault(timezone);
@@ -73,113 +69,6 @@ public class OracleClient {
       }
       return num;
     }
-  }
-
-  /**
-   * Extracts entire data from source and target tables.
-   * @param sourceTable table at the source side
-   * @param targetTable table at the sink side
-   * @return true if the values in source and target side are equal
-   */
-  public static boolean validateRecordValues(String schema, String sourceTable, String targetTable)
-    throws SQLException, ClassNotFoundException {
-    String getSourceQuery = "SELECT * FROM " + schema + "." + sourceTable;
-    String getTargetQuery = "SELECT * FROM " + schema + "." + targetTable;
-    try (Connection connect = getOracleConnection()) {
-      connect.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
-      Statement statement1 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
-                                                     ResultSet.HOLD_CURSORS_OVER_COMMIT);
-      Statement statement2 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
-                                                     ResultSet.HOLD_CURSORS_OVER_COMMIT);
-      ResultSet rsSource = statement1.executeQuery(getSourceQuery);
-      ResultSet rsTarget = statement2.executeQuery(getTargetQuery);
-      return compareResultSetData(rsSource, rsTarget);
-    }
-  }
-
-  /**
-   * Compares the result Set data in source table and sink table.
-   * //   * @param rsSource result set of the source table data
-   * //   * @param rsTarget result set of the target table data
-   *
-   * @return true if rsSource matches rsTarget
-   */
-  public static boolean compareResultSetData(ResultSet rsSource, ResultSet rsTarget) throws SQLException {
-    ResultSetMetaData mdSource = rsSource.getMetaData();
-    ResultSetMetaData mdTarget = rsTarget.getMetaData();
-    int columnCountSource = mdSource.getColumnCount();
-    int columnCountTarget = mdTarget.getColumnCount();
-    Assert.assertEquals("Number of columns in source and target are not equal",
-                        columnCountSource, columnCountTarget);
-    while (rsSource.next() && rsTarget.next()) {
-      int currentColumnCount = 1;
-      while (currentColumnCount <= columnCountSource) {
-        String columnTypeName = mdSource.getColumnTypeName(currentColumnCount);
-        int columnType = mdSource.getColumnType(currentColumnCount);
-        String columnName = mdSource.getColumnName(currentColumnCount);
-        switch (columnType) {
-          // Since we skip BFILE in Oracle Sink, we are not comparing the BFILE source and sink values
-          case OracleSourceSchemaReader.BFILE:
-            break;
-          case Types.BLOB:
-            Blob blobSource = rsSource.getBlob(currentColumnCount);
-            byte[] sourceArrayBlob = blobSource.getBytes(1, (int) blobSource.length());
-            Blob blobTarget = rsTarget.getBlob(currentColumnCount);
-            byte[] targetArrayBlob = blobTarget.getBytes(1, (int) blobTarget.length());
-            Assert.assertTrue(String.format("Different BLOB values found for column : %s", columnName),
-                              Arrays.equals(sourceArrayBlob, targetArrayBlob));
-            break;
-          case Types.CLOB:
-            Clob clobSource = rsSource.getClob(currentColumnCount);
-            String sourceClobString = clobSource.getSubString(1, (int) clobSource.length());
-            Clob clobTarget = rsTarget.getClob(currentColumnCount);
-            String targetClobString = clobTarget.getSubString(1, (int) clobTarget.length());
-            Assert.assertEquals(String.format("Different CLOB values found for column : %s", columnName),
-                                sourceClobString, targetClobString);
-            break;
-          case Types.TIMESTAMP:
-            GregorianCalendar gc = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-            gc.setGregorianChange(new Date(Long.MIN_VALUE));
-            Timestamp sourceTS = rsSource.getTimestamp(currentColumnCount, gc);
-            Timestamp targetTS = rsTarget.getTimestamp(currentColumnCount, gc);
-            Assert.assertEquals(String.format("Different TIMESTAMP values found for column : %s", columnName),
-                                sourceTS, targetTS);
-            break;
-          case OracleSourceSchemaReader.TIMESTAMP_TZ:
-            // The timezone information in the field is lost during pipeline execution hence it is required to
-            // convert both values into the system timezone and then compare.
-            GregorianCalendar gregorianCalendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-            gregorianCalendar.setGregorianChange(new Date(Long.MIN_VALUE));
-            Timestamp tsSource = rsSource.getTimestamp(currentColumnCount, gregorianCalendar);
-            Timestamp tsTarget = rsTarget.getTimestamp(currentColumnCount, gregorianCalendar);
-            if (tsSource == null && tsTarget == null) {
-              break;
-            }
-            Assert.assertNotNull(
-                    String.format("Column : %s is null in source table and is not Null in target table.", columnName),
-                    tsSource);
-            Assert.assertNotNull(
-                    String.format("Column : %s is null in target table and is not Null in source table.", columnName),
-                    tsTarget);
-            Instant sourceInstant = tsSource.toInstant();
-            Instant targetInstant = tsTarget.toInstant();
-            Assert.assertEquals(String.format("Different TIMESTAMPTZ values found for column : %s", columnName),
-                    sourceInstant, targetInstant);
-            break;
-          default:
-            String sourceString = rsSource.getString(currentColumnCount);
-            String targetString = rsTarget.getString(currentColumnCount);
-            Assert.assertEquals(String.format("Different %s values found for column : %s", columnTypeName, columnName),
-                                String.valueOf(sourceString), String.valueOf(targetString));
-        }
-        currentColumnCount++;
-      }
-    }
-    Assert.assertFalse("Number of rows in Source table is greater than the number of rows in Target table",
-                      rsSource.next());
-    Assert.assertFalse("Number of rows in Target table is greater than the number of rows in Source table",
-                      rsTarget.next());
-    return true;
   }
 
   public static void createSourceTable(String sourceTable, String schema) throws SQLException, ClassNotFoundException {

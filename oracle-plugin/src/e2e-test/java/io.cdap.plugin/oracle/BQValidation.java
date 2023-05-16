@@ -23,16 +23,27 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+/**
+ *  BQValidation
+ */
+
 public class BQValidation {
+
+  /**
+   * Extracts entire data from source and target tables.
+   * @param sourceTable table at the source side
+   * @param targetTable table at the sink side
+   * @return true if the values in source and target side are equal
+   */
 
   public static boolean validateBQAndDBRecordValues(String schema, String sourceTable, String targetTable)
     throws SQLException, ClassNotFoundException, ParseException, IOException, InterruptedException {
-    List<JsonObject> jsonObject = new ArrayList<>();
-    List<Object> list = new ArrayList<>();
-    getBigQueryTableData(targetTable, list);
-    for (Object jsonRow : list) {
-      JsonObject json = new Gson().fromJson(String.valueOf(jsonRow), JsonObject.class);
-      jsonObject.add(json);
+    List<JsonObject> jsonResponse = new ArrayList<>();
+    List<Object> bigQueryRows = new ArrayList<>();
+    getBigQueryTableData(targetTable, bigQueryRows);
+    for (Object rows : bigQueryRows) {
+      JsonObject json = new Gson().fromJson(String.valueOf(rows), JsonObject.class);
+      jsonResponse.add(json);
     }
     String getSourceQuery = "SELECT * FROM " + schema + "." + sourceTable;
     try (Connection connect = OracleClient.getOracleConnection()) {
@@ -41,10 +52,17 @@ public class BQValidation {
                                                      ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
       ResultSet rsSource = statement1.executeQuery(getSourceQuery);
-      return compareResultSetData(rsSource, jsonObject);
+      return compareResultSetData(rsSource, jsonResponse);
     }
   }
 
+  /**
+   * Retrieves the data from a specified BigQuery table and populates it into the provided list of objects.
+   *
+   * @param table The name of the BigQuery table to fetch data from.
+   * @param bigQueryRows   The list to store the fetched BigQuery data.
+   *
+   */
 
   private static void getBigQueryTableData(String table, List<Object> bigQueryRows)
     throws IOException, InterruptedException {
@@ -55,6 +73,17 @@ public class BQValidation {
     TableResult result = BigQueryClient.getQueryResult(selectQuery);
     result.iterateAll().forEach(value -> bigQueryRows.add(value.get(0).getValue()));
   }
+
+  /**
+   * Compares the data in the result set obtained from the Oracle database with the provided BigQuery JSON objects.
+   *
+   * @param rsSource The result set obtained from the Oracle database.
+   * @param bigQueryData  The list of BigQuery JSON objects to compare with the result set data.
+   *
+   * @return True if the result set data matches the BigQuery data, false otherwise.
+   * @throws SQLException   If an SQL error occurs during the result set operations.
+   * @throws ParseException If an error occurs while parsing the data.
+   */
 
   public static boolean compareResultSetData(ResultSet rsSource, List<JsonObject> bigQueryData) throws SQLException,
     ParseException {
@@ -110,8 +139,8 @@ public class BQValidation {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
             Date parsedDate = dateFormat.parse(bigQueryData.get(jsonObjectIdx).get(columnName).getAsString());
             Timestamp targetTs = new java.sql.Timestamp(parsedDate.getTime());
-            result = sourceTS.equals(targetTs);
-            Assert.assertEquals("Different values found for column : %s", result);
+            Assert.assertEquals("Different values found for column : %s", String.valueOf(sourceTS).
+              equals(String.valueOf(targetTs)));
             break;
           case OracleSourceSchemaReader.BINARY_FLOAT:
             Float sourceBytes = rsSource.getFloat(currentColumnCount);
@@ -139,8 +168,6 @@ public class BQValidation {
     }
     Assert.assertFalse("Number of rows in Source table is greater than the number of rows in Target table",
                        rsSource.next());
-//    Assert.assertFalse("Number of rows in Target table is greater than the number of rows in Source table",
-//                       rsTarget.next());
     return true;
   }
 }
