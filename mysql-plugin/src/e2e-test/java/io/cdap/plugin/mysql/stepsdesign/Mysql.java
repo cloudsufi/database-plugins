@@ -16,23 +16,21 @@
 
 package io.cdap.plugin.mysql.stepsdesign;
 
-import io.cdap.e2e.pages.actions.CdfBigQueryPropertiesActions;
 import io.cdap.e2e.pages.actions.CdfPipelineRunAction;
 import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.CdfHelper;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.MysqlClient;
+import io.cdap.plugin.mysql.BQValidation;
 import io.cdap.plugin.mysql.actions.MySQLPropertiesPageActions;
-import io.cdap.plugin.mysql.locators.MySQLPropertiesPage;
 //import io.cdap.plugin.mysql.BQValidation;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import stepsdesign.BeforeActions;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 /**
  *  MYSQL Plugin related step design.
@@ -46,7 +44,7 @@ public class Mysql implements CdfHelper {
 
   @Then("Validate the values of records transferred to target table is equal to the values from source table")
   public void validateTheValuesOfRecordsTransferredToTargetTableIsEqualToTheValuesFromSourceTable() throws
-          SQLException, ClassNotFoundException {
+    SQLException, ClassNotFoundException, ParseException, IOException, InterruptedException {
     int countRecords = MysqlClient.countRecord(PluginPropertyUtils.pluginProp("targetTable"));
     Assert.assertEquals("Number of records transferred should be equal to records out ",
             countRecords, recordOut());
@@ -78,17 +76,15 @@ public class Mysql implements CdfHelper {
 
   @Then("Validate the values of records transferred to target Big Query table is equal to the values from source table")
   public void validateTheValuesOfRecordsTransferredToTargetTable()
-          throws IOException, InterruptedException, IOException, SQLException, ClassNotFoundException {
+    throws InterruptedException, IOException, SQLException, ClassNotFoundException, ParseException {
     int targetBQRecordsCount = BigQueryClient.countBqQuery(PluginPropertyUtils.pluginProp("bqTargetTable"));
     BeforeActions.scenario.write("No of Records Transferred to BigQuery:" + targetBQRecordsCount);
     Assert.assertEquals("Out records should match with target BigQuery table records count",
             CdfPipelineRunAction.getCountDisplayedOnSourcePluginAsRecordsOut(), targetBQRecordsCount);
 
-//    boolean recordsMatched = BQValidation.validateBQAndDBRecordValues(PluginPropertyUtils.pluginProp("schema"),
-//            PluginPropertyUtils.pluginProp("sourceTable"),
-//            PluginPropertyUtils.pluginProp("bqTargetTable"));
-//    Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
-//            "of the records in the source table", recordsMatched);
-//  }
+    boolean recordsMatched = BQValidation.validateBQAndDBRecordValues(PluginPropertyUtils.pluginProp("sourceTable"),
+            PluginPropertyUtils.pluginProp("bqTargetTable"));
+    Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
+            "of the records in the source table", recordsMatched);
  }
 }

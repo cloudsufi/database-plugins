@@ -59,6 +59,7 @@ Feature: Mysql - Verify Mysql source data transfer for different datatypes
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target table is equal to the values from source table
 
   @MYSQL_SOURCE_DATATYPES_TEST @Mysql_Required @BQ_SINK
   Scenario: To verify data is getting transferred from Mysql to BigQuery successfully
@@ -77,8 +78,6 @@ Feature: Mysql - Verify Mysql source data transfer for different datatypes
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
-    Then Click on the Get Schema button
-    Then Verify the Output Schema matches the Expected Schema: "datatypesSchema"
     Then Validate "MySQL" plugin properties
     Then Close the Plugin Properties page
     And Navigate to the properties page of plugin: "BigQuery"
@@ -100,3 +99,4 @@ Feature: Mysql - Verify Mysql source data transfer for different datatypes
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
