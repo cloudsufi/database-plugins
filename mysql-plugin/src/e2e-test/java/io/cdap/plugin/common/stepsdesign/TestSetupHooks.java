@@ -84,7 +84,7 @@ public class TestSetupHooks {
   @Before(order = 1, value = "@BQ_SINK")
   public static void setTempTargetBQTable() {
     bqTargetTable = "TestSN_table" + RandomStringUtils.randomAlphanumeric(10);
-    PluginPropertyUtils.addPluginProp("bqtarget.table", bqTargetTable);
+    PluginPropertyUtils.addPluginProp("bqTargetTable", bqTargetTable);
     BeforeActions.scenario.write("BigQuery Target table name: " + bqTargetTable);
   }
 
@@ -112,6 +112,8 @@ public class TestSetupHooks {
   public static void dropTargetTable() throws SQLException, ClassNotFoundException {
     MysqlClient.dropTable(PluginPropertyUtils.pluginProp("targetTable"));
   }
+
+
 
   /**
    * Create BigQuery table.
@@ -158,7 +160,7 @@ public class TestSetupHooks {
       BigQueryClient.getSoleQueryResult(insertDataQuery);
     } catch (NoSuchElementException e) {
       // Insert query does not return any record.
-      // Iterator on TableResult values in getSoleQueryResult method throws NoSuchElementException
+      // Iterator on TableResult values in getSoleQueryResult method throws NoSuchElementException.
     }
     PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
     BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");

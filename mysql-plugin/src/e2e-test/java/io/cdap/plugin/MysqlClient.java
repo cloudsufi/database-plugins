@@ -41,8 +41,8 @@ public class MysqlClient {
   public static Connection getMysqlConnection() throws SQLException, ClassNotFoundException {
     Class.forName("com.mysql.cj.jdbc.Driver");
     return DriverManager.getConnection("jdbc:mysql://" + System.getenv("MYSQL_HOST") + ":" +
-                                         System.getenv("MYSQL_PORT") + "/" + database,
-                                       System.getenv("MYSQL_USERNAME"), System.getenv("MYSQL_PASSWORD"));
+                    System.getenv("MYSQL_PORT") + "/" + database + "?tinyInt1isBit=false",
+            System.getenv("MYSQL_USERNAME"), System.getenv("MYSQL_PASSWORD"));
   }
 
   public static int countRecord(String table) throws SQLException, ClassNotFoundException {
