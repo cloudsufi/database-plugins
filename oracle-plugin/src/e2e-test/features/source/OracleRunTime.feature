@@ -63,7 +63,6 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @ORACLE_SOURCE_DATATYPES_TEST2 @BQ_SINK_TEST @ORACLE_SINK_TEST
@@ -112,7 +111,6 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @ORACLE_SOURCE_LONGRAW_TEST @BQ_SINK_TEST @ORACLE_SINK_TEST
@@ -161,7 +159,6 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @ORACLE_SOURCE_DATATYPES_TEST4 @BQ_SINK_TEST @ORACLE_SINK_TEST
@@ -210,7 +207,6 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @ORACLE_SOURCE_DATATYPES_TEST4 @BQ_SINK_TEST @ORACLE_SINK_TEST
@@ -260,7 +256,6 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @ORACLE_SOURCE_TEST @ORACLE_SINK_TEST @BQ_SINK_TEST
@@ -394,7 +389,6 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @ORACLE_SOURCE_DATATYPES_TEST @BQ_SINK_TEST @PLUGIN-1535 @ORACLE_SINK_TEST
@@ -443,5 +437,4 @@ Feature: Oracle - Verify data transfer from Oracle source to BigQuery sink
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table

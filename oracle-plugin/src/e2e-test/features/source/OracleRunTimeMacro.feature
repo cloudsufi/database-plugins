@@ -304,5 +304,4 @@ Feature: Oracle - Verify Oracle plugin data transfer with macro arguments
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
