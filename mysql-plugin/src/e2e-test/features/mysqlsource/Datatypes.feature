@@ -15,7 +15,7 @@
 #
 
 @Mysql
-Feature: Mysql - Verify Mysql source data transfer for different datatypes
+Feature: Mysql - Verify Mysql source data transfer for different datatype
 
   @MYSQL_SOURCE_DATATYPES_TEST @MYSQL_SINK_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully
