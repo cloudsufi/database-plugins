@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- *  BQValidation
+ *  BQValidation.
  */
 public class BQValidation {
 
