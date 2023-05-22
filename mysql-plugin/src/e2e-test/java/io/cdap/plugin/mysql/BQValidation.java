@@ -42,7 +42,6 @@ import java.util.TimeZone;
 /**
  *  BQValidation
  */
-
 public class BQValidation {
 
     /**
@@ -102,7 +101,8 @@ public class BQValidation {
      * @throws ParseException If an error occurs while parsing the data.
      */
 
-    public static boolean compareResultSetAndJsonData(ResultSet rsSource, List<JsonObject> bigQueryData) throws SQLException,
+    public static boolean compareResultSetAndJsonData(ResultSet rsSource, List<JsonObject> bigQueryData)
+            throws SQLException,
             ParseException {
         ResultSetMetaData mdSource = rsSource.getMetaData();
         boolean result = false;
@@ -134,7 +134,8 @@ public class BQValidation {
                     case Types.BLOB:
                     case Types.VARBINARY:
                     case Types.LONGVARBINARY:
-                        String sourceB64String = new String(Base64.getEncoder().encode(rsSource.getBytes(currentColumnCount)));
+                        String sourceB64String = new String(Base64.getEncoder()
+                                .encode(rsSource.getBytes(currentColumnCount)));
                         String targetB64String = bigQueryData.get(jsonObjectIdx).get(columnName).getAsString();
                         Assert.assertEquals("Different values found for column : %s",
                                 sourceB64String, targetB64String);
@@ -151,7 +152,8 @@ public class BQValidation {
                         Timestamp sourceTS = rsSource.getTimestamp(columnName);
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                        Date parsedDate = dateFormat.parse(bigQueryData.get(jsonObjectIdx).get(columnName).getAsString());
+                        Date parsedDate = dateFormat.
+                                parse(bigQueryData.get(jsonObjectIdx).get(columnName).getAsString());
                         Timestamp targetTs = new java.sql.Timestamp(parsedDate.getTime());
 
                         Assert.assertEquals("Different values found for column: %s",
@@ -192,7 +194,8 @@ public class BQValidation {
                     default:
                         String sourceValue = rsSource.getString(currentColumnCount);
                         String targetValue = bigQueryData.get(jsonObjectIdx).get(columnName).getAsString();
-                        Assert.assertEquals(String.format("Different %s values found for column : %s", columnTypeName, columnName),
+                        Assert.assertEquals
+                                (String.format("Different %s values found for column : %s", columnTypeName, columnName),
                                 String.valueOf(sourceValue), String.valueOf(targetValue));
                 }
                 currentColumnCount++;
