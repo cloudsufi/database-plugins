@@ -131,8 +131,6 @@ public class CloudSqlPostgreSqlClient {
     return true;
   }
 
-  //Changes by Surya
-
   public static void createSourceTable(String sourceTable, String schema) throws SQLException, ClassNotFoundException {
     try (Connection connect = getCloudSqlConnection();
          Statement statement = connect.createStatement()) {

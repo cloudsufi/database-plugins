@@ -17,7 +17,7 @@
 @Cloudsqlpostgresql_Sink @Cloudsqlpostgresql_Sink_Required
 Feature: CloudSQL-PostgreSQL sink - Verify data transfer to PostgreSQL sink with macro arguments
 
-  @BQ_SOURCE_TEST @POSTGRESQL_TEST_TABLE
+  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE
   Scenario: To verify data is getting transferred from BigQuery source to CloudSQLPostgreSQL sink using macro arguments in connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -76,7 +76,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer to PostgreSQL sink with
     Then Close the pipeline logs
 #    Then Validate the values of records transferred to target PostGreSQL table is equal to the values from source BigQuery table
 
-  @BQ_SOURCE_TEST @POSTGRESQL_TEST_TABLE
+  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE
   Scenario: To verify data is getting transferred from BigQuery source to CloudSQLPostgreSQL sink using macro arguments in basic section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
