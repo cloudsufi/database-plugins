@@ -149,7 +149,6 @@ public class TestSetupHooks {
             throws IOException, InterruptedException {
         String bqSourceTable = "E2E_SOURCE_" + UUID.randomUUID().toString().substring(0, 5).replaceAll("-",
                 "_");
-        System.out.println(bqSourceTable);
 
         String createTableQuery = StringUtils.EMPTY;
         try {
@@ -183,7 +182,9 @@ public class TestSetupHooks {
             // Insert query does not return any record.
             // Iterator on TableResult values in getSoleQueryResult method throws NoSuchElementException
         }
+        System.out.println(bqSourceTable);
         PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
         BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
+
     }
 }

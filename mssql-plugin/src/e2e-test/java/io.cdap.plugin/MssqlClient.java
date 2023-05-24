@@ -39,7 +39,7 @@ import java.util.TimeZone;
  */
 public class MssqlClient {
 
-    private static Connection getMssqlConnection() throws SQLException, ClassNotFoundException {
+    public static Connection getMssqlConnection() throws SQLException, ClassNotFoundException {
         TimeZone timezone = TimeZone.getTimeZone("UTC");
         TimeZone.setDefault(timezone);
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -73,6 +73,7 @@ public class MssqlClient {
                     " VALUES ('id1', 'Shelby')");
             statement.executeUpdate("INSERT INTO " + schema + "." + sourceTable + " (ID, LASTNAME)" +
                     " VALUES ('id2', 'Simpson')");
+            System.out.println(createSourceTableQuery);
         }
     }
 
@@ -96,6 +97,7 @@ public class MssqlClient {
             String datatypeValues = PluginPropertyUtils.pluginProp("datatypeValues");
             String datatypeColumnsList = PluginPropertyUtils.pluginProp("datatypeColumnsList");
             statement.executeUpdate(insertQuery(sourceTable, schema, datatypeColumnsList, datatypeValues));
+            System.out.println(createSourceTableQuery2);
         }
     }
 
@@ -196,6 +198,7 @@ public class MssqlClient {
             String datatypesColumns = PluginPropertyUtils.pluginProp("SqlServerDatatypesColumns");
             String createSourceTableQuery2 = createTableQuery(targetTable, schema, datatypesColumns);
             statement.executeUpdate(createSourceTableQuery2);
+            System.out.println(createSourceTableQuery2);
         }
     }
 
