@@ -13,8 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-
 /**
- * Package contains the runners for Mysql features.
+ * Package contains the runner for the CloudSQLPostgreSQL sink plugin.
  */
-package io.cdap.plugin.cloudsqlpostgresql.runner;
+package io.cdap.plugin.cloudsqlpostgresql.runners.sinkrunner;
