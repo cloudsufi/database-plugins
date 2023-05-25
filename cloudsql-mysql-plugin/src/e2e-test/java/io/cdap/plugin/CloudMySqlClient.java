@@ -31,7 +31,7 @@ public class CloudMySqlClient {
         String Password = "v@123";
         String jdbcUrl = String.format("jdbc:mysql:///%s?cloudSqlInstance=%s&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=%s&password=%s", databaseName, instanceConnectionName, Username, Password);
         Connection conn = DriverManager.getConnection(jdbcUrl);
-        //System.out.println("connected to database");
+        System.out.println("connected to database");
         return conn;
     }
 
@@ -148,6 +148,7 @@ public class CloudMySqlClient {
             String datatypesColumns = PluginPropertyUtils.pluginProp("datatypesColumns");
             String createSourceTableQuery = "CREATE TABLE " + sourceTable + " " + datatypesColumns;
             statement.executeUpdate(createSourceTableQuery);
+            System.out.println(createSourceTableQuery);
 
             // Insert dummy data.
             String datatypesValues = PluginPropertyUtils.pluginProp("datatypesValue1");
