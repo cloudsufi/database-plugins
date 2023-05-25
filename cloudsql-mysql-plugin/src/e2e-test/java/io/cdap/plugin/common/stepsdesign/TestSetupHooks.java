@@ -19,6 +19,10 @@ import java.sql.SQLException;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+/**
+ * CLOUDSQL MYSQL test hooks.
+ */
+
 public class TestSetupHooks {
     private static void setTableName() {
         String randomString = RandomStringUtils.randomAlphabetic(10);
@@ -59,6 +63,11 @@ public class TestSetupHooks {
     public static void dropTables() throws SQLException, ClassNotFoundException {
         CloudMySqlClient.dropTables(new String[]{PluginPropertyUtils.pluginProp("sourceTable"),
                 PluginPropertyUtils.pluginProp("targetTable")});
+    }
+
+    @Before(order = 2, value = "@CLOUDMYSQL_TEST_TABLE")
+    public static void createCloudMysqlTestTable() throws SQLException, ClassNotFoundException {
+        CloudMySqlClient.createTargetCloudMysqlTable(PluginPropertyUtils.pluginProp("targetTable"));
     }
 
     @Before(order = 1, value = "@BQ_SINK_TEST")

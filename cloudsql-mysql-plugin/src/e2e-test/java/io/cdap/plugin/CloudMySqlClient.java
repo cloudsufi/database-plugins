@@ -1,7 +1,5 @@
 package io.cdap.plugin;
 
-import breeze.macros.expand;
-import com.google.cloud.storage.Acl;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import org.junit.Assert;
 
@@ -12,24 +10,28 @@ import java.util.TimeZone;
 
 public class CloudMySqlClient {
 
+    private static final String database = PluginPropertyUtils.pluginProp("DatabaseName");
+    private static final String connectionName = PluginPropertyUtils.pluginProp("ConnectionName");
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         getCloudMysqlConnection();
         //createSourceTable("myTable");
-        createSourceTable("newTable");
-        String[] tablesToDrop = {"newTable"};
-        dropTables(tablesToDrop);
-        System.out.println("done");
+//        createSourceTable("newTable");
+//        String[] tablesToDrop = {"newTable"};
+//        dropTables(tablesToDrop);
+        //System.out.println("done");
 
     }
+
     public static Connection getCloudMysqlConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.google.cloud.sql.mysql.SocketFactory");
-        String instanceConnectionName="cdf-athena:us-central1:sql-automation-test-instance";
-        String databaseName="TestDatabase";
-        String Username="v";
-        String Password="v@123";
-        String jdbcUrl=String.format("jdbc:mysql:///%s?cloudSqlInstance=%s&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=%s&password=%s",databaseName,instanceConnectionName,Username,Password);
+        String instanceConnectionName = "cdf-athena:us-central1:sql-automation-test-instance";
+        String databaseName = "TestDatabase";
+        String Username = "v";
+        String Password = "v@123";
+        String jdbcUrl = String.format("jdbc:mysql:///%s?cloudSqlInstance=%s&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=%s&password=%s", databaseName, instanceConnectionName, Username, Password);
         Connection conn = DriverManager.getConnection(jdbcUrl);
-        System.out.println("connected to database");
+        //System.out.println("connected to database");
         return conn;
     }
 
@@ -64,6 +66,7 @@ public class CloudMySqlClient {
 
     /**
      * Compares the result Set data in source table and sink table..
+     *
      * @param rsSource result set of the source table data
      * @param rsTarget result set of the target table data
      * @return true if rsSource matches rsTarget
@@ -111,17 +114,17 @@ public class CloudMySqlClient {
                     "(id int, lastName varchar(255), PRIMARY KEY (id))";
             statement.executeUpdate(createSourceTableQuery);
 
-             // Truncate table to clean the data of last failure run.
+            // Truncate table to clean the data of last failure run.
             String truncateSourceTableQuery = "TRUNCATE TABLE " + sourceTable;
             statement.executeUpdate(truncateSourceTableQuery);
 
             // Insert dummy data.
             statement.executeUpdate("INSERT INTO " + sourceTable + " (id, lastName)" +
-                    "VALUES (1, 'Ankit')");
+                    "VALUES (1, 'Priya')");
             statement.executeUpdate("INSERT INTO " + sourceTable + " (id, lastName)" +
-                    "VALUES (2, 'Isha')");
+                    "VALUES (2, 'Shubhangi')");
             statement.executeUpdate("INSERT INTO " + sourceTable + " (id, lastName)" +
-                    "VALUES (3, 'Vipin')");
+                    "VALUES (3, 'Shorya')");
 
 
         }
@@ -147,7 +150,7 @@ public class CloudMySqlClient {
             statement.executeUpdate(createSourceTableQuery);
 
             // Insert dummy data.
-            String datatypesValues = PluginPropertyUtils.pluginProp("datatypesValues");
+            String datatypesValues = PluginPropertyUtils.pluginProp("datatypesValue1");
             String datatypesColumnsList = PluginPropertyUtils.pluginProp("datatypesColumnsList");
             statement.executeUpdate("INSERT INTO " + sourceTable + " " + datatypesColumnsList + " " + datatypesValues);
         }
@@ -162,6 +165,17 @@ public class CloudMySqlClient {
         }
     }
 
+    public static void createTargetCloudMysqlTable(String targetTable) throws SQLException,
+            ClassNotFoundException {
+        try (Connection connect = getCloudMysqlConnection();
+             Statement statement = connect.createStatement()) {
+            String datatypesColumns = PluginPropertyUtils.pluginProp("SqlServerDatatypesColumns");
+            String createTargetTableQuery = "CREATE TABLE " + targetTable + " " + datatypesColumns;
+            statement.executeUpdate(createTargetTableQuery);
+        }
+    }
+
+
     public static void dropTables(String[] tables) throws SQLException, ClassNotFoundException {
         try (Connection connect = getCloudMysqlConnection();
              Statement statement = connect.createStatement()) {
@@ -171,5 +185,4 @@ public class CloudMySqlClient {
             }
         }
     }
-    }
-
+}
