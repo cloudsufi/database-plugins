@@ -229,6 +229,3 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Wait till pipeline is in running state
     Then Open and capture logs
     And Verify the pipeline status is "Failed"
-
-
-

@@ -31,7 +31,6 @@ public class CloudMySqlClient {
         String Password = "v@123";
         String jdbcUrl = String.format("jdbc:mysql:///%s?cloudSqlInstance=%s&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=%s&password=%s", databaseName, instanceConnectionName, Username, Password);
         Connection conn = DriverManager.getConnection(jdbcUrl);
-        //System.out.println("connected to database");
         return conn;
     }
 
@@ -169,7 +168,7 @@ public class CloudMySqlClient {
             ClassNotFoundException {
         try (Connection connect = getCloudMysqlConnection();
              Statement statement = connect.createStatement()) {
-            String datatypesColumns = PluginPropertyUtils.pluginProp("SqlServerDatatypesColumns");
+            String datatypesColumns = PluginPropertyUtils.pluginProp("CloudMySqlDatatypesColumns");
             String createTargetTableQuery = "CREATE TABLE " + targetTable + " " + datatypesColumns;
             statement.executeUpdate(createTargetTableQuery);
         }

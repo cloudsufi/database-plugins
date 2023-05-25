@@ -82,7 +82,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
-    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Replace input plugin property: "database" with value: "DatabaseName"
     Then Click on the Macro button of Property: "importQuery" and set the value in textarea: "CloudMySqlImportQuery"
     Then Validate "CloudSQL MySQL" plugin properties
     Then Close the Plugin Properties page
@@ -99,12 +99,10 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Close the Plugin Properties page
     Then Save the pipeline
     Then Preview and run the pipeline
-    Then Enter runtime argument value "insertQuery" for key "CloudMySqlImportQuery"
+    Then Enter runtime argument value "selectQuery" for key "CloudMySqlImportQuery"
     Then Run the preview of pipeline with runtime arguments
     Then Wait till pipeline preview is in running state
-    Then Open and capture pipeline preview logs
-    Then Verify the preview run status of pipeline in the logs is "succeeded"
-    Then Close the pipeline logs
+    Then Verify the preview of pipeline is "success"
     Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
@@ -121,8 +119,8 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "CloudSQL MySQL" from the plugins list as: "Source"
     When Expand Plugin group in the LHS plugins list: "Sink"
-    When Select plugin: "BigQuery" from the plugins list as: "Sink"
-    Then Connect plugins: "CloudSQL MySQL" and "BigQuery" to establish connection
+    When Select plugin: "CloudSQL MySQL" from the plugins list as: "Sink"
+    Then Connect plugins: "CloudSQL MySQL" and "CloudSQL MySQL2" to establish connection
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
@@ -134,7 +132,6 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     And Click on the Macro button of Property: "fetchSize" and set the value to: "fetchSize"
     And Click on the Macro button of Property: "splitBy" and set the value to: "SplitBy"
-    And Click on the Macro button of Property: "numSplits" and set the value to: "NumSplits"
     Then Validate "CloudSQL MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "CloudSQL MySQL2"
@@ -152,18 +149,14 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Preview and run the pipeline
     Then Enter runtime argument value "fetchSize" for key "fetchSize"
     Then Enter runtime argument value "splitBy" for key "SplitBy"
-    Then Enter runtime argument value "numSplits" for key "NumSplits"
     Then Run the preview of pipeline with runtime arguments
     Then Wait till pipeline preview is in running state
-    Then Open and capture pipeline preview logs
-    Then Verify the preview run status of pipeline in the logs is "succeeded"
-    Then Close the pipeline logs
+    Then Verify the preview of pipeline is "success"
     Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Enter runtime argument value "fetchSize" for key "fetchSize"
     Then Enter runtime argument value "splitBy" for key "SplitBy"
-    Then Enter runtime argument value "numSplits" for key "NumSplits"
     Then Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
@@ -172,6 +165,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
 
   @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from CloudMySql source to BigQuery sink successfully using macro arguments in connection section
+    Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
     When Select plugin: "CloudSQL MySQL" from the plugins list as: "Source"
     When Expand Plugin group in the LHS plugins list: "Sink"
@@ -203,9 +197,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Enter runtime argument value "password" for key "Password"
     Then Run the preview of pipeline with runtime arguments
     Then Wait till pipeline preview is in running state
-    Then Open and capture pipeline preview logs
-    Then Verify the preview run status of pipeline in the logs is "succeeded"
-    Then Close the pipeline logs
+    Then Verify the preview of pipeline is "success"
     Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
@@ -233,7 +225,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
-    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Replace input plugin property: "database" with value: "DatabaseName"
     Then Click on the Macro button of Property: "importQuery" and set the value in textarea: "CloudMySqlImportQuery"
     Then Validate "CloudSQL MySQL" plugin properties
     Then Close the Plugin Properties page
@@ -247,12 +239,10 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Close the Plugin Properties page
     Then Save the pipeline
     Then Preview and run the pipeline
-    Then Enter runtime argument value "insertQuery" for key "CloudMySqlImportQuery"
+    Then Enter runtime argument value "selectQuery" for key "CloudMySqlImportQuery"
     Then Run the preview of pipeline with runtime arguments
     Then Wait till pipeline preview is in running state
-    Then Open and capture pipeline preview logs
-    Then Verify the preview run status of pipeline in the logs is "succeeded"
-    Then Close the pipeline logs
+    Then Verify the preview of pipeline is "success"
     Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
@@ -282,7 +272,6 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     And Click on the Macro button of Property: "fetchSize" and set the value to: "fetchSize"
     And Click on the Macro button of Property: "splitBy" and set the value to: "SplitBy"
-    And Click on the Macro button of Property: "numSplits" and set the value to: "NumSplits"
     Then Validate "CloudSQL MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "BigQuery"
@@ -297,18 +286,14 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Preview and run the pipeline
     Then Enter runtime argument value "fetchSize" for key "fetchSize"
     Then Enter runtime argument value "splitBy" for key "SplitBy"
-    Then Enter runtime argument value "numSplits" for key "NumSplits"
     Then Run the preview of pipeline with runtime arguments
     Then Wait till pipeline preview is in running state
-    Then Open and capture pipeline preview logs
-    Then Verify the preview run status of pipeline in the logs is "succeeded"
-    Then Close the pipeline logs
+    Then Verify the preview of pipeline is "success"
     Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Enter runtime argument value "fetchSize" for key "fetchSize"
     Then Enter runtime argument value "splitBy" for key "SplitBy"
-    Then Enter runtime argument value "numSplits" for key "NumSplits"
     Then Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
