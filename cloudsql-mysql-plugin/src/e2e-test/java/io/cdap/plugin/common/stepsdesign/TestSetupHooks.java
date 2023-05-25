@@ -24,6 +24,10 @@ import java.util.UUID;
  */
 
 public class TestSetupHooks {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        setTableName();
+        createDatatypesTable();
+    }
     private static void setTableName() {
         String randomString = RandomStringUtils.randomAlphabetic(10);
         String sourceTableName = String.format("SourceTable_%s", randomString);
@@ -31,6 +35,8 @@ public class TestSetupHooks {
         PluginPropertyUtils.addPluginProp("sourceTable", sourceTableName);
         PluginPropertyUtils.addPluginProp("targetTable", targetTableName);
         PluginPropertyUtils.addPluginProp("selectQuery", String.format("select * from %s", sourceTableName));
+        System.out.println(sourceTableName);
+
     }
 
     @Before(order = 1)
