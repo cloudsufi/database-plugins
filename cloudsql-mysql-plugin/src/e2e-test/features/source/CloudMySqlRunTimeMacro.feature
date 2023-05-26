@@ -26,7 +26,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Click on the Macro button of Property: "user" and set the value to: "Username"
     Then Click on the Macro button of Property: "password" and set the value to: "Password"
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -37,7 +37,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -66,6 +66,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
+    Then Validate the values of records transferred to target table is equal to the values from source table
 
   @CLOUDMYSQL_SOURCE_TEST
   Scenario: To verify data is getting transferred from CloudMySql to CloudMySql successfully using macro arguments in basic section
@@ -78,7 +79,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -89,7 +90,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -112,6 +113,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
+    Then Validate the values of records transferred to target table is equal to the values from source table
 
   @CLOUDMYSQL_SOURCE_TEST
   Scenario: To verify data is getting transferred from CloudMySql to CloudMySql successfully using macro arguments in advance section
@@ -124,7 +126,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -137,7 +139,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -148,7 +150,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Enter runtime argument value "fetchSize" for key "fetchSize"
-    Then Enter runtime argument value "splitBy" for key "SplitBy"
+    Then Enter runtime argument value "splitby" for key "SplitBy"
     Then Run the preview of pipeline with runtime arguments
     Then Wait till pipeline preview is in running state
     Then Verify the preview of pipeline is "success"
@@ -156,12 +158,13 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
     Then Enter runtime argument value "fetchSize" for key "fetchSize"
-    Then Enter runtime argument value "splitBy" for key "SplitBy"
+    Then Enter runtime argument value "splitby" for key "SplitBy"
     Then Run the Pipeline in Runtime with runtime arguments
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
+    Then Validate the values of records transferred to target table is equal to the values from source table
 
   @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from CloudMySql source to BigQuery sink successfully using macro arguments in connection section
@@ -174,7 +177,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Click on the Macro button of Property: "user" and set the value to: "Username"
     Then Click on the Macro button of Property: "password" and set the value to: "Password"
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -209,6 +212,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from CloudMySql source to BigQuery sink successfully using macro arguments in basic section
@@ -221,7 +225,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -252,6 +256,8 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+
 
   @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from CloudMySql source to BigQuery sink successfully using macro arguments in advance section
@@ -264,7 +270,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -299,3 +305,5 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+

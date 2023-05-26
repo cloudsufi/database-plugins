@@ -17,7 +17,7 @@ Feature: CloudMySql Source - Run time scenarios
 
 Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery sink
 
-  @CLOUDMYSQL_SOURCE_TEST
+  @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from CloudMySql source to BigQuery sink successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -28,11 +28,9 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Enter input plugin property: "user" with value: "username"
     Then Enter input plugin property: "password" with value: "password"
-#    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
-#    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
     Then Enter input plugin property: "database" with value: "DatabaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
@@ -50,10 +48,7 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Close the Plugin Properties page
     Then Save the pipeline
     Then Preview and run the pipeline
-    Then Wait till pipeline preview is in running state
-    Then Open and capture pipeline preview logs
-    Then Verify the preview run status of pipeline in the logs is "succeeded"
-    Then Close the pipeline logs
+    Then Verify the preview of pipeline is "success"
     Then Close the preview
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
@@ -61,8 +56,7 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    #Then Validate the values of records transferred to target Big Query table is equal to the values from source table
-
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
   @CLOUDMYSQL_SOURCE_DATATYPES_TEST @BQ_SINK_TEST
   Scenario: To verify data is getting transferred from CloudMySql source to BigQuery sink successfully with all datatypes
     Given Open Datafusion Project to configure pipeline
@@ -74,7 +68,7 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -104,9 +98,10 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-    #Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
-  @CLOUDMYSQL_SOURCE_DATATYPES_TEST
+
+  @CLOUDMYSQL_SOURCE_DATATYPES_TEST @CLOUDMYSQL_SINK_TEST @PLUGIN-20670
   Scenario: To verify data is getting transferred from CloudMySql source to CloudMySql sink successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -117,20 +112,20 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
     Then Enter input plugin property: "database" with value: "DatabaseName"
     Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
     Then Click on the Get Schema button
-#    Then Verify the Output Schema matches the Expected Schema: "OutputSchema"
+    Then Verify the Output Schema matches the Expected Schema: "datatypesSchema"
     Then Validate "CloudSQL MySQL" plugin properties
     Then Close the Plugin Properties page
     Then Navigate to the properties page of plugin: "CloudSQL MySQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -147,8 +142,9 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @CLOUDMYSQL_SOURCE_DATATYPES_TEST
+  @CLOUDMYSQL_SOURCE_DATATYPES_TEST @CLOUDMYSQL_SINK_TEST @PLUGIN-20670
   Scenario: To verify data is getting transferred from CloudMySql source to CloudMySql successfully when connection arguments are set
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -159,7 +155,7 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter key value pairs for plugin property: "connectionArguments" with values from json: "connectionArgumentsList"
@@ -172,7 +168,7 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Navigate to the properties page of plugin: "CloudSQL MySQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -189,6 +185,7 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
+    Then Validate the values of records transferred to target table is equal to the values from source table
 
   @CLOUDMYSQL_SOURCE_DATATYPES_TEST
     Scenario: Verify user should not be able to deploy and run the pipeline when plugin is configured with invalid bounding query
@@ -201,7 +198,7 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Navigate to the properties page of plugin: "CloudSQL MySQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -217,7 +214,7 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Navigate to the properties page of plugin: "CloudSQL MySQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "cloudsql-mysql"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Enter input plugin property: "connectionName" with value: "ConnectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "RefName"
@@ -231,3 +228,6 @@ Feature: CloudMySql - Verify data transfer from CloudMySql source to BigQuery si
     Then Wait till pipeline is in running state
     Then Open and capture logs
     And Verify the pipeline status is "Failed"
+    Then Open Pipeline logs and verify Log entries having below listed Level and Message:
+      | Level | Message                                  |
+      | ERROR | errorLogsMessageInvalidBoundingQuery     |

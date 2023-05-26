@@ -24,132 +24,129 @@ import java.util.UUID;
  */
 
 public class TestSetupHooks {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        setTableName();
-        createDatatypesTable();
+  public static void setTableName() {
+    String randomString = RandomStringUtils.randomAlphabetic(10);
+    String sourceTableName = String.format("SourceTable_%s", randomString);
+    String targetTableName = String.format("TargetTable_%s", randomString);
+    PluginPropertyUtils.addPluginProp("sourceTable", sourceTableName);
+    PluginPropertyUtils.addPluginProp("targetTable", targetTableName);
+    PluginPropertyUtils.addPluginProp("selectQuery", String.format("select * from %s", sourceTableName));
+  }
+
+  @Before(order = 1)
+  public static void initializeDBProperties() {
+    String username = System.getenv("username");
+    if (username != null && !username.isEmpty()) {
+      PluginPropertyUtils.addPluginProp("username", username);
     }
-    private static void setTableName() {
-        String randomString = RandomStringUtils.randomAlphabetic(10);
-        String sourceTableName = String.format("SourceTable_%s", randomString);
-        String targetTableName = String.format("TargetTable_%s", randomString);
-        PluginPropertyUtils.addPluginProp("sourceTable", sourceTableName);
-        PluginPropertyUtils.addPluginProp("targetTable", targetTableName);
-        PluginPropertyUtils.addPluginProp("selectQuery", String.format("select * from %s", sourceTableName));
-        System.out.println(sourceTableName);
+    String password = System.getenv("password");
+    if (password != null && !password.isEmpty()) {
+      PluginPropertyUtils.addPluginProp("password", password);
+    }
+    TestSetupHooks.setTableName();
+  }
 
+  @Before(order = 2, value = "@CLOUDMYSQL_SOURCE_TEST")
+  public static void createTables() throws SQLException, ClassNotFoundException {
+    CloudMySqlClient.createSourceTable(PluginPropertyUtils.pluginProp("CLOUDMYSQL_SOURCE_TEST"));
+    CloudMySqlClient.createTargetTable(PluginPropertyUtils.pluginProp("targetTable"));
+  }
+
+
+  @Before(order = 2, value = "@CLOUDMYSQL_SOURCE_DATATYPES_TEST")
+  public static void createDatatypesTable() throws SQLException, ClassNotFoundException {
+    CloudMySqlClient.createSourceDatatypesTable(PluginPropertyUtils.pluginProp("sourceTable"));
+    CloudMySqlClient.createTargetDatatypesTable(PluginPropertyUtils.pluginProp("targetTable"));
+  }
+
+  @After(order = 2, value = "@CLOUDMYSQL_SINK_TEST")
+  public static void dropTables() throws SQLException, ClassNotFoundException {
+    CloudMySqlClient.dropTables(
+      new String[]{PluginPropertyUtils.pluginProp("sourceTable"), PluginPropertyUtils.pluginProp("targetTable")});
+  }
+
+  @Before(order = 2, value = "@CLOUDMYSQL_TEST_TABLE")
+  public static void createCloudMysqlTestTable() throws SQLException, ClassNotFoundException {
+    CloudMySqlClient.createTargetCloudMysqlTable(PluginPropertyUtils.pluginProp("targetTable"));
+  }
+
+  @Before(order = 1, value = "@BQ_SINK_TEST")
+  public static void setTempTargetBQTableName() {
+    String bqTargetTableName = "E2E_TARGET_" + UUID.randomUUID().toString().replaceAll("-", "_");
+    PluginPropertyUtils.addPluginProp("bqTargetTable", bqTargetTableName);
+    BeforeActions.scenario.write("BQ Target table name - " + bqTargetTableName);
+  }
+
+  @After(order = 1, value = "@BQ_SINK_TEST")
+  public static void deleteTempTargetBQTable() throws IOException, InterruptedException {
+    String bqTargetTableName = PluginPropertyUtils.pluginProp("bqTargetTable");
+    try {
+      BigQueryClient.dropBqQuery(bqTargetTableName);
+      BeforeActions.scenario.write("BQ Target table - " + bqTargetTableName + " deleted successfully");
+      PluginPropertyUtils.removePluginProp("bqTargetTable");
+    } catch (BigQueryException e) {
+      if (e.getMessage().contains("Not found: Table")) {
+        BeforeActions.scenario.write("BQ Target Table " + bqTargetTableName + " does not exist");
+      } else {
+        Assert.fail(e.getMessage());
+      }
+    }
+  }
+
+  @Before(order = 1, value = "@BQ_SOURCE_TEST")
+  public static void createTempSourceBQTable() throws IOException, InterruptedException {
+    createSourceBQTableWithQueries(PluginPropertyUtils.pluginProp("CreateBQTableQueryFile"),
+                                   PluginPropertyUtils.pluginProp("InsertBQDataQueryFile"));
+  }
+
+  @After(order = 1, value = "@BQ_SOURCE_TEST")
+  public static void deleteTempSourceBQTable() throws IOException, InterruptedException {
+    String bqSourceTable = PluginPropertyUtils.pluginProp("bqSourceTable");
+    BigQueryClient.dropBqQuery(bqSourceTable);
+    BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " deleted successfully");
+    PluginPropertyUtils.removePluginProp("bqSourceTable");
+  }
+
+  private static void createSourceBQTableWithQueries(String bqCreateTableQueryFile, String bqInsertDataQueryFile) throws
+    IOException, InterruptedException, NullPointerException {
+    String bqSourceTable = "E2E_SOURCE_" + UUID.randomUUID().toString().substring(0, 5).replaceAll("-", "_");
+
+    String createTableQuery = StringUtils.EMPTY;
+    try {
+      createTableQuery = new String(
+        Files.readAllBytes(Paths.get(TestSetupHooks.class.getResource("/" + bqCreateTableQueryFile).toURI())),
+        StandardCharsets.UTF_8);
+      createTableQuery = createTableQuery.replace("DATASET", PluginPropertyUtils.pluginProp("dataset"))
+        .replace("TABLE_NAME", bqSourceTable);
+    } catch (Exception e) {
+      e.printStackTrace();
+      BeforeActions.scenario.write("Exception in reading " + bqCreateTableQueryFile + " - " + e.getMessage());
+      Assert.fail(
+        "Exception in BigQuery testdata prerequisite setup " + "- error in reading create table query file " + e.getMessage());
     }
 
-    @Before(order = 1)
-    public static void initializeDBProperties() {
-        String username = System.getenv("username");
-        if (username != null && !username.isEmpty()) {
-            PluginPropertyUtils.addPluginProp("username", username);
-        }
-        String password = System.getenv("password");
-        if (password != null && !password.isEmpty()) {
-            PluginPropertyUtils.addPluginProp("password", password);
-        }
-        TestSetupHooks.setTableName();
+    String insertDataQuery = StringUtils.EMPTY;
+    try {
+      insertDataQuery = new String(
+        Files.readAllBytes(Paths.get(TestSetupHooks.class.getResource("/" + bqInsertDataQueryFile).toURI())),
+        StandardCharsets.UTF_8);
+      insertDataQuery = insertDataQuery.replace("DATASET", PluginPropertyUtils.pluginProp("dataset"))
+        .replace("TABLE_NAME", bqSourceTable);
+    } catch (Exception e) {
+      BeforeActions.scenario.write("Exception in reading " + bqInsertDataQueryFile + " - " + e.getMessage());
+      Assert.fail(
+        "Exception in BigQuery testdata prerequisite setup " + "- error in reading insert data query file " + e.getMessage());
+
     }
-
-    @Before(order = 2, value = "@CLOUDMYSQL_SOURCE_TEST")
-    public static void createTables() throws SQLException, ClassNotFoundException {
-        CloudMySqlClient.createSourceTable(PluginPropertyUtils.pluginProp("sourceTable"));
-        CloudMySqlClient.createTargetTable(PluginPropertyUtils.pluginProp("targetTable"));
+    BigQueryClient.getSoleQueryResult(createTableQuery);
+    try {
+      BigQueryClient.getSoleQueryResult(insertDataQuery);
+    } catch (NoSuchElementException e) {
+      // Insert query does not return any record.
+      // Iterator on TableResult values in getSoleQueryResult method throws NoSuchElementException
     }
-
-
-    @Before(order = 2, value = "@CLOUDMYSQL_SOURCE_DATATYPES_TEST")
-    public static void createDatatypesTable() throws SQLException, ClassNotFoundException {
-        CloudMySqlClient.createSourceDatatypesTable(PluginPropertyUtils.pluginProp("sourceTable"));
-        CloudMySqlClient.createTargetDatatypesTable(PluginPropertyUtils.pluginProp("targetTable"));
-    }
-
-    @After(order = 2, value = "@CLOUDMYSQL_SINK_TEST")
-    public static void dropTables() throws SQLException, ClassNotFoundException {
-        CloudMySqlClient.dropTables(new String[]{PluginPropertyUtils.pluginProp("sourceTable"),
-                PluginPropertyUtils.pluginProp("targetTable")});
-    }
-
-    @Before(order = 2, value = "@CLOUDMYSQL_TEST_TABLE")
-    public static void createCloudMysqlTestTable() throws SQLException, ClassNotFoundException {
-        CloudMySqlClient.createTargetCloudMysqlTable(PluginPropertyUtils.pluginProp("targetTable"));
-    }
-
-    @Before(order = 1, value = "@BQ_SINK_TEST")
-    public static void setTempTargetBQTableName() {
-        String bqTargetTableName = "E2E_TARGET_" + UUID.randomUUID().toString().replaceAll("-", "_");
-        PluginPropertyUtils.addPluginProp("bqTargetTable", bqTargetTableName);
-        BeforeActions.scenario.write("BQ Target table name - " + bqTargetTableName);
-    }
-
-    @After(order = 1, value = "@BQ_SINK_TEST")
-    public static void deleteTempTargetBQTable() throws IOException, InterruptedException {
-        String bqTargetTableName = PluginPropertyUtils.pluginProp("bqTargetTable");
-        try {
-            BigQueryClient.dropBqQuery(bqTargetTableName);
-            BeforeActions.scenario.write("BQ Target table - " + bqTargetTableName + " deleted successfully");
-            PluginPropertyUtils.removePluginProp("bqTargetTable");
-        } catch (BigQueryException e) {
-            if (e.getMessage().contains("Not found: Table")) {
-                BeforeActions.scenario.write("BQ Target Table " + bqTargetTableName + " does not exist");
-            } else {
-                Assert.fail(e.getMessage());
-            }
-        }
-    }
-
-    @Before(order = 1, value = "@BQ_SOURCE_TEST")
-    public static void createTempSourceBQTable() throws IOException, InterruptedException {
-        createSourceBQTableWithQueries(PluginPropertyUtils.pluginProp("CreateBQTableQueryFile"),
-                PluginPropertyUtils.pluginProp("InsertBQDataQueryFile"));
-    }
-
-    @After(order = 1, value = "@BQ_SOURCE_TEST")
-    public static void deleteTempSourceBQTable() throws IOException, InterruptedException {
-        String bqSourceTable = PluginPropertyUtils.pluginProp("bqSourceTable");
-        BigQueryClient.dropBqQuery(bqSourceTable);
-        BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " deleted successfully");
-        PluginPropertyUtils.removePluginProp("bqSourceTable");
-    }
-    private static void createSourceBQTableWithQueries(String bqCreateTableQueryFile, String bqInsertDataQueryFile)
-            throws IOException, InterruptedException {
-        String bqSourceTable = "E2E_SOURCE_" + UUID.randomUUID().toString().replaceAll("-", "_");
-
-        String createTableQuery = StringUtils.EMPTY;
-        try {
-            createTableQuery = new String(Files.readAllBytes(Paths.get(TestSetupHooks.class.getResource
-                    ("/" + bqCreateTableQueryFile).toURI()))
-                    , StandardCharsets.UTF_8);
-            createTableQuery = createTableQuery.replace("DATASET", PluginPropertyUtils.pluginProp("dataset"))
-                    .replace("TABLE_NAME", bqSourceTable);
-        } catch (Exception e) {
-            BeforeActions.scenario.write("Exception in reading " + bqCreateTableQueryFile + " - " + e.getMessage());
-            Assert.fail("Exception in BigQuery testdata prerequisite setup " +
-                    "- error in reading create table query file " + e.getMessage());
-        }
-
-        String insertDataQuery = StringUtils.EMPTY;
-        try {
-            insertDataQuery = new String(Files.readAllBytes(Paths.get(TestSetupHooks.class.getResource
-                    ("/" + bqInsertDataQueryFile).toURI()))
-                    , StandardCharsets.UTF_8);
-            insertDataQuery = insertDataQuery.replace("DATASET", PluginPropertyUtils.pluginProp("dataset"))
-                    .replace("TABLE_NAME", bqSourceTable);
-        } catch (Exception e) {
-            BeforeActions.scenario.write("Exception in reading " + bqInsertDataQueryFile + " - " + e.getMessage());
-            Assert.fail("Exception in BigQuery testdata prerequisite setup " +
-                    "- error in reading insert data query file " + e.getMessage());
-        }
-        BigQueryClient.getSoleQueryResult(createTableQuery);
-        try {
-            BigQueryClient.getSoleQueryResult(insertDataQuery);
-        } catch (NoSuchElementException e) {
-            // Insert query does not return any record.
-            // Iterator on TableResult values in getSoleQueryResult method throws NoSuchElementException
-        }
-        PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
-        BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
-    }
+    PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
+    BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
+  }
 
 }

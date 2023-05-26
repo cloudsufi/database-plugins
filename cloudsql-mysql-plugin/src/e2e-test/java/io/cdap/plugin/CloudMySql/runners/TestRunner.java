@@ -25,8 +25,11 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"src/e2e-test/features"},
-        glue = {"stepsdesign", "io.cdap.plugin.common.stepsdesign"},
-        tags = {"@CloudMySql"},
+        glue = {"stepsdesign", "io.cdap.plugin.common.stepsdesign", "io.cdap.plugin.CloudMySql.stepsdesign"},
+        tags = {"@CloudMySql and not @PLUGIN-20670 and not @PLUGIN-1526"},
+        /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/CDAP-20670,
+      https://cdap.atlassian.net/browse/PLUGIN-1526
+   */
         plugin = {"pretty", "html:target/cucumber-html-report/CloudMySql",
                 "json:target/cucumber-reports/cucumber-mysql.json",
                 "junit:target/cucumber-reports/cucumber-mysql.xml"}
