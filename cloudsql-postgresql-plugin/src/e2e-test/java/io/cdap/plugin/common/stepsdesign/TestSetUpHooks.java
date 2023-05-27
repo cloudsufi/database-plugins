@@ -153,5 +153,7 @@ public class TestSetUpHooks {
     }
     PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
     BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
+
   }
+
 }

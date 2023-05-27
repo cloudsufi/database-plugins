@@ -100,7 +100,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-#    Then Validate the values of records transferred to target PostGreSQL table is equal to the values from source BigQuery table
+    Then Validate the values of records transferred to target PostGreSQL table is equal to the values from source BigQuery table
 
   @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE
   Scenario: To verify data is getting transferred from BigQuery source to CloudSQLPostgreSQL sink with Advanced property Connection timeout

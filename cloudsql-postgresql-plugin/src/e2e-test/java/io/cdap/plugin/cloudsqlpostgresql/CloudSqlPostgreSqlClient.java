@@ -36,20 +36,16 @@ import java.util.TimeZone;
  */
 
 public class CloudSqlPostgreSqlClient {
-
-  public static void main(String[] args) throws ClassNotFoundException, SQLException {
-   getCloudSqlConnection();
-  }
-
    public static Connection getCloudSqlConnection() throws ClassNotFoundException, SQLException {
     Class.forName("org.postgresql.Driver");
-    String instanceConnectionName = "cdf-athena:europe-west1:cloud-postgresql-automation";
-    String databaseName = "test_automation_db";
-    String username = "v";
-    String password = "v@123";
+    String database=PluginPropertyUtils.pluginProp("databaseName");
+    String instanceConnectionName = System.getenv("CONNECTION_NAME");
+    String username = System.getenv("CLOUDSQL_POSTGRESQL_USERNAME");
+    String password = System.getenv("CLOUDSQL_POSTGRESQL_PASSWORD");
+
     String jdbcUrl = String.format(
       "jdbc:postgresql://google/%s?cloudSqlInstance=%s&socketFactory=com.google.cloud.sql.postgres.SocketFactory&user=%s&password=%s",
-      databaseName, instanceConnectionName, username, password);
+       database,instanceConnectionName, username, password);
     Connection conn = DriverManager.getConnection(jdbcUrl);
     System.out.println("Connected to the database successfully");
    return conn;
@@ -137,6 +133,7 @@ public class CloudSqlPostgreSqlClient {
       String datatypesColumns = PluginPropertyUtils.pluginProp("datatypesColumns");
       String createSourceTableQuery = "CREATE TABLE " + schema + "." + sourceTable + datatypesColumns;
       statement.executeUpdate(createSourceTableQuery);
+      System.out.println(createSourceTableQuery);
 
       // Insert dummy data.
       String datatypesValues = PluginPropertyUtils.pluginProp("datatypesValues");
