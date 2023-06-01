@@ -15,7 +15,7 @@
 @Mssql
 Feature: Mssql - Verify Mssql sink data transfer
 
-  @BQ_SOURCE_TEST @MSSQL_TEST_TABLE @Mssql_Required
+  @BQ_SOURCE_TEST @MSSQL_TEST_TABLE @Mssql_Required @PLUGIN-1526
   Scenario: Verify User is able to preview and deploy the pipeline when the data is transferred from BigQuery to Mssql
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

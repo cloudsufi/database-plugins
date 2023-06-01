@@ -15,7 +15,7 @@
 @Mysql
 Feature: Mssql Sink - Run time scenarios (macro)
 
-  @BQ_SOURCE_TEST @MSSQL_TEST_TABLE @Mssql_Required
+  @BQ_SOURCE_TEST @MSSQL_TEST_TABLE @Mssql_Required @PLUGIN-1526
   Scenario: Verify User is able to preview and deploy the pipeline when the data is transferred from BigQuery to Mssql using macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -66,7 +66,7 @@ Feature: Mssql Sink - Run time scenarios (macro)
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target MsSql table is equal to the values from source BigQuery table
 
-  @BQ_SOURCE_TEST @MSSQL_TEST_TABLE @Mssql_Required
+  @BQ_SOURCE_TEST @MSSQL_TEST_TABLE @Mssql_Required @PLUGIN-1526
   Scenario: Verify User is able to preview and deploy the pipeline when the data is transferred from BigQuery to Mssql using basic section as macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
