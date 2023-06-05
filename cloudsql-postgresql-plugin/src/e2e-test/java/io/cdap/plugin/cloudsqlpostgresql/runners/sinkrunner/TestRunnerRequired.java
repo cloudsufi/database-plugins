@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Cask Data, Inc.
+ * Copyright © 2023 Cask Data, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -20,13 +20,16 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 /**
- * Test Runner to execute only required CloudSQLPostgreSQL Source plugin testcases.
+ * Test Runner to execute only required CloudSQLPostgreSQL Sink plugin testcases.
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"io.cdap.plugin.cloudsqlpostgresql.stepsdesign", "stepsdesign", "io.cdap.plugin.common.stepsdesign"},
-  tags = {"@Cloudsqlpostgresql_Sink_Required"},
+  tags = {"@Sink_Required and not @PLUGIN-1629 and not @PLUGIN-1526"},
+  /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/PLUGIN-1629,
+      https://cdap.atlassian.net/browse/PLUGIN-1526
+   */
   monochrome = true,
   plugin = {"pretty", "html:target/cucumber-html-report/cloudsqlpostgresql-sink-required",
     "json:target/cucumber-reports/cucumber-cloudsqlpostgresql-sink-required.json",

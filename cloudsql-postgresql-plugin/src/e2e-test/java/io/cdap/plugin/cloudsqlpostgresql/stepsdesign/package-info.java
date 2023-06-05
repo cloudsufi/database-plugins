@@ -15,6 +15,6 @@
  */
 
 /**
- * Package contains the runner for the CloudSQLPostgreSQL source plugin.
+ * Package contains stepDesign for CloudSqlPostgresql features.
  */
-package io.cdap.plugin.cloudsqlpostgresql.runners.sourcerunner;
+package io.cdap.plugin.cloudsqlpostgresql.stepsdesign;

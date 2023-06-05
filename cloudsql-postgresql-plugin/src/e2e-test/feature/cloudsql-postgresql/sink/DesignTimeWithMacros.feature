@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Cloudsqlpostgresql_Sink @Cloudsqlpostgresql_Sink_Required
+@Regression @Sink_Required
 Feature: CloudSQL-PostgreSQL sink- Verify CloudSQL-PostgreSQL sink plugin design time macro scenarios
 
   Scenario: To verify CloudSQLPostgreSQL sink plugin validation with macro enabled fields for connection section

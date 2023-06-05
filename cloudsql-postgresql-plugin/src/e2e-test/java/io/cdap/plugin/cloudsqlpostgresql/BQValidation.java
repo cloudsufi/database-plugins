@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.PluginPropertyUtils;
+import io.cdap.plugin.CloudSqlPostgreSqlClient;
 import org.apache.spark.sql.types.Decimal;
 import org.junit.Assert;
 
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
 import java.text.ParseException;
@@ -40,51 +42,52 @@ import java.util.*;
 public class BQValidation {
     static List<JsonObject> BigQueryResponse = new ArrayList<>();
     static List<Object> bigQueryRows = new ArrayList<>();
+    static Gson gson=new Gson();
 
     /**
      * Extracts entire data from source and target tables.
-     *
      * @param sourceTable table at the source side
      * @param targetTable table at the sink side
      * @return true if the values in source and target side are equal
      */
     public static boolean validateDBToBQRecordValues(String schema, String sourceTable, String targetTable)
-            throws SQLException, ClassNotFoundException, IOException, InterruptedException {
+            throws SQLException, ClassNotFoundException, IOException, InterruptedException, ParseException {
         getBigQueryTableData(targetTable, bigQueryRows);
         for (Object rows : bigQueryRows) {
-            JsonObject json = new Gson().fromJson(String.valueOf(rows), JsonObject.class);
+            JsonObject json = gson.fromJson(String.valueOf(rows), JsonObject.class);
             BigQueryResponse.add(json);
         }
         String getSourceQuery = "SELECT * FROM " + schema + "." + sourceTable;
-        try (Connection connect = CloudSqlPostgreSqlClient.getCloudSqlConnection()) {
-            connect.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
-            Statement statement1 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
+        try (Connection connection = CloudSqlPostgreSqlClient.getCloudSqlConnection()) {
+            connection.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            Statement statement1 = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
                     ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
             ResultSet rsSource = statement1.executeQuery(getSourceQuery);
             return compareResultSetandJsonData(rsSource, BigQueryResponse);
         }
     }
+
     public static boolean validateBQToDBRecordValues(String schema, String sourceTable, String targetTable)
-            throws SQLException, ClassNotFoundException, IOException, InterruptedException {
+            throws SQLException, ClassNotFoundException, IOException, InterruptedException, ParseException {
         getBigQueryTableData(sourceTable, bigQueryRows);
         for (Object rows : bigQueryRows) {
-            JsonObject json = new Gson().fromJson(String.valueOf(rows), JsonObject.class);
+            JsonObject json = gson.fromJson(String.valueOf(rows), JsonObject.class);
             BigQueryResponse.add(json);
         }
         String getTargetQuery = "SELECT * FROM " + schema + "." + targetTable;
-        try (Connection connect = CloudSqlPostgreSqlClient.getCloudSqlConnection()) {
-            connect.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
-            Statement statement1 = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
+        try (Connection connection = CloudSqlPostgreSqlClient.getCloudSqlConnection()) {
+            connection.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
+            Statement statement1 = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE,
                     ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
             ResultSet rsTarget = statement1.executeQuery(getTargetQuery);
             return compareResultSetandJsonData(rsTarget, BigQueryResponse);
         }
     }
+
     /**
      * Retrieves the data from a specified BigQuery table and populates it into the provided list of objects.
-     *
      * @param table        The name of the BigQuery table to fetch data from.
      * @param bigQueryRows The list to store the fetched BigQuery data.
      */
@@ -100,7 +103,6 @@ public class BQValidation {
 
     /**
      * Compares the data in the result set obtained from the Oracle database with the provided BigQuery JSON objects.
-     *
      * @param rsSource     The result set obtained from the Oracle database.
      * @param bigQueryData The list of BigQuery JSON objects to compare with the result set data.
      * @return True if the result set data matches the BigQuery data, false otherwise.
@@ -108,7 +110,7 @@ public class BQValidation {
      * @throws ParseException If an error occurs while parsing the data.
      */
     public static boolean compareResultSetandJsonData(ResultSet rsSource, List<JsonObject> bigQueryData)
-            throws SQLException {
+            throws SQLException, ParseException {
         ResultSetMetaData mdSource = rsSource.getMetaData();
         boolean result = false;
         int columnCountSource = mdSource.getColumnCount();
@@ -161,6 +163,11 @@ public class BQValidation {
                         break;
 
                     case Types.TIMESTAMP:
+                        Timestamp sourceTS = rsSource.getTimestamp(columnName);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                        Date parsedDate = dateFormat.parse(bigQueryData.get(jsonObjectIdx).get(columnName).getAsString());
+                        Timestamp targetTs = new Timestamp(parsedDate.getTime());
+                        Assert.assertEquals(sourceTS, targetTs);
                         break;
 
                     case Types.TIME:

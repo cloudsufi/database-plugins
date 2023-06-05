@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Cloudsqlpostgresql_Sink @Cloudsqlpostgresql_Sink_Required
+@Regression @Sink_Required
 Feature: CloudSQL-PostgreSQL sink - Verify data transfer to PostgreSQL sink with macro arguments
 
   @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1629 @PLUGIN-1526

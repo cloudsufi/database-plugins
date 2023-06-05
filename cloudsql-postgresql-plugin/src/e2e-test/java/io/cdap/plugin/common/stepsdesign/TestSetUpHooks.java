@@ -19,7 +19,7 @@ package io.cdap.plugin.common.stepsdesign;
 import com.google.cloud.bigquery.BigQueryException;
 import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.PluginPropertyUtils;
-import io.cdap.plugin.cloudsqlpostgresql.CloudSqlPostgreSqlClient;
+import io.cdap.plugin.CloudSqlPostgreSqlClient;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.apache.commons.lang3.RandomStringUtils;

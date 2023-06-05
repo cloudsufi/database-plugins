@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Cloudsqlpostgresql_Sink @Cloudsqlpostgresql_Sink_Required
+@Regression @Sink_Required
 Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to CloudSQL-PostgreSQL sink
 
   @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1526
@@ -50,7 +50,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
-    Then Click on preview data for CloudSQLPostgreSQL sink
+    Then Click on the Preview Data link on the Sink plugin node: "CloudSQLPostgreSQL"
     Then Close the preview data
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
@@ -93,7 +93,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
-    Then Click on preview data for CloudSQLPostgreSQL sink
+    Then Click on the Preview Data link on the Sink plugin node: "CloudSQLPostgreSQL"
     Then Close the preview data
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime
@@ -136,7 +136,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
-    Then Click on preview data for CloudSQLPostgreSQL sink
+    Then Click on the Preview Data link on the Sink plugin node: "CloudSQLPostgreSQL"
     Then Close the preview data
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime

@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Cloudsqlpostgresql_Source @Cloudsqlpostgresql_Source_Required
+@Regression @Source_Required
 Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
 
   @CLOUDSQLPOSTGRESQL_SOURCE_TEST @BQ_SINK_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST @PLUGIN-1526
@@ -227,7 +227,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Save the pipeline
     Then Preview and run the pipeline
     Then Verify the preview of pipeline is "success"
-    Then Click on preview data for CloudSQLPostgreSQL sink
+    Then Click on the Preview Data link on the Sink plugin node: "CloudSQLPostgreSQL"
     Then Close the preview data
     Then Deploy the pipeline
     Then Run the Pipeline in Runtime

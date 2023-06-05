@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Cloudsqlpostgresql_Source @Cloudsqlpostgresql_Source_Required
+@Regression @Source_Required
 Feature: CloudSQL-PostGreSQL source - Verify CloudSQL-PostGreSQL plugin data transfer with macro arguments
 
   @CLOUDSQLPOSTGRESQL_SOURCE_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST

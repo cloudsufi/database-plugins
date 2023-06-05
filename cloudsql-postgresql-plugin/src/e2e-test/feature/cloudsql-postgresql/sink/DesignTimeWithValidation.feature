@@ -1,5 +1,5 @@
 #
-# Copyright © 2022 Cask Data, Inc.
+# Copyright © 2023 Cask Data, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Cloudsqlpostgresql_Sink @Cloudsqlpostgresql_Sink_Required
+@Regression @Sink_Required
 Feature: CloudSQL-PostgreSQL Sink - Verify CloudSQL-postgreSQL Sink Plugin Error scenarios
 
   Scenario:Verify CloudSQLPostgreSQL sink plugin validation errors for mandatory fields

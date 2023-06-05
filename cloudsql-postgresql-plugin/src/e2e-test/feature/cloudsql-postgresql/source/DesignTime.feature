@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Cloudsqlpostgresql_Source @Cloudsqlpostgresql_Source_Required
+@Regression @Source_Required
 Feature: CloudSQL-PostgreSQL source - Verify CloudSQLPostgreSQL source plugin design time scenarios
 
   @CLOUDSQLPOSTGRESQL_SOURCE_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST
