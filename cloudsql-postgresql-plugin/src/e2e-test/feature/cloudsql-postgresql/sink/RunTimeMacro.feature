@@ -17,7 +17,7 @@
 @Cloudsqlpostgresql_Sink @Cloudsqlpostgresql_Sink_Required
 Feature: CloudSQL-PostgreSQL sink - Verify data transfer to PostgreSQL sink with macro arguments
 
-  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE
+  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1629 @PLUGIN-1526
   Scenario: To verify data is getting transferred from BigQuery source to CloudSQLPostgreSQL sink using macro arguments in connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -36,7 +36,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer to PostgreSQL sink with
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "cloudSQLPostgreSQLDriverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Click on the Macro button of Property: "user" and set the value to: "cloudSQLPostgreSQLUsername"
     Then Click on the Macro button of Property: "password" and set the value to: "cloudSQLPostgreSQLPassword"
     Then Replace input plugin property: "database" with value: "databaseName"
@@ -74,9 +74,9 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer to PostgreSQL sink with
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-#    Then Validate the values of records transferred to target PostGreSQL table is equal to the values from source BigQuery table
+    Then Validate the values of records transferred to target CloudSQLPostGreSQL table is equal to the values from source BigQuery table
 
-  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE
+  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1629 @PLUGIN-1526
   Scenario: To verify data is getting transferred from BigQuery source to CloudSQLPostgreSQL sink using macro arguments in basic section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -95,7 +95,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer to PostgreSQL sink with
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "targetRef"
@@ -131,4 +131,4 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer to PostgreSQL sink with
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-#    Then Validate the values of records transferred to target PostGreSQL table is equal to the values from source BigQuery table
+    Then Validate the values of records transferred to target CloudSQLPostGreSQL table is equal to the values from source BigQuery table

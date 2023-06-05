@@ -26,7 +26,10 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"io.cdap.plugin.cloudsqlpostgresql.stepsdesign", "stepsdesign", "io.cdap.plugin.common.stepsdesign"},
-  tags = {"@Cloudsqlpostgresql_Sink"},
+  tags = {"@Cloudsqlpostgresql_Sink and not @PLUGIN-1629 and not @PLUGIN-1526"},
+  /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/PLUGIN-1629,
+      https://cdap.atlassian.net/browse/PLUGIN-1526
+   */
   monochrome = true,
   plugin = {"pretty", "html:target/cucumber-html-report/cloudsqlpostgresql-sink",
     "json:target/cucumber-reports/cucumber-cloudsqlpostgresql-sink.json",

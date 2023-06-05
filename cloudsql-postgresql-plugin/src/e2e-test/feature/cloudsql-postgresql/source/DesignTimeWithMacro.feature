@@ -24,7 +24,7 @@ Feature: CloudSQL-PostgreSQL source - Verify CloudSQL-PostgreSQL source plugin d
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "cloudSQLPostGreSQLDriverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Click on the Macro button of Property: "user" and set the value to: "cloudSQLPostGreSQLUser"
     Then Click on the Macro button of Property: "password" and set the value to: "cloudSQLPostGreSQLPassword"
     Then Click on the Macro button of Property: "connectionArguments" and set the value to: "cloudSQLPostGreSQLConnectionArguments"
@@ -41,7 +41,7 @@ Feature: CloudSQL-PostgreSQL source - Verify CloudSQL-PostgreSQL source plugin d
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"

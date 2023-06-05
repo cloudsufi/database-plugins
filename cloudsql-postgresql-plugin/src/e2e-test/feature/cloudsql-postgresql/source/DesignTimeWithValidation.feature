@@ -35,7 +35,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "invalidRef"
@@ -67,7 +67,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -87,7 +87,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -105,7 +105,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -122,7 +122,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -139,7 +139,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -156,7 +156,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -172,7 +172,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -189,7 +189,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "databaseName"
@@ -204,7 +204,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
     Then Replace input plugin property: "database" with value: "invalidDatabase"
@@ -219,7 +219,7 @@ Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin 
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "invalidPassword" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"

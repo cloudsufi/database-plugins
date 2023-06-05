@@ -17,7 +17,7 @@
 @Cloudsqlpostgresql_Source @Cloudsqlpostgresql_Source_Required
 Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
 
-  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @BQ_SINK_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST
+  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @BQ_SINK_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST @PLUGIN-1526
   Scenario: To verify data is getting transferred from CloudSQLPostgreSQL source to BigQuery sink successfully with supported datatypes
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -28,7 +28,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -61,9 +61,9 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-#    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
-  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @BQ_SINK_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST
+  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @BQ_SINK_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST @PLUGIN-1526
   Scenario: To verify data is getting transferred from PostgreSQL source to BigQuery sink successfully when connection arguments are set
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -74,7 +74,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -108,7 +108,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
     Then Close the pipeline logs
-#    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
+    Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
   @CLOUDSQLPOSTGRESQL_SOURCE_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST @BQ_SINK_TEST
   Scenario: To verify pipeline failure message in logs when an invalid bounding query is provided
@@ -121,7 +121,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -163,7 +163,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -202,7 +202,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
     Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
     Then Enter input plugin property: "referenceName" with value: "sourceRef"
@@ -215,7 +215,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL2"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
@@ -234,4 +234,4 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-#    Then Validate the values of records transferred to target table is equal to the values from source table
+    Then Validate the values of records transferred to target table is equal to the values from source table

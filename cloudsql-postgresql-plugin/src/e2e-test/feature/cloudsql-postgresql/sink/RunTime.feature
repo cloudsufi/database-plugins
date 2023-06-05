@@ -17,7 +17,7 @@
 @Cloudsqlpostgresql_Sink @Cloudsqlpostgresql_Sink_Required
 Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to CloudSQL-PostgreSQL sink
 
-  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE
+  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1526
   Scenario: To verify data is getting transferred from BigQuery source to CloudSQLPostgreSQL sink successfully with supported datatypes
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -38,7 +38,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
@@ -57,9 +57,9 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-#    Then Validate the values of records transferred to target PostGreSQL table is equal to the values from source BigQuery table
+    Then Validate the values of records transferred to target CloudSQLPostGreSQL table is equal to the values from source BigQuery table
 
-  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE
+  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1526
   Scenario: To verify data is getting transferred from BigQuery source to CloudSQLPostgreSQL sink successfully when connection arguments are set
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -80,7 +80,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
@@ -100,9 +100,9 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-#    Then Validate the values of records transferred to target PostGreSQL table is equal to the values from source BigQuery table
+    Then Validate the values of records transferred to target CloudSQLPostGreSQL table is equal to the values from source BigQuery table
 
-  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE
+  @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1526
   Scenario: To verify data is getting transferred from BigQuery source to CloudSQLPostgreSQL sink with Advanced property Connection timeout
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -123,7 +123,7 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Navigate to the properties page of plugin: "CloudSQL PostgreSQL"
     Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
     Then Select radio button plugin property: "instanceType" with value: "public"
-    Then Replace input plugin property: "connectionName" with value: "connectionName"
+    Then Replace input plugin property: "connectionName" with value: "connectionName" for Credentials and Authorization related fields
     Then Replace input plugin property: "database" with value: "databaseName"
     Then Replace input plugin property: "tableName" with value: "targetTable"
     Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
@@ -143,4 +143,4 @@ Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to
     Then Wait till pipeline is in running state
     Then Open and capture logs
     Then Verify the pipeline status is "Succeeded"
-#    Then Validate the values of records transferred to target PostGreSQL table is equal to the values from source BigQuery table
+    Then Validate the values of records transferred to target CloudSQLPostGreSQL table is equal to the values from source BigQuery table

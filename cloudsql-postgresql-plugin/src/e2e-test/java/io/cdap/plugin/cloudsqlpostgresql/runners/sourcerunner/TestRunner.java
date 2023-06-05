@@ -26,7 +26,9 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"io.cdap.plugin.cloudsqlpostgresql.stepsdesign", "stepsdesign", "io.cdap.plugin.common.stepsdesign"},
-  tags = {"@Cloudsqlpostgresql_Source"},
+  tags = {"@Cloudsqlpostgresql_Source and not @PLUGIN-1526"},
+  /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/PLUGIN-1526
+   */
   monochrome = true,
   plugin = {"pretty", "html:target/cucumber-html-report/cloudsqlpostgresql-source",
     "json:target/cucumber-reports/cucumber-cloudsqlpostgresql-source.json",

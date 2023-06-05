@@ -43,9 +43,9 @@ public class TestSetUpHooks {
 
   @Before(order = 1)
   public static void setTableName() {
-    String randomString = RandomStringUtils.randomAlphabetic(10).toUpperCase();
-    String sourceTableName = String.format("SOURCETABLE_%s", randomString);
-    String targetTableName = String.format("TARGETTABLE_%s", randomString);
+    String randomString = RandomStringUtils.randomAlphabetic(10).toLowerCase();
+    String sourceTableName = String.format("sourcetable_%s", randomString);
+    String targetTableName = String.format("targettable_%s", randomString);
     PluginPropertyUtils.addPluginProp("sourceTable", sourceTableName);
     PluginPropertyUtils.addPluginProp("targetTable", targetTableName);
     String schema = PluginPropertyUtils.pluginProp("schema");
@@ -72,6 +72,12 @@ public class TestSetUpHooks {
   public static void createPostgresqlTestTable() throws SQLException, ClassNotFoundException {
     CloudSqlPostgreSqlClient.createTargetPostgresqlTable(PluginPropertyUtils.pluginProp("targetTable"),
                                                          PluginPropertyUtils.pluginProp("schema"));
+  }
+
+  @After(order = 1, value = "@CLOUDSQLPOSTGRESQL_TEST_TABLE")
+  public static void dropTestTables() throws SQLException, ClassNotFoundException {
+    CloudSqlPostgreSqlClient.dropTables(new String[] {PluginPropertyUtils.pluginProp("targetTable")},
+                                PluginPropertyUtils.pluginProp("schema"));
   }
 
   @Before(order = 1, value = "@BQ_SINK_TEST")
@@ -153,5 +159,7 @@ public class TestSetUpHooks {
     }
     PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
     BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
+
   }
+
 }
