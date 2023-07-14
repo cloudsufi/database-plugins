@@ -14,7 +14,7 @@
 # the License.
 #
 
-@PostgreSQL_SourceTest
+@PostgreSQL_Source
 Feature:PostgreSQL Source - Verify PostgreSQL Source Plugin Error scenarios
 
   Scenario:Verify PostgreSQL source plugin validation errors for mandatory fields

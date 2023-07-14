@@ -14,7 +14,7 @@
 # the License.
 #
 
-@PostgreSQL_SinkTest
+@PostgreSQL_Sink
 Feature:PostgreSQL Sink - Verify PostgreSQL Sink Plugin Error scenarios
 
   Scenario:Verify PostgreSQL sink plugin validation errors for mandatory fields
@@ -45,7 +45,7 @@ Feature:PostgreSQL Sink - Verify PostgreSQL Sink Plugin Error scenarios
     Then Click on the Validate button
     Then Verify that the Plugin Property: "referenceName" is displaying an in-line error message: "errorMessagePostgreSQLInvalidReferenceName"
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_SINK_TEST
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_TARGET_TEST
   Scenario: To verify PostgreSQL sink plugin validation error message with invalid database
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -78,7 +78,7 @@ Feature:PostgreSQL Sink - Verify PostgreSQL Sink Plugin Error scenarios
     Then Click on the Validate button
     Then Verify that the Plugin is displaying an error message: "errorMessageInvalidSinkDatabase" on the header
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_SINK_TEST
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_TARGET_TEST
   Scenario: To verify PostgreSQL sink plugin validation error message with invalid table name
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -126,7 +126,7 @@ Feature:PostgreSQL Sink - Verify PostgreSQL Sink Plugin Error scenarios
     Then Click on the Validate button
     Then Verify that the Plugin Property: "user" is displaying an in-line error message: "errorMessageBlankUsername"
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_SINK_TEST
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_TARGET_TEST
   Scenario: To verify PostgreSQL sink plugin validation error message with invalid Host
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

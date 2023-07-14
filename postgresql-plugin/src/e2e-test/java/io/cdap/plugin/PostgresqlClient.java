@@ -159,10 +159,10 @@ public class PostgresqlClient {
     }
   }
 
-  public static void dropTables(String[] tables, String schema) throws SQLException, ClassNotFoundException {
+  public static void dropTable(String table, String schema) throws SQLException, ClassNotFoundException {
     try (Connection connect = getPostgresqlConnection();
          Statement statement = connect.createStatement()) {
-      for (String table : tables) {
+      {
         String dropTableQuery = "Drop Table " + schema + "." + table;
         statement.executeUpdate(dropTableQuery);
       }

@@ -17,7 +17,7 @@
 @PostgreSQL_Source
 Feature: PostgreSQL source- Verify PostgreSQL source plugin design time scenarios
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_SINK_TEST
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required
   Scenario: To verify PostgreSQL source plugin validation with connection and basic details for connectivity
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -36,7 +36,7 @@ Feature: PostgreSQL source- Verify PostgreSQL source plugin design time scenario
     Then Validate "PostgreSQL" plugin properties
     Then Close the Plugin Properties page
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_SINK_TEST
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required
   Scenario: To verify PostgreSQL source plugin validation with connection arguments
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -56,7 +56,7 @@ Feature: PostgreSQL source- Verify PostgreSQL source plugin design time scenario
     Then Validate "PostgreSQL" plugin properties
     Then Close the Plugin Properties page
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_SINK_TEST
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required
   Scenario: To verify PostgreSQL source plugin validation with advanced details
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

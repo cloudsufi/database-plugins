@@ -53,30 +53,51 @@ public class TestSetupHooks {
   }
 
   @Before(order = 2, value = "@POSTGRESQL_SOURCE_TEST")
-  public static void createTables() throws SQLException, ClassNotFoundException {
+  public static void createSourceTable() throws SQLException, ClassNotFoundException {
     PostgresqlClient.createSourceTable(PluginPropertyUtils.pluginProp("sourceTable"),
                                        PluginPropertyUtils.pluginProp("schema"));
-    PostgresqlClient.createTargetTable(PluginPropertyUtils.pluginProp("targetTable"),
-                                       PluginPropertyUtils.pluginProp("schema"));
+    BeforeActions.scenario.write("POSTGRESQL Source Table - " + PluginPropertyUtils.pluginProp("sourceTable")
+                                   + " created successfully");
   }
 
-  @After(order = 2, value = "@POSTGRESQL_SINK_TEST")
-  public static void dropTables() throws SQLException, ClassNotFoundException {
-    PostgresqlClient.dropTables(new String[]{PluginPropertyUtils.pluginProp("sourceTable"),
-                                PluginPropertyUtils.pluginProp("targetTable")},
-                                PluginPropertyUtils.pluginProp("schema"));
+  @After(order = 2, value = "@POSTGRESQL_SOURCE_TEST")
+  public static void dropSourceTable() throws SQLException, ClassNotFoundException {
+    PostgresqlClient.dropTable(PluginPropertyUtils.pluginProp("sourceTable"),
+                               PluginPropertyUtils.pluginProp("schema"));
+    BeforeActions.scenario.write("POSTGRESQL Source Table - " + PluginPropertyUtils.pluginProp("sourceTable")
+                                   + " deleted successfully");
+  }
+
+  @Before(order = 2, value = "@POSTGRESQL_TARGET_TEST")
+  public static void createTargetTable() throws SQLException, ClassNotFoundException {
+    PostgresqlClient.createTargetTable(PluginPropertyUtils.pluginProp("targetTable"),
+                                       PluginPropertyUtils.pluginProp("schema"));
+    BeforeActions.scenario.write("POSTGRESQL Target Table - " + PluginPropertyUtils.pluginProp("targetTable")
+                                   + " created successfully");
+  }
+
+  @After(order = 2, value = "@POSTGRESQL_TARGET_TEST")
+  public static void dropTargetTable() throws SQLException, ClassNotFoundException {
+    PostgresqlClient.dropTable(PluginPropertyUtils.pluginProp("targetTable"),
+                               PluginPropertyUtils.pluginProp("schema"));
+    BeforeActions.scenario.write("POSTGRESQL Target Table - " + PluginPropertyUtils.pluginProp("targetTable")
+                                   + " deleted successfully");
   }
 
   @Before(order = 2, value = "@POSTGRESQL_TEST_TABLE")
-  public static void createPostgresqlTestTable() throws SQLException, ClassNotFoundException {
+  public static void createTargetPostgresqlTestTable() throws SQLException, ClassNotFoundException {
     PostgresqlClient.createTargetPostgresqlTable(PluginPropertyUtils.pluginProp("targetTable"),
-                                   PluginPropertyUtils.pluginProp("schema"));
+                                                 PluginPropertyUtils.pluginProp("schema"));
+    BeforeActions.scenario.write("POSTGRESQL Target Table - " + PluginPropertyUtils.pluginProp("targetTable")
+                                   + " created successfully");
   }
 
-  @After(order = 1, value = "@POSTGRESQL_TEST_TABLE")
-  public static void dropTestTables() throws SQLException, ClassNotFoundException {
-    PostgresqlClient.dropTables(new String[] {PluginPropertyUtils.pluginProp("targetTable")},
-                                PluginPropertyUtils.pluginProp("schema"));
+  @After(order = 2, value = "@POSTGRESQL_TEST_TABLE")
+  public static void dropTargetPostgresqlTestTable() throws SQLException, ClassNotFoundException {
+    PostgresqlClient.dropTable(PluginPropertyUtils.pluginProp("targetTable"),
+                               PluginPropertyUtils.pluginProp("schema"));
+    BeforeActions.scenario.write("POSTGRESQL Target Table - " + PluginPropertyUtils.pluginProp("targetTable")
+                                   + " deleted successfully");
   }
 
   @Before(order = 1, value = "@BQ_SINK_TEST")
