@@ -100,3 +100,10 @@ Feature: MySQL Source - Design time scenarios
     Then Click on the Get Schema button
     Then Verify the Output Schema matches the Expected Schema: "outputSchema"
     Then Validate "MySQL" plugin properties
+
+  @Test
+  Scenario: Run test on CDF
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "MySQL" from the plugins list as: "Source"
+
