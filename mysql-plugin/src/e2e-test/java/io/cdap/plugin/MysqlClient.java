@@ -19,8 +19,10 @@ package io.cdap.plugin;
 import com.google.common.base.Strings;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import org.junit.Assert;
+import stepsdesign.BeforeActions;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -39,11 +41,54 @@ public class MysqlClient {
   private static final String database = PluginPropertyUtils.pluginProp("databaseName");
 
   public static Connection getMysqlConnection() throws SQLException, ClassNotFoundException {
+    checkConnectivity();
     Class.forName("com.mysql.cj.jdbc.Driver");
     return DriverManager.getConnection("jdbc:mysql://" + System.getenv("MYSQL_HOST") + ":" +
                                          System.getenv("MYSQL_PORT") + "/" + database + "?tinyInt1isBit=false",
                                        System.getenv("MYSQL_USERNAME"), System.getenv("MYSQL_PASSWORD"));
   }
+
+  public static void checkConnectivity() throws SQLException, ClassNotFoundException {
+      Connection connection = null;
+      try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        String url = "jdbc:mysql://" + System.getenv("MYSQL_HOST") + ":" +
+        System.getenv("MYSQL_PORT") + "/" + database + "?tinyInt1isBit=false";
+
+
+        BeforeActions.scenario.write("Connecting....");
+        connection = DriverManager.getConnection(url, System.getenv("MYSQL_USERNAME"), System.getenv("MYSQL_PASSWORD"));
+
+        DatabaseMetaData metaData = connection.getMetaData();
+        // Extract and print connection details
+        BeforeActions.scenario.write("Database URL: " + metaData.getURL());
+        BeforeActions.scenario.write("Database User: " + metaData.getUserName());
+        BeforeActions.scenario.write("Database Product Name: " + metaData.getDatabaseProductName());
+        BeforeActions.scenario.write("Database Product Version: " + metaData.getDatabaseProductVersion());
+        // Additional details for debugging
+        BeforeActions.scenario.write("Driver Name: " + metaData.getDriverName());
+        BeforeActions.scenario.write("Driver Version: " + metaData.getDriverVersion());
+        BeforeActions.scenario.write("JDBC Version: " + metaData.getJDBCMajorVersion() + "."
+                + metaData.getJDBCMinorVersion());
+        // Supported feature
+        BeforeActions.scenario.write("Supports transactions: " + metaData.supportsTransactions());
+        BeforeActions.scenario.write("Supports batch updates: " + metaData.supportsBatchUpdates());
+        // Other details you might find useful
+        BeforeActions.scenario.write("Catalog term: " + metaData.getCatalogTerm());
+        BeforeActions.scenario.write("Schema term: " + metaData.getSchemaTerm());
+
+        BeforeActions.scenario.write("Connected to the database successfully.");
+
+      } catch (ClassNotFoundException | SQLException e) {
+
+        BeforeActions.scenario.write("Failed to connect to the database." + e);
+      }
+
+  }
+
+//  public static void main(String[] args) throws SQLException, ClassNotFoundException {
+//    checkConnectivity();
+//  }
 
   public static int countRecord(String table) throws SQLException, ClassNotFoundException {
     String countQuery = "SELECT COUNT(*) as total FROM " + table;

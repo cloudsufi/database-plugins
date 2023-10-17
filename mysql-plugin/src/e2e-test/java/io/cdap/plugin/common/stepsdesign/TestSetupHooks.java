@@ -91,7 +91,7 @@ public class TestSetupHooks {
                                    + " created successfully");
   }
 
-  @After(order = 2, value = "@MYSQL_SOURCE_TEST")
+  @After(order = 2, value = "@MYSQL_SOURCE_TESTT")
   public static void dropSourceTables() throws SQLException, ClassNotFoundException {
     MysqlClient.dropTable(PluginPropertyUtils.pluginProp("sourceTable"));
     BeforeActions.scenario.write("MYSQL Source Table - " + PluginPropertyUtils.pluginProp("sourceTable") +

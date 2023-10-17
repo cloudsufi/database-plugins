@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
   tags = {"@Mysql_Required and not @Plugin-20670"},
   /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/CDAP-20670
    */
-  plugin = {"pretty", "html:target/cucumber-html-report/mysql-required",
+  plugin = {"pretty", "html:target/cucumber-html-report.html",
     "json:target/cucumber-reports/cucumber-mysql-required.json",
     "junit:target/cucumber-reports/cucumber-mysql-required.xml"}
 )

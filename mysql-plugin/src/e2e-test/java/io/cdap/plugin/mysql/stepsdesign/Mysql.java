@@ -102,4 +102,9 @@ public class Mysql implements CdfHelper {
     Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
             "of the records in the source table", recordsMatched);
   }
- }
+
+    @Then("check database connectivity")
+    public void checkDatabaseConnectivity() throws SQLException, ClassNotFoundException {
+    MysqlClient.checkConnectivity();
+    }
+}
