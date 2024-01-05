@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"io.cdap.plugin.postgresql.stepsdesign", "stepsdesign", "io.cdap.plugin.common.stepsdesign"},
-  tags = {"@PostgreSQL_Sink and not @PLUGIN-1628 and not @Plugin-1526"},
+  tags = {"@PostgreSQL_Sinkk and not @PLUGIN-1628 and not @Plugin-1526"},
   /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/PLUGIN-1628,
       https://cdap.atlassian.net/browse/PLUGIN-1526
    */
