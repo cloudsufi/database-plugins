@@ -14,10 +14,10 @@
 # the License.
 #
 
-@PostgreSQL_Sourcee
+@PostgreSQL_Source
 Feature: PostgreSQL - Verify data transfer from PostgreSQL source to BigQuery sink and PostgreSQL sink
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Requiredd @BQ_SINK_TEST @POSTGRESQL_SINK_TEST @Plugin-1526
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @BQ_SINK_TEST @POSTGRESQL_SINK_TEST @Plugin-1526
   Scenario: To verify data is getting transferred from PostgreSQL source to BigQuery sink successfully with different datatypes
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -63,7 +63,7 @@ Feature: PostgreSQL - Verify data transfer from PostgreSQL source to BigQuery si
     Then Close the pipeline logs
     Then Validate the values of records transferred to target BigQuery table is equal to the values from source table
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Requiredd @BQ_SINK_TEST @POSTGRESQL_SINK_TEST @Plugin-1526
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @BQ_SINK_TEST @POSTGRESQL_SINK_TEST @Plugin-1526
   Scenario: To verify data is getting transferred from PostgreSQL source to BigQuery sink successfully when connection arguments are set
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

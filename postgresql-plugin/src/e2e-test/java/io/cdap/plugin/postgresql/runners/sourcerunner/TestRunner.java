@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"stepsdesign", "io.cdap.plugin.common.stepsdesign", "io.cdap.plugin.postgresql.stepsdesign"},
-  tags = {"@PostgreSQL_Sourcee and not @Plugin-1526"},
+  tags = {"@PostgreSQL_Source and not @Plugin-1526"},
   /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/PLUGIN-1526
    */
   plugin = {"pretty", "html:target/cucumber-html-report/postgresql-source",

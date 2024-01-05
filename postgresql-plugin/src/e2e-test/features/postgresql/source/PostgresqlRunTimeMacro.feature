@@ -14,10 +14,10 @@
 # the License.
 #
 
-@PostgreSQL_Sourcee
+@PostgreSQL_Source
 Feature: PostgreSQL - Verify PostgreSQL plugin data transfer with macro arguments
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Requiredd @POSTGRESQL_SINK_TEST
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_SINK_TEST
   Scenario: To verify data is getting transferred from PostgreSQL to PostgreSQL successfully using macro arguments in connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
