@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"stepsdesign", "io.cdap.plugin.common.stepsdesign", "io.cdap.plugin.cloudmysql.stepsdesign"},
-  tags = {"@CloudMySql_Required and not @PLUGIN-20670"},
+  tags = {"@CloudMySql_Requiredd and not @PLUGIN-20670"},
   /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/CDAP-20670
 */
   monochrome = true,
