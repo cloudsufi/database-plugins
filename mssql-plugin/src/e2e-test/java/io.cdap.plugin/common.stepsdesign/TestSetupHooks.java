@@ -61,7 +61,7 @@ public class TestSetupHooks {
     BeforeActions.scenario.write("MSSQL SOURCE Table - " + sourceTable + " created successfully");
   }
 
-  @After(order = 2, value = "@MSSQL_AS_SOURCE")
+  @After(order = 2, value = "@MSSQL_AS_SOURCEe")
   public static void dropSourceTable() throws SQLException, ClassNotFoundException {
     MssqlClient.deleteTable(schema, sourceTable);
     BeforeActions.scenario.write("MSSQL SOURCE Table - " + sourceTable + " deleted successfully");
