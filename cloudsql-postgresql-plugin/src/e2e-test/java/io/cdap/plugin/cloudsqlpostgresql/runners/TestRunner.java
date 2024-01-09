@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
   features = {"src/e2e-test/features"},
   glue = {"io.cdap.plugin.cloudsqlpostgresql.stepsdesign", "stepsdesign", "io.cdap.plugin.common.stepsdesign"},
-  tags = {"@Regressionn and not @PLUGIN-1629 and not @PLUGIN-1526"},
+  tags = {"@Regression and not @PLUGIN-1629 and not @PLUGIN-1526"},
   /* TODO :Enable tests once issue fixed https://cdap.atlassian.net/browse/PLUGIN-1629,
       https://cdap.atlassian.net/browse/PLUGIN-1526
    */
