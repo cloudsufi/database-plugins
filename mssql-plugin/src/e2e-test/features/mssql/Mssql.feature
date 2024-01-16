@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Mssql @Mssql_Required
+@Mssqll @Mssql_Requiredd
 Feature: Mssql - Verify Mssql source data transfer
 
   @MSSQL_AS_SOURCE @MSSQL_AS_TARGET
