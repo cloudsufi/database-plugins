@@ -110,7 +110,7 @@ Feature: PostgreSQL - Verify data transfer from PostgreSQL source to BigQuery si
     Then Close the pipeline logs
     Then Validate the values of records transferred to target BigQuery table is equal to the values from source table
 
-  @POSTGRESQL_SOURCE_TEST @Postgresql_Requiredd @POSTGRESQL_SINK_TEST @BQ_SINK_TEST
+  @POSTGRESQL_SOURCE_TEST @Postgresql_Required @POSTGRESQL_SINK_TEST @BQ_SINK_TEST
   Scenario: To verify pipeline failure message in logs when an invalid bounding query is provided
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
