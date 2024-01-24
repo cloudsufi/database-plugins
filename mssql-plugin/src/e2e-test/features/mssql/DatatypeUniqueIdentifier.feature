@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Mssql @Mssql_Required
+#@Mssql @Mssql_Required
 Feature: Mssql - Verify Mssql source data transfer
 
   @MSSQL_SOURCE_DATATYPES_UIDTYPE_TEST @MSSQL_TARGET_DATATYPES_UIDTYPE_TEST

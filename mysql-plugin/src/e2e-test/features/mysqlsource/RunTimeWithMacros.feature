@@ -12,10 +12,10 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@Mysqll
+#@Mysqll
 Feature: MySQL Source - Run time scenarios (macro)
 
-  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required @Mysql
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully using macros for Connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

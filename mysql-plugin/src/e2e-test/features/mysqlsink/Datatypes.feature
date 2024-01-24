@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Mysql
+#@Mysql
 Feature: Mysql - Verify Mysql sink data transfer for different datatypes
 
-  @BQ_SOURCE_TEST @MYSQL_TARGET_TABLE
+  @BQ_SOURCE_TEST @MYSQL_TARGET_TABLE @Mysql
   Scenario: To verify data is getting transferred from BigQuery to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

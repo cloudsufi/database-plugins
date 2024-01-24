@@ -12,10 +12,9 @@
 ## License for the specific language governing permissions and limitations under
 # the License..
 
-@CloudMySql
 Feature: CloudMySql sink- Verify CloudsqlMysql sink plugin design time validation scenarios
 
-  @CLOUDMYSQL_SOURCE_TEST @CLOUDMYSQL_TARGET_TEST
+  @CLOUDMYSQL_SOURCE_TEST @CLOUDMYSQL_TARGET_TEST @CloudMySql
   Scenario: To verify CloudMySql sink plugin validation error message with invalid database
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

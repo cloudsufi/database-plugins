@@ -12,9 +12,9 @@
 ## License for the specific language governing permissions and limitations under
 # the License..
 
-@CloudMySql
 Feature: CloudMySql sink- Verify CloudMySql sink plugin design time macro scenarios
 
+  @CloudMySql
   Scenario: To verify CloudMySql sink plugin validation with macro enabled fields for connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"

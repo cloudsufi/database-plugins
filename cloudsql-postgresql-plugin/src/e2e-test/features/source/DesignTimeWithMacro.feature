@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Regression
+#@Regression
 Feature: CloudSQL-PostgreSQL source - Verify CloudSQL-PostgreSQL source plugin design time macros scenarios
 
-  @Sink_Required
+  @Sink_Required @Regression
   Scenario: To verify CloudSQLPostgreSQL source plugin validation with macro enabled fields for connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

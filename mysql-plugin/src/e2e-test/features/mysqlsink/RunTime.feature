@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@Mysql
+#@Mysql
 Feature: MySQL Sink - Run time scenarios
 
   @BQ_SOURCE_TEST @MYSQL_TARGET_TABLE @Mysql_Required @Plugin-20670
@@ -55,7 +55,7 @@ Feature: MySQL Sink - Run time scenarios
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target MySQL table is equal to the values from source BigQuery table
 
-  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required @Mysql
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

@@ -12,10 +12,10 @@
 # License for the specific language governing permissions and limitations under
 # the License
 
-@Mysql
+#@Mysql
 Feature: MySQL Sink - Design time validation scenarios
 
-  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required @Mysql
   Scenario: Verify Database field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

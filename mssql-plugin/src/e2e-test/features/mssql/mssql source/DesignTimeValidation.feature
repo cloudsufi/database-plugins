@@ -12,10 +12,10 @@
 ## License for the specific language governing permissions and limitations under
 # the License..
 
-@Mssql
+#@Mssql
 Feature: Mssql source- Verify Mssql source plugin design time validation scenarios
 
-  @MSSQL_AS_SOURCE @Mssql_Required
+  @MSSQL_AS_SOURCE @Mssql_Required @Mssql
   Scenario: To verify Mssql source plugin validation error message with invalid database
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

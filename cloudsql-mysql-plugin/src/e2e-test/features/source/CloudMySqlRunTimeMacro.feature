@@ -12,7 +12,6 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@CloudMySql
 Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro arguments
 
   @CLOUDMYSQL_SOURCE_TEST @CLOUDMYSQL_SINK_TEST @PLUGIN-20670

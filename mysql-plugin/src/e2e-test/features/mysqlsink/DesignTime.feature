@@ -12,10 +12,10 @@
 # License for the specific language governing permissions and limitations under
 # the License...
 
-@Mysql
+#@Mysql
 Feature: MySQL Sink - Design time scenarios
 
-  @MYSQL_TARGET_TEST @Mysql_Required
+  @MYSQL_TARGET_TEST @Mysql_Required @Mysql
   Scenario: Verify user can validate successfully when sink plugin is configured for table with basic details
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"

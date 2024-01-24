@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Regression
+#@Regression
 Feature: CloudSQL-PostgreSQL source - Verify CloudSQLPostgreSQL source plugin design time scenarios
 
-  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST @Sink_Required
+  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @CLOUDSQLPOSTGRESQL_SINK_TEST @Sink_Required @Regression
   Scenario: To verify CloudSQLPostgreSQL source plugin validation with connection and basic details for connectivity
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

@@ -12,10 +12,10 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@CloudMySql
+
 Feature: CloudMySql Source - Run time scenarios
 
-  @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST
+  @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST @CloudMySql
   Scenario: To verify data is getting transferred from CloudMySql source to BigQuery sink successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

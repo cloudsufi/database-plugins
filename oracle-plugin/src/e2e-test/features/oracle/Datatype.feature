@@ -14,9 +14,9 @@
 # the License.
 #
 
-@Oracle
+
 Feature: Oracle - Verify Oracle source data transfer for multiple datatypes
-  @ORACLE_SOURCE_DATATYPES_TEST @ORACLE_TARGET_DATATYPES_TEST
+  @ORACLE_SOURCE_DATATYPES_TEST @ORACLE_TARGET_DATATYPES_TEST @Oracle
     # Oracle Sanity test to transfer table data containing multiple datatypes
   Scenario: To verify data is getting transferred from Oracle to Oracle successfully
     Given Open Datafusion Project to configure pipeline

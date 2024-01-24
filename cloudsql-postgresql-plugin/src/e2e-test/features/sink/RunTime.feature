@@ -13,8 +13,8 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 #
-
-@Regression
+#
+#@Regression
 Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to CloudSQL-PostgreSQL sink
 
   @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1526

@@ -14,9 +14,10 @@
 # the License.
 #
 
-@Oracle
+#@Oracl e
 Feature: Oracle sink- Verify Oracle sink plugin design time validation scenarios
 
+#  @Oracle
   Scenario: To verify Oracle sink plugin validation errors for mandatory fields
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"

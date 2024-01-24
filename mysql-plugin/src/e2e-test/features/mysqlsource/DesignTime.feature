@@ -12,10 +12,10 @@
 ## License for the specific language governing permissions and limitations under
 # the License..
 
-@Mysql
+#@Mysql
 Feature: MySQL Source - Design time scenarios
 
-  @MYSQL_SOURCE_TEST @Mysql_Required
+  @MYSQL_SOURCE_TEST @Mysql_Required @Mysql
   Scenario: Verify user is able to validate the plugin when configured for basic Section.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

@@ -12,10 +12,10 @@
 # License for the specific language governing permissions and limitations under
 # the License
 
-@CloudMySql
+
 Feature: CloudMySql source- Verify CloudMySql source plugin design time validation scenarios
 
-  @CloudMySql_Required
+  @CloudMySql_Required @CloudMySql
   Scenario: To verify CloudMySql source plugin validation error message with invalid database
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

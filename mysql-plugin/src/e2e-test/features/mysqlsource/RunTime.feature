@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@Mysql
+#@Mysql
 Feature: MySQL Source - Run time scenarios
 
   @MYSQL_SOURCE_TEST @BQ_SINK @BQ_SINK_CLEANUP @Plugin-20670

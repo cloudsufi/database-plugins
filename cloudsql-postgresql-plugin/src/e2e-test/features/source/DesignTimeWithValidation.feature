@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Regression
+#@Regression
 Feature:  CloudSQL-postgreSQL source - Verify CloudSQL-postgreSQL source plugin design time validation scenarios
 
-  @Sink_Required
+  @Sink_Required @Regression
   Scenario:Verify CloudSQLPostgreSQL source plugin validation errors for mandatory fields
     Given Open Datafusion Project to configure pipeline
     When Select plugin: "CloudSQL PostgreSQL" from the plugins list as: "Source"

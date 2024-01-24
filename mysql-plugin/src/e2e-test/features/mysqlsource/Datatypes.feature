@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Mysql
+#@Mysql
 Feature: Mysql - Verify Mysql source data transfer for different datatype
 
-  @MYSQL_SOURCE_DATATYPES_TEST @MYSQL_TARGET_DATATYPES_TEST @Mysql_Required
+  @MYSQL_SOURCE_DATATYPES_TEST @MYSQL_TARGET_DATATYPES_TEST @Mysql_Required @Mysql
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

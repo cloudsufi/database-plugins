@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Regression
+#@Regression
 Feature: CloudSQL-PostGreSQL source - Verify CloudSQL-PostGreSQL plugin data transfer with macro arguments
 
-  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TARGET_TEST @Sink_Required
+  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TARGET_TEST @Sink_Required @Regression
   Scenario: To verify data is getting transferred from CloudSQLPostgreSQL to CloudSQLPostgreSQL successfully using macro arguments in connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
