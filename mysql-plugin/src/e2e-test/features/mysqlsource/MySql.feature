@@ -17,7 +17,7 @@
 @Mysql
 Feature: Mysql - Verify Mysql source data transfer
 
-  @Mysql_Required @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST
+  @Mysql_Required @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully
     Given Open Datafusion Project to configure pipeline
     Then check database connectivity
@@ -64,7 +64,7 @@ Feature: Mysql - Verify Mysql source data transfer
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @Mysql_Required @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST
-  Scenario: Test 2 for hooks
-    Given Open Datafusion Project to configure pipeline
+##  @Mysql_Required @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST
+#  Scenario: Test 2 for hooks
+#    Given Open Datafusion Project to configure pipeline
 

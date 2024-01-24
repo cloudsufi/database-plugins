@@ -44,6 +44,7 @@ Feature:PostgreSQL Source - Verify PostgreSQL Source Plugin Error scenarios
     Then Click on the Validate button
     Then Verify that the Plugin Property: "referenceName" is displaying an in-line error message: "errorMessagePostgreSQLInvalidReferenceName"
 
+  @Postgresql_Required
   Scenario: To verify PostgreSQL source plugin validation error message with blank bounding query
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

@@ -12,10 +12,10 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@Mssql @Mssql_Required
+@Mssql
 Feature: Mssql Sink - Run time scenarios (macro)
 
-  @BQ_SOURCE_TEST @MSSQL_TEST_TABLE
+  @BQ_SOURCE_TEST @MSSQL_TEST_TABLE @Mssql_Required
   Scenario: Verify User is able to preview and deploy the pipeline when the data is transferred from BigQuery to Mssql using macros
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

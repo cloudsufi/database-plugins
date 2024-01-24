@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Regression @Sink_Required
+@Regression
 Feature: CloudSQL-PostgreSQL sink - Verify data transfer from BigQuery source to CloudSQL-PostgreSQL sink
 
   @BQ_SOURCE_TEST @CLOUDSQLPOSTGRESQL_TEST_TABLE @PLUGIN-1526

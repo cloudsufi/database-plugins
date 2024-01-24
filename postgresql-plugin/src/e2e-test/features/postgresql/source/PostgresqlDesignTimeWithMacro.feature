@@ -34,6 +34,7 @@ Feature: PostgreSQL source- Verify PostgreSQL source plugin design time macro sc
     Then Validate "PostgreSQL" plugin properties
     Then Close the Plugin Properties page
 
+  @Postgresql_Required
   Scenario: To verify PostgreSQL source plugin validation with macro enabled fields for basic section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

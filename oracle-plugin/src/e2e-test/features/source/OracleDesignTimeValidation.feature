@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Oracle @Oracle_Required
+@Oracle
 Feature: Oracle source- Verify Oracle source plugin design time validation scenarios
 
   Scenario: To verify Oracle source plugin validation errors for mandatory fields
@@ -29,6 +29,7 @@ Feature: Oracle source- Verify Oracle source plugin design time validation scena
       | referenceName  |
       | importQuery    |
 
+  @Oracle_Required
   Scenario: To verify Oracle source plugin validation error message with invalid reference test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

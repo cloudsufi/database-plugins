@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Oracle @Oracle_Required
+@Oracle
 Feature: Oracle - Verify data transfer to Oracle sink with macro arguments
 
   @BQ_SOURCE_TEST @ORACLE_TEST_TABLE

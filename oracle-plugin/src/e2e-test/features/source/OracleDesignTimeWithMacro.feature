@@ -14,9 +14,10 @@
 # the License.
 #
 
-@Oracle @Oracle_Required
+@Oracle
 Feature: Oracle source- Verify Oracle source plugin design time macro scenarios
 
+  @Oracle_Required
   Scenario: To verify Oracle source plugin validation with macro enabled fields for connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Oracle @Oracle_Required
+@Oracle
 Feature: Oracle - Verify Oracle plugin data transfer with macro arguments
 
-  @ORACLE_SOURCE_TEST @ORACLE_TARGET_TEST
+  @ORACLE_SOURCE_TEST @ORACLE_TARGET_TEST @Oracle_Required
   Scenario: To verify data is getting transferred from Oracle to Oracle successfully using macro arguments in connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@CloudMySql @CloudMySql_Required
+@CloudMySql
 Feature: CloudMySql Sink - Run time scenarios
 
   @BQ_SOURCE_TEST @CLOUDMYSQL_TEST_TABLE @PLUGIN-1633

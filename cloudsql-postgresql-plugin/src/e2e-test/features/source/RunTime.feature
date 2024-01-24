@@ -14,7 +14,7 @@
 # the License.
 #
 
-@Regression @Source_Required
+@Regression
 Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
 
   @CLOUDSQLPOSTGRESQL_SOURCE_TEST @BQ_SINK_TEST @PLUGIN-1526
@@ -110,7 +110,7 @@ Feature: CloudSQL-PostGreSQL Source - Run Time scenarios
     Then Close the pipeline logs
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
-  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @BQ_SINK_TEST
+  @CLOUDSQLPOSTGRESQL_SOURCE_TEST @BQ_SINK_TEST @Sink_Required
   Scenario: To verify pipeline failure message in logs when an invalid bounding query is provided
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

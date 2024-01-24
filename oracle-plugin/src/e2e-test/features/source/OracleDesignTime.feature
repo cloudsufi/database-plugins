@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Oracle @Oracle_Required
+@Oracle
 Feature: Oracle source- Verify Oracle source plugin design time scenarios
 
-  @ORACLE_SOURCE_TEST
+  @ORACLE_SOURCE_TEST @Oracle_Required
   Scenario: To verify Oracle source plugin validation with connection and basic details for connectivity
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

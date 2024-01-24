@@ -14,9 +14,9 @@
 # the License.
 #
 
-@PostgreSQL_Sink
 Feature: PostgreSQL sink- Verify PostgreSQL sink plugin design time macro scenarios
 
+  @PostgreSQL_Sink
   Scenario: To verify PostgreSQL sink plugin validation with macro enabled fields for connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"

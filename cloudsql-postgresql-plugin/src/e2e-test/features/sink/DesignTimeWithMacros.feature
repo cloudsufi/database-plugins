@@ -14,9 +14,10 @@
 # the License.
 #
 
-@Regression @Sink_Required
+@Regression
 Feature: CloudSQL-PostgreSQL sink- Verify CloudSQL-PostgreSQL sink plugin design time macro scenarios
 
+  @Sink_Required
   Scenario: To verify CloudSQLPostgreSQL sink plugin validation with macro enabled fields for connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"

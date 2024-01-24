@@ -12,7 +12,7 @@
 ## License for the specific language governing permissions and limitations under
 # the License..
 
-@CloudMySql @CloudMySql_Required
+@CloudMySql
 Feature: CloudMySql sink- Verify CloudMySql sink plugin design time macro scenarios
 
   Scenario: To verify CloudMySql sink plugin validation with macro enabled fields for connection section

@@ -14,9 +14,10 @@
 # the License.
 #
 
-@PostgreSQL_Sink
+
 Feature: PostgreSQL sink - Verify PostgreSQL sink plugin design time scenarios
 
+  @PostgreSQL_Sink
   Scenario: To verify PostgreSQL sink plugin validation with connection and basic details for connectivity
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"

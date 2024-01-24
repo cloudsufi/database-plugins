@@ -12,10 +12,10 @@
 ## License for the specific language governing permissions and limitations under
 # the License..
 
-@Mssql @Mssql_Required
+@Mssql
 Feature: MSSQL Server - Design time scenarios (macro)
 
-  @MSSQL_AS_SOURCE
+  @MSSQL_AS_SOURCE @Mssql_Required
   Scenario: Verify user should be able to validate plugin with macros for Connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

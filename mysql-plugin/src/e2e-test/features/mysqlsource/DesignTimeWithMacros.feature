@@ -15,6 +15,7 @@
 
 Feature: MySQL Source - Design time scenarios (macro)
 
+  @Mysql_Required
   Scenario: Verify user should be able to validate plugin with macros for Connection section
   Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

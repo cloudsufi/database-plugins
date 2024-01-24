@@ -15,6 +15,7 @@
 @Mysql
 Feature: MySQL Source - Design time validation scenarios
 
+  @Mysql_Required
   Scenario: Verify UserName field validation error message with invalid test data
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

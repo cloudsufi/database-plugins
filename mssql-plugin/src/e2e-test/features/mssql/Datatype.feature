@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Mssql @Mssql_Required
+@Mssql
 Feature: Mssql - Verify Mssql source data transfer
 
-  @MSSQL_SOURCE_DATATYPES_TEST @MSSQL_TARGET_DATATYPES_TEST
+  @MSSQL_SOURCE_DATATYPES_TEST @MSSQL_TARGET_DATATYPES_TEST @Mssql_Required
   Scenario: To verify data is getting transferred from Mssql to Mssql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

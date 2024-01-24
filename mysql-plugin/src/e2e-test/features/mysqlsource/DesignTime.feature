@@ -15,7 +15,7 @@
 @Mysql
 Feature: MySQL Source - Design time scenarios
 
-  @MYSQL_SOURCE_TEST
+  @MYSQL_SOURCE_TEST @Mysql_Required
   Scenario: Verify user is able to validate the plugin when configured for basic Section.
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

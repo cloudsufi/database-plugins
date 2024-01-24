@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@CloudMySql @CloudMySql_Required
+@CloudMySql
 Feature: CloudMySql source- Verify CloudMySql source plugin design time macro scenarios
 
   @CLOUDMYSQL_SOURCE_TEST

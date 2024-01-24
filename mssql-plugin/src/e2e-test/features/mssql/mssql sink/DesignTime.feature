@@ -12,10 +12,10 @@
 ## License for the specific language governing permissions and limitations under
 # the License..
 
-@Mssql @Mssql_Required
+@Mssql
 Feature: MsSQL Server Sink - Design time scenarios
 
-  @MSSQL_AS_TARGET
+  @MSSQL_AS_TARGET @Mssql_Required
   Scenario: Verify user is able to validate the sink plugin with connection and basic details for connectivity
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Sink"

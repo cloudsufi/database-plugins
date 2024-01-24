@@ -17,7 +17,7 @@
 @Oracle
 Feature: Oracle - Verify data transfer from BigQuery source to Oracle sink
 
-  @BQ_SOURCE_TEST @ORACLE_TEST_TABLE
+  @BQ_SOURCE_TEST @ORACLE_TEST_TABLE @Oracle_Required
   Scenario: To verify data is getting transferred from BigQuery source to Oracle sink successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

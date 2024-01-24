@@ -14,10 +14,10 @@
 # the License.
 #
 
-@Mssqll @Mssql_Requiredd
+@Mssqll
 Feature: Mssql - Verify Mssql source data transfer
 
-  @MSSQL_AS_SOURCE @MSSQL_AS_TARGET
+  @MSSQL_AS_SOURCE @MSSQL_AS_TARGET @Mssql_Required
   Scenario: To verify data is getting transferred from Mssql to Mssql successfully
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

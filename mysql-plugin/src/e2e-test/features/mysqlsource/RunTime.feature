@@ -60,7 +60,7 @@ Feature: MySQL Source - Run time scenarios
     Then Validate OUT record count is equal to records transferred to target BigQuery table
     Then Validate the values of records transferred to target Big Query table is equal to the values from source table
 
-  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required @test
+  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @test
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully when advance section details are set
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -105,7 +105,7 @@ Feature: MySQL Source - Run time scenarios
     Then Verify the pipeline status is "Succeeded"
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Requiredd
+  @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST
   Scenario: Verify the pipeline fails when plugin is configured with invalid bounding query
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
@@ -144,7 +144,7 @@ Feature: MySQL Source - Run time scenarios
     Then Preview and run the pipeline
     Then Wait till pipeline preview is in running state
     Then Verify the preview run status of pipeline in the logs is "failed"
-#
+
   @MYSQL_SOURCE_TEST @MYSQL_TARGET_TEST @Mysql_Required
   Scenario: To verify data is getting transferred from Mysql to Mysql successfully when connection arguments are set
     Given Open Datafusion Project to configure pipeline

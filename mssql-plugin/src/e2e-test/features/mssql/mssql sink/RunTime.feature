@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@Mssql @Mssql_Required
+@Mssql
 Feature: Mssql - Verify Mssql sink data transfer
 
   @BQ_SOURCE_TEST @MSSQL_TEST_TABLE @Plugin-1526

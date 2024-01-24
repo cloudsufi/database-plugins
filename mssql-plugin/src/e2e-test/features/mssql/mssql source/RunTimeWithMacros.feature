@@ -12,10 +12,10 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@Mssqll @Mssql_Requiredd
+@Mssqll
 Feature: Mssql Source - Run time scenarios (macro)
 
-  @MSSQL_AS_SOURCE @MSSQL_AS_TARGET
+  @MSSQL_AS_SOURCE @MSSQL_AS_TARGET @Mssql_Required
   Scenario: To verify data is getting transferred from Mssql to Mssql successfully using macros for Connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

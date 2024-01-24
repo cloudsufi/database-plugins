@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@Mssql @Mssql_Required
+@Mssql
 Feature: Mssql - Verify Mssql source data transfer
 
   @MSSQL_SOURCE_DATATYPES_TEST @BQ_SINK_TEST @Plugin-1526
@@ -148,7 +148,7 @@ Feature: Mssql - Verify Mssql source data transfer
     Then Close the pipeline logs
     Then Validate the values of records transferred to target BigQuery table is equal to the values from source Table
 
-  @MSSQL_AS_SOURCE @BQ_SINK_TEST
+  @MSSQL_AS_SOURCE @BQ_SINK_TEST @Mssql_Required
   Scenario: To verify the pipeline fails while preview with invalid bounding query setting the required split-By field
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"

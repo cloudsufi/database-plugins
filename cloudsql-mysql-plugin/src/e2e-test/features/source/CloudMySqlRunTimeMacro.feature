@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-@CloudMySql @CloudMySql_Required
+@CloudMySql
 Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro arguments
 
   @CLOUDMYSQL_SOURCE_TEST @CLOUDMYSQL_SINK_TEST @PLUGIN-20670
@@ -166,7 +166,7 @@ Feature: CloudMySql - Verify CloudMySql plugin data transfer with macro argument
     Then Close the pipeline logs
     Then Validate the values of records transferred to target table is equal to the values from source table
 
-  @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST
+  @CLOUDMYSQL_SOURCE_TEST @BQ_SINK_TEST @CloudMySql_Required
   Scenario: To verify data is getting transferred from CloudMySql source to BigQuery sink successfully using macro arguments in connection section
     Given Open Datafusion Project to configure pipeline
     When Expand Plugin group in the LHS plugins list: "Source"
