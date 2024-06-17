@@ -17,9 +17,12 @@
 package io.cdap.plugin.oracle;
 
 import io.cdap.cdap.api.data.format.StructuredRecord;
+import io.cdap.cdap.api.data.schema.Schema;
 import io.cdap.plugin.db.ColumnType;
 import io.cdap.plugin.db.SchemaReader;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -36,5 +39,15 @@ public class OracleSinkDBRecord extends OracleSourceDBRecord {
   @Override
   protected SchemaReader getSchemaReader() {
     return new OracleSinkSchemaReader();
+  }
+
+  @Override
+  protected void insertOperation(PreparedStatement stmt) throws SQLException {
+    for (int fieldIndex = 0; fieldIndex < columnTypes.size(); fieldIndex++) {
+      ColumnType columnType = columnTypes.get(fieldIndex);
+      // Get the field from the schema using the column name with ignoring case.
+      Schema.Field field = record.getSchema().getField(columnType.getName(), true);
+      writeToDB(stmt, field, fieldIndex);
+    }
   }
 }
