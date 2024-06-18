@@ -372,4 +372,18 @@ public class TestSetupHooks {
     PluginPropertyUtils.addPluginProp("bqSourceTable", bqSourceTable);
     BeforeActions.scenario.write("BQ Source Table " + bqSourceTable + " created successfully");
   }
+
+  @Before(order = 1, value = "@BQ_SOURCE_TEST_SMALL_CASE")
+  public static void createTempSourceBQTableSmallCase() throws IOException, InterruptedException {
+    createSourceBQTableWithQueries(PluginPropertyUtils.pluginProp("CreateBQTableQueryFileSmallCase"),
+                                   PluginPropertyUtils.pluginProp("InsertBQDataQueryFileSmallCase"));
+  }
+
+  @After(order = 1, value = "@BQ_SOURCE_TEST_SMALL_CASE")
+  public static void deleteTempSourceBQTableSmallCase() throws IOException, InterruptedException {
+    String bqSourceTable = PluginPropertyUtils.pluginProp("bqSourceTable");
+    BigQueryClient.dropBqQuery(bqSourceTable);
+    BeforeActions.scenario.write("BQ source Table " + bqSourceTable + " deleted successfully");
+    PluginPropertyUtils.removePluginProp("bqSourceTable");
+  }
 }
