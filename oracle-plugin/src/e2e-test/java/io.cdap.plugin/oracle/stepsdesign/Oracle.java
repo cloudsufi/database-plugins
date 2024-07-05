@@ -94,7 +94,26 @@ public class Oracle implements CdfHelper {
 
     boolean recordsMatched = BQValidation.validateBQToDBRecordValues(PluginPropertyUtils.pluginProp("schema"),
                                                              PluginPropertyUtils.pluginProp("bqSourceTable"),
-                                                             PluginPropertyUtils.pluginProp("targetTable"));
+                                                                     PluginPropertyUtils.pluginProp("targetTable"),
+                                                                     false);
+    Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
+                        "of the records in the source table", recordsMatched);
+  }
+
+  @Then("Validate the values of records transferred to target Oracle table is equal to the values from source " +
+    "BigQuery table with case")
+  public void
+  validateTheValuesOfRecordsTransferredToTargetOracleTableIsEqualToTheValuesFromSourceBigQueryTableWithCase()
+    throws IOException, InterruptedException, IOException, SQLException, ClassNotFoundException, ParseException {
+    int sourceBQRecordsCount = BigQueryClient.countBqQuery(PluginPropertyUtils.pluginProp("bqSourceTable"));
+    BeforeActions.scenario.write("No of Records from source BigQuery table:" + sourceBQRecordsCount);
+    Assert.assertEquals("Out records should match with target Oracle table records count",
+                        CdfPipelineRunAction.getCountDisplayedOnSourcePluginAsRecordsOut(), sourceBQRecordsCount);
+
+    boolean recordsMatched = BQValidation.validateBQToDBRecordValues(PluginPropertyUtils.pluginProp("schema"),
+                                                                     PluginPropertyUtils.pluginProp("bqSourceTable"),
+                                                                     PluginPropertyUtils.pluginProp("targetTable"),
+                                                                     true);
     Assert.assertTrue("Value of records transferred to the target table should be equal to the value " +
                         "of the records in the source table", recordsMatched);
   }

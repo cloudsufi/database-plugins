@@ -68,11 +68,12 @@ public class BQValidation {
                                                      ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
       ResultSet rsSource = statement1.executeQuery(getSourceQuery);
-      return compareResultSetAndJsonData(rsSource, jsonResponse);
+      return compareResultSetAndJsonData(rsSource, jsonResponse, false);
     }
   }
 
-  public static boolean validateBQToDBRecordValues(String schema, String sourceTable, String targetTable)
+  public static boolean validateBQToDBRecordValues(String schema, String sourceTable, String targetTable,
+                                                   boolean isSchemaSmallCase)
     throws SQLException, ClassNotFoundException, ParseException, IOException, InterruptedException {
     List<JsonObject> jsonResponse = new ArrayList<>();
     List<Object> bigQueryRows = new ArrayList<>();
@@ -88,7 +89,7 @@ public class BQValidation {
                                                      ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
       ResultSet rsTarget = statement1.executeQuery(getTargetQuery);
-      return compareResultSetAndJsonData(rsTarget, jsonResponse);
+      return compareResultSetAndJsonData(rsTarget, jsonResponse, isSchemaSmallCase);
     }
   }
 
@@ -119,7 +120,8 @@ public class BQValidation {
    * @throws ParseException If an error occurs while parsing the data.
    */
 
-  public static boolean compareResultSetAndJsonData(ResultSet rsSource, List<JsonObject> bigQueryData)
+  public static boolean compareResultSetAndJsonData(ResultSet rsSource, List<JsonObject> bigQueryData,
+                                                    boolean isSchemaSmallCase)
     throws SQLException, ParseException {
     ResultSetMetaData mdSource = rsSource.getMetaData();
     boolean result = false;
@@ -146,7 +148,8 @@ public class BQValidation {
       while (currentColumnCount <= columnCountSource) {
         String columnTypeName = mdSource.getColumnTypeName(currentColumnCount);
         int columnType = mdSource.getColumnType(currentColumnCount);
-        String columnName = mdSource.getColumnName(currentColumnCount);
+        String columnName = isSchemaSmallCase ? mdSource.getColumnName(currentColumnCount).toLowerCase() :
+          mdSource.getColumnName(currentColumnCount);
         // Perform different comparisons based on column type
         switch (columnType) {
           // Since we skip BFILE in Oracle Sink, we are not comparing the BFILE source and sink values
