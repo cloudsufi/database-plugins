@@ -36,7 +36,7 @@ You also can use the macro function ${conn(connection-name)}.
 - TRANSACTION_SERIALIZABLE (default): No dirty reads. Non-repeatable and phantom reads are prevented.
 - Note: If the user role selected is SYSDBA or SYSOPER, the plugin will default to TRANSACTION_READ_COMMITTED to prevent ORA-08178 errors
 
-**Connection Type** Whether to use an SID, Service Name, or TNS Connect Descriptor when connecting to the database.
+**Connection Type** Whether to use an SID, Service Name, TNS Connect Descriptor, or TLS when connecting to the database.
 
 **SID/Service Name/TNS Connect Descriptor:** Oracle connection point (Database name, Service name, or a TNS Connect Descriptor). When using TNS, place
 the full TNS Connect Descriptor in the text field. For example:

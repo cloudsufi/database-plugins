@@ -119,6 +119,10 @@
               {
                 "id": "TNS",
                 "label": "TNS Connect Descriptor"
+              },
+              {
+                "id": "TLS",
+                "label": "TLS"
               }
             ]
           }
