@@ -30,7 +30,6 @@ public final class OracleConstants {
   public static final String ORACLE_CONNECTION_STRING_SID_FORMAT = "jdbc:oracle:thin:@%s:%s:%s";
   public static final String ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT = "jdbc:oracle:thin:@//%s:%s/%s";
   public static final String ORACLE_CONNECTION_STRING_TNS_FORMAT = "jdbc:oracle:thin:@%s";
-  public static final String ORACLE_CONNECTION_STRING_TCPS_FORMAT = "jdbc:oracle:thin:@tcps://%s:%s/%s";
   public static final String DEFAULT_BATCH_VALUE = "defaultBatchValue";
   public static final String DEFAULT_ROW_PREFETCH = "defaultRowPrefetch";
   public static final String SERVICE_CONNECTION_TYPE = "service";
@@ -38,13 +37,12 @@ public final class OracleConstants {
   public static final String ROLE = "role";
   public static final String NAME_DATABASE = "database";
   public static final String TNS_CONNECTION_TYPE = "TNS";
-  public static final String TCPS_CONNECTION_TYPE = "TCPS";
   public static final String TRANSACTION_ISOLATION_LEVEL = "transactionIsolationLevel";
 
   /**
    * Returns the Connection String for the given ConnectionType.
    *
-   * @param connectionType TNS/Service/TCPS/SID
+   * @param connectionType TNS/Service/SID
    * @param host Host name of the oracle server
    * @param port Port of the oracle server
    * @param database Database to connect to
@@ -60,10 +58,6 @@ public final class OracleConstants {
     if (OracleConstants.SERVICE_CONNECTION_TYPE.equalsIgnoreCase(connectionType)) {
       return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT,
           host, port, database);
-    }
-    if (OracleConstants.TCPS_CONNECTION_TYPE.equalsIgnoreCase(connectionType)) {
-      return String.format(OracleConstants.ORACLE_CONNECTION_STRING_TCPS_FORMAT,
-              host, port, database);
     }
     return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SID_FORMAT,
         host, port, database);
