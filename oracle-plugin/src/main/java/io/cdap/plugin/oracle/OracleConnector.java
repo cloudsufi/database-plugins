@@ -126,7 +126,7 @@ public class OracleConnector extends AbstractDBSpecificConnector<OracleSourceDBR
       return config.getConnectionString();
     }
     return OracleConstants.getConnectionString(config.getConnectionType(),
-        config.getHost(), config.getPort(), database);
+        config.getHost(), config.getPort(), database, config.getSSlMode());
   }
 
   @Override
