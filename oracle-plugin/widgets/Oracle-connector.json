@@ -109,6 +109,26 @@
             ],
             "default": "TRANSACTION_SERIALIZABLE"
           }
+        },
+        {
+          "widget-type": "hidden",
+          "label": "TLS Encryption",
+          "name": "useSSL",
+          "description": "Enable TLS encryption (true/false)",
+          "widget-attributes": {
+            "layout": "inline",
+            "default": "false",
+            "options": [
+              {
+                "id": "true",
+                "label": "true"
+              },
+              {
+                "id": "false",
+                "label": "false"
+              }
+            ]
+          }
         }
       ]
     },
