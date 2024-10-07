@@ -57,7 +57,7 @@ public class OraclePostAction extends AbstractQueryAction {
 
     @Override
     public String getConnectionString() {
-      return OracleConstants.getConnectionString(this.connectionType, host, port, database);
+      return OracleConstants.getConnectionString(this.connectionType, host, port, database, null);
     }
 
     @Override
