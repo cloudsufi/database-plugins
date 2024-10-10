@@ -48,7 +48,7 @@ public class OracleConnectorConfig extends AbstractDBSpecificConnectorConfig {
 
   public OracleConnectorConfig(String host, int port, String user, String password, String jdbcPluginName,
                                String connectionArguments, String connectionType, String database,
-                               String role, String useSSL) {
+                               String role, Boolean useSSL) {
 
     this.host = host;
     this.port = port;
@@ -90,7 +90,7 @@ public class OracleConnectorConfig extends AbstractDBSpecificConnectorConfig {
   @Name(OracleConstants.USE_SSL)
   @Description("Turns on SSL encryption. Connection will fail if SSL is not available")
   @Nullable
-  public String useSSL;
+  public Boolean useSSL;
 
   @Override
   protected int getDefaultPort() {
@@ -109,7 +109,7 @@ public class OracleConnectorConfig extends AbstractDBSpecificConnectorConfig {
     return database;
   }
 
-  public String getSSlMode() {
+  public Boolean getSSlMode() {
     return useSSL;
   }
 

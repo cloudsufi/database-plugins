@@ -81,10 +81,10 @@ public final class OracleConstants {
                                            @Nullable String host,
                                            @Nullable int port,
                                            String database,
-                                           @Nullable String useSSL) {
+                                           @Nullable Boolean useSSL) {
     // Use protocol as "tcps" when SSL is requested or else use "tcp".
     String connectionProtocol;
-    if (useSSL != null && useSSL.equalsIgnoreCase("yes")) {
+    if (useSSL != null && useSSL) {
       connectionProtocol = "tcps";
     } else {
       connectionProtocol = "tcp";

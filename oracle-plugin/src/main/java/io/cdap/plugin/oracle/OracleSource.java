@@ -117,7 +117,7 @@ public class OracleSource extends AbstractDBSource<OracleSource.OracleSourceConf
                               String connectionArguments, String connectionType, String database, String role,
                               int defaultBatchValue, int defaultRowPrefetch,
                               String importQuery, Integer numSplits, int fetchSize,
-                              String boundingQuery, String splitBy, String useSSL) {
+                              String boundingQuery, String splitBy, Boolean useSSL) {
       this.connection = new OracleConnectorConfig(host, port, user, password, jdbcPluginName, connectionArguments,
                                                   connectionType, database, role, useSSL);
       this.defaultBatchValue = defaultBatchValue;
