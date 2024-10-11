@@ -110,7 +110,8 @@ public class OracleConnectorConfig extends AbstractDBSpecificConnectorConfig {
   }
 
   public Boolean getSSlMode() {
-    return useSSL;
+    // return false if useSSL is null, otherwise return its value
+    return useSSL != null && useSSL;
   }
 
   @Override

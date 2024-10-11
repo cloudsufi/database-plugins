@@ -40,31 +40,6 @@ public final class OracleConstants {
   public static final String TNS_CONNECTION_TYPE = "tns";
   public static final String TRANSACTION_ISOLATION_LEVEL = "transactionIsolationLevel";
   public static final String USE_SSL = "useSSL";
-  public static final String DEFAULT_CONNECTION_PROTOCOL = "tcp";
-
-  /**
-   * Returns the Connection String for the given ConnectionType.
-   *
-   * @param connectionType TNS/Service/SID
-   * @param host Host name of the oracle server
-   * @param port Port of the oracle server
-   * @param database Database to connect to
-   * @return Connection String based on the given ConnectionType
-   */
-  public static String getConnectionString(String connectionType,
-                                           @Nullable String host,
-                                           @Nullable int port,
-                                           String database) {
-    if (OracleConstants.TNS_CONNECTION_TYPE.equalsIgnoreCase(connectionType)) {
-      return String.format(OracleConstants.ORACLE_CONNECTION_STRING_TNS_FORMAT, database);
-    }
-    if (OracleConstants.SERVICE_CONNECTION_TYPE.equalsIgnoreCase(connectionType)) {
-      return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT,
-             DEFAULT_CONNECTION_PROTOCOL, host, port, database);
-    }
-    return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SID_FORMAT,
-           DEFAULT_CONNECTION_PROTOCOL, host, port, database);
-  }
 
   /**
    * Constructs the Oracle connection string based on the provided connection type, host, port, and database.
