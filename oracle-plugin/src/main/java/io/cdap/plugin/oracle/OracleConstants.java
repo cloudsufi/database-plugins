@@ -75,20 +75,59 @@ public final class OracleConstants {
         // TNS connection doesn't require protocol
         return String.format(OracleConstants.ORACLE_CONNECTION_STRING_TNS_FORMAT, database);
       case OracleConstants.SERVICE_CONNECTION_TYPE:
-        if (isSSLEnabled) {
-          return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT_WITH_PROTOCOL,
-              connectionProtocol, host, port, database);
-        }
-        return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT,
-            host, port, database);
+        // Create connection string for SERVICE type.
+        return getConnectionStringWithService(host, port, database, connectionProtocol, isSSLEnabled);
       default:
-        // Default to SID format if no matching case is found
-        if (isSSLEnabled) {
-          return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SID_FORMAT_WITH_PROTOCOL,
-              connectionProtocol, host, port, database);
-        }
-        return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SID_FORMAT,
-            host, port, database);
+        // Default to SID format if no matching case is found.
+        return getConnectionStringWithSID(host, port, database, connectionProtocol, isSSLEnabled);
     }
+  }
+
+  /**
+   * Constructs the connection string for a SERVICE connection type.
+   *
+   * @param host Host name of the Oracle server.
+   * @param port Port of the Oracle server.
+   * @param database Database name to connect to.
+   * @param connectionProtocol Protocol to use for the connection ("tcp" or "tcps").
+   * @param isSSLEnabled Indicates if SSL is enabled.
+   * @return Formatted connection string for a SERVICE connection.
+   */
+  private static String getConnectionStringWithService(@Nullable String host,
+                                                       @Nullable int port,
+                                                       String database,
+                                                       String connectionProtocol,
+                                                       boolean isSSLEnabled) {
+    // Choose the appropriate format based on whether SSL is enabled.
+    if (isSSLEnabled) {
+      return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT_WITH_PROTOCOL,
+          connectionProtocol, host, port, database);
+    }
+    return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT,
+        host, port, database);
+  }
+
+  /**
+   * Constructs the connection string for a SID connection type.
+   *
+   * @param host Host name of the Oracle server.
+   * @param port Port of the Oracle server.
+   * @param database Database name to connect to.
+   * @param connectionProtocol Protocol to use for the connection ("tcp" or "tcps").
+   * @param isSSLEnabled Indicates if SSL is enabled.
+   * @return Formatted connection string for a SID connection.
+   */
+  private static String getConnectionStringWithSID(@Nullable String host,
+                                                   @Nullable int port,
+                                                   String database,
+                                                   String connectionProtocol,
+                                                   boolean isSSLEnabled) {
+    // Choose the appropriate format based on whether SSL is enabled.
+    if (isSSLEnabled) {
+      return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SID_FORMAT_WITH_PROTOCOL,
+          connectionProtocol, host, port, database);
+    }
+    return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SID_FORMAT,
+        host, port, database);
   }
 }
