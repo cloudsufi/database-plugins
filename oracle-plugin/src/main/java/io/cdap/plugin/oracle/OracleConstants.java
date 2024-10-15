@@ -27,9 +27,12 @@ public final class OracleConstants {
   }
 
   public static final String PLUGIN_NAME = "Oracle";
-  // Updating connection strings to accept protocol (e.g., jdbc:oracle:thin:@<protocol>://<host>:<port>/<SID>)
-  public static final String ORACLE_CONNECTION_STRING_SID_FORMAT = "jdbc:oracle:thin:@%s:%s:%s/%s";
-  public static final String ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT = "jdbc:oracle:thin:@%s://%s:%s/%s";
+  public static final String ORACLE_CONNECTION_STRING_SID_FORMAT = "jdbc:oracle:thin:@%s:%s:%s";
+  public static final String ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT = "jdbc:oracle:thin:@//%s:%s/%s";
+  // Connection formats to accept protocol (e.g., jdbc:oracle:thin:@<protocol>://<host>:<port>/<SID>)
+  public static final String ORACLE_CONNECTION_STRING_SID_FORMAT_WITH_PROTOCOL = "jdbc:oracle:thin:@%s:%s:%s/%s";
+  public static final String ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT_WITH_PROTOCOL =
+      "jdbc:oracle:thin:@%s://%s:%s/%s";
   public static final String ORACLE_CONNECTION_STRING_TNS_FORMAT = "jdbc:oracle:thin:@%s";
   public static final String DEFAULT_BATCH_VALUE = "defaultBatchValue";
   public static final String DEFAULT_ROW_PREFETCH = "defaultRowPrefetch";
@@ -59,8 +62,10 @@ public final class OracleConstants {
                                            @Nullable Boolean useSSL) {
     // Use protocol as "tcps" when SSL is requested or else use "tcp".
     String connectionProtocol;
+    boolean isSSLEnabled = false;
     if (useSSL != null && useSSL) {
       connectionProtocol = "tcps";
+      isSSLEnabled = true;
     } else {
       connectionProtocol = "tcp";
     }
@@ -70,13 +75,20 @@ public final class OracleConstants {
         // TNS connection doesn't require protocol
         return String.format(OracleConstants.ORACLE_CONNECTION_STRING_TNS_FORMAT, database);
       case OracleConstants.SERVICE_CONNECTION_TYPE:
-        // Service connection uses protocol, host, port, and database
+        if (isSSLEnabled) {
+          return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT_WITH_PROTOCOL,
+              connectionProtocol, host, port, database);
+        }
         return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SERVICE_NAME_FORMAT,
-                connectionProtocol, host, port, database);
+            host, port, database);
       default:
         // Default to SID format if no matching case is found
+        if (isSSLEnabled) {
+          return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SID_FORMAT_WITH_PROTOCOL,
+              connectionProtocol, host, port, database);
+        }
         return String.format(OracleConstants.ORACLE_CONNECTION_STRING_SID_FORMAT,
-                connectionProtocol, host, port, database);
+            host, port, database);
     }
   }
 }

@@ -32,7 +32,7 @@ public class OracleFailedConnectionTest extends DBSpecificFailedConnectionTest {
               "SID", "database"));
 
     super.test(JDBC_DRIVER_CLASS_NAME, connector, "Failed to create connection to database via connection string:" +
-                                                    " jdbc:oracle:thin:@tcp:localhost:1521/database and arguments: " +
+                                                    " jdbc:oracle:thin:@localhost:1521:database and arguments: " +
                                                     "{user=username, oracle.jdbc.timezoneAsRegion=false, " +
                                                     "internal_logon=normal}. Error: ConnectException: Connection " +
                                                     "refused.");
