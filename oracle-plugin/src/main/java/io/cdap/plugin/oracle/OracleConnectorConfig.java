@@ -43,12 +43,12 @@ public class OracleConnectorConfig extends AbstractDBSpecificConnectorConfig {
 
   public OracleConnectorConfig(String host, int port, String user, String password, String jdbcPluginName,
                                String connectionArguments, String connectionType, String database) {
-    this(host, port, user, password, jdbcPluginName, connectionArguments, connectionType, database, null);
+    this(host, port, user, password, jdbcPluginName, connectionArguments, connectionType, database, null, null);
   }
 
   public OracleConnectorConfig(String host, int port, String user, String password, String jdbcPluginName,
                                String connectionArguments, String connectionType, String database,
-                               String role) {
+                               String role, Boolean useSSL) {
 
     this.host = host;
     this.port = port;
@@ -59,11 +59,12 @@ public class OracleConnectorConfig extends AbstractDBSpecificConnectorConfig {
     this.connectionType = connectionType;
     this.database = database;
     this.role = role;
+    this.useSSL = useSSL;
   }
 
   @Override
   public String getConnectionString() {
-    return OracleConstants.getConnectionString(connectionType, host, getPort(), database);
+    return OracleConstants.getConnectionString(connectionType, host, getPort(), database, useSSL);
   }
 
   @Name(OracleConstants.CONNECTION_TYPE)
@@ -86,6 +87,11 @@ public class OracleConnectorConfig extends AbstractDBSpecificConnectorConfig {
   @Nullable
   private String transactionIsolationLevel;
 
+  @Name(OracleConstants.USE_SSL)
+  @Description("Turns on SSL encryption. Connection will fail if SSL is not available")
+  @Nullable
+  public Boolean useSSL;
+
   @Override
   protected int getDefaultPort() {
     return 1521;
@@ -101,6 +107,11 @@ public class OracleConnectorConfig extends AbstractDBSpecificConnectorConfig {
 
   public String getDatabase() {
     return database;
+  }
+
+  public Boolean getSSlMode() {
+    // return false if useSSL is null, otherwise return its value
+    return useSSL != null && useSSL;
   }
 
   @Override

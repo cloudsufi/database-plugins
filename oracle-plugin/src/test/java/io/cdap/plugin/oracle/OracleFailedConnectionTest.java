@@ -28,7 +28,8 @@ public class OracleFailedConnectionTest extends DBSpecificFailedConnectionTest {
   public void test() throws ClassNotFoundException, IOException {
 
     OracleConnector connector = new OracleConnector(
-      new OracleConnectorConfig("localhost", 1521, "username", "password", "jdbc", "", "database"));
+      new OracleConnectorConfig("localhost", 1521, "username", "password", "jdbc", "",
+              "SID", "database"));
 
     super.test(JDBC_DRIVER_CLASS_NAME, connector, "Failed to create connection to database via connection string:" +
                                                     " jdbc:oracle:thin:@localhost:1521:database and arguments: " +
