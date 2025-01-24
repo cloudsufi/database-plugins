@@ -51,7 +51,7 @@ public class CloudSQLUtil {
         failureCollector
           .addFailure(
             "Connection Name must be in the format <PROJECT_ID>:<REGION>:<INSTANCE_NAME> to connect to "
-              + "a public CloudSQL PostgreSQL instance.", null)
+              + "a public CloudSQL MySQL instance.", null)
           .withConfigProperty(CONNECTION_NAME);
       }
     } else {
@@ -59,7 +59,7 @@ public class CloudSQLUtil {
         failureCollector
           .addFailure(
             "Enter the internal IP address of the Compute Engine VM cloudsql proxy "
-              + "is running on, to connect to a private CloudSQL PostgreSQL instance.", null)
+              + "is running on, to connect to a private CloudSQL MySQL instance.", null)
           .withConfigProperty(CONNECTION_NAME);
       }
     }
