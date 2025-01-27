@@ -28,6 +28,7 @@ import io.cdap.plugin.db.ConnectionConfig;
 import io.cdap.plugin.db.action.AbstractDBAction;
 import io.cdap.plugin.db.action.QueryConfig;
 import io.cdap.plugin.util.CloudSQLUtil;
+import io.cdap.plugin.util.DbType;
 
 import java.util.Map;
 import javax.annotation.Nullable;
@@ -55,7 +56,8 @@ public class CloudSQLMySQLAction extends AbstractDBAction {
       CloudSQLUtil.checkConnectionName(
           failureCollector,
           cloudsqlMysqlActionConfig.instanceType,
-          cloudsqlMysqlActionConfig.connectionName);
+          cloudsqlMysqlActionConfig.connectionName,
+          DbType.MYSQL.getDisplayName());
     }
     
     super.configurePipeline(pipelineConfigurer);

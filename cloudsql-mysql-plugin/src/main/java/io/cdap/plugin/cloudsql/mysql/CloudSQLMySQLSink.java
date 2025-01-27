@@ -41,6 +41,7 @@ import io.cdap.plugin.db.sink.AbstractDBSink;
 import io.cdap.plugin.mysql.MysqlDBRecord;
 import io.cdap.plugin.util.CloudSQLUtil;
 import io.cdap.plugin.util.DBUtils;
+import io.cdap.plugin.util.DbType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,7 +75,8 @@ public class CloudSQLMySQLSink extends AbstractDBSink<CloudSQLMySQLSink.CloudSQL
       CloudSQLUtil.checkConnectionName(
         failureCollector,
         cloudsqlMysqlSinkConfig.connection.getInstanceType(),
-        cloudsqlMysqlSinkConfig.connection.getConnectionName());
+        cloudsqlMysqlSinkConfig.connection.getConnectionName(),
+        DbType.MYSQL.getDisplayName());
     }
     
     super.configurePipeline(pipelineConfigurer);
