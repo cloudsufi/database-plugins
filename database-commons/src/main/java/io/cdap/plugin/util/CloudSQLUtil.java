@@ -41,9 +41,10 @@ public class CloudSQLUtil {
    * @param failureCollector {@link FailureCollector} for the pipeline
    * @param instanceType CloudSQL instance type
    * @param connectionName Connection Name for the CloudSQL instance
+   * @param databaseType Type of CloudSQL instance- CloudSQL PostgreSQL, CLoudSQL MySQL
    */
   public static void checkConnectionName(
-    FailureCollector failureCollector, String instanceType, String connectionName, String dbType) {
+    FailureCollector failureCollector, String instanceType, String connectionName, String databaseType) {
 
     if (PUBLIC_INSTANCE.equalsIgnoreCase(instanceType)) {
       Pattern connectionNamePattern =
@@ -54,7 +55,7 @@ public class CloudSQLUtil {
         failureCollector
           .addFailure(
             String.format("Connection Name must be in the format <PROJECT_ID>:<REGION>:<INSTANCE_NAME> to connect to "
-              + "a public %s instance.", dbType), null)
+              + "a public %s instance.", databaseType), null)
           .withConfigProperty(CONNECTION_NAME);
       }
     } else {
@@ -62,7 +63,7 @@ public class CloudSQLUtil {
         failureCollector
           .addFailure(
             String.format("Enter the internal IP address of the Compute Engine VM cloudsql proxy "
-              + "is running on, to connect to a private %s instance.", dbType), null)
+              + "is running on, to connect to a private %s instance.", databaseType), null)
           .withConfigProperty(CONNECTION_NAME);
       }
     }
