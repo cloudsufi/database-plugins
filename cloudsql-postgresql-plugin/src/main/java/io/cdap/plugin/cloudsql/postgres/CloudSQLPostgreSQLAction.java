@@ -28,7 +28,6 @@ import io.cdap.plugin.db.ConnectionConfig;
 import io.cdap.plugin.db.action.AbstractDBAction;
 import io.cdap.plugin.db.action.QueryConfig;
 import io.cdap.plugin.util.CloudSQLUtil;
-import io.cdap.plugin.util.DbType;
 
 import java.util.Map;
 import javax.annotation.Nullable;
@@ -57,7 +56,7 @@ public class CloudSQLPostgreSQLAction extends AbstractDBAction {
           failureCollector,
           cloudsqlPostgresqlActionConfig.instanceType,
           cloudsqlPostgresqlActionConfig.connectionName,
-          DbType.POSTGRESQL.getDisplayName());
+          CloudSQLUtil.CLOUDSQL_POSTGRESQL);
     }
     
     super.configurePipeline(pipelineConfigurer);

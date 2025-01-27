@@ -38,7 +38,6 @@ import io.cdap.plugin.mysql.MysqlDBRecord;
 import io.cdap.plugin.mysql.MysqlSchemaReader;
 import io.cdap.plugin.util.CloudSQLUtil;
 import io.cdap.plugin.util.DBUtils;
-import io.cdap.plugin.util.DbType;
 import org.apache.hadoop.mapreduce.lib.db.DBWritable;
 
 import java.util.Collections;
@@ -72,7 +71,7 @@ public class CloudSQLMySQLSource extends AbstractDBSource<CloudSQLMySQLSource.Cl
         failureCollector,
         cloudsqlMysqlSourceConfig.connection.getInstanceType(),
         cloudsqlMysqlSourceConfig.connection.getConnectionName(),
-        DbType.MYSQL.getDisplayName());
+        CloudSQLUtil.CLOUDSQL_MYSQL);
     }
 
     super.configurePipeline(pipelineConfigurer);

@@ -38,7 +38,6 @@ import io.cdap.plugin.postgres.PostgresDBRecord;
 import io.cdap.plugin.postgres.PostgresSchemaReader;
 import io.cdap.plugin.util.CloudSQLUtil;
 import io.cdap.plugin.util.DBUtils;
-import io.cdap.plugin.util.DbType;
 import org.apache.hadoop.mapreduce.lib.db.DBWritable;
 
 import java.util.Collections;
@@ -72,7 +71,7 @@ public class CloudSQLPostgreSQLSource
         failureCollector,
         cloudsqlPostgresqlSourceConfig.connection.getInstanceType(),
         cloudsqlPostgresqlSourceConfig.connection.getConnectionName(),
-        DbType.POSTGRESQL.getDisplayName());
+        CloudSQLUtil.CLOUDSQL_POSTGRESQL);
     }
     
     super.configurePipeline(pipelineConfigurer);
