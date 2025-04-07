@@ -29,7 +29,6 @@ import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.lib.db.DBWritable;
-
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -154,7 +153,6 @@ public class DBRecord implements Writable, DBWritable, Configurable {
       int sqlType = metadata.getColumnType(columnIndex);
       int sqlPrecision = metadata.getPrecision(columnIndex);
       int sqlScale = metadata.getScale(columnIndex);
-
       handleField(resultSet, recordBuilder, field, columnIndex, sqlType, sqlPrecision, sqlScale);
     }
     record = recordBuilder.build();
@@ -213,6 +211,7 @@ public class DBRecord implements Writable, DBWritable, Configurable {
 
   protected void setFieldAccordingToSchema(ResultSet resultSet, StructuredRecord.Builder recordBuilder,
                                            Schema.Field field, int columnIndex) throws SQLException {
+
     Schema.Type fieldType = field.getSchema().isNullable() ? field.getSchema().getNonNullable().getType()
       : field.getSchema().getType();
 

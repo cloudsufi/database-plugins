@@ -28,7 +28,6 @@ import io.cdap.plugin.common.Constants;
 import io.cdap.plugin.db.TransactionIsolationLevel;
 import io.cdap.plugin.db.connector.AbstractDBConnectorConfig;
 import io.cdap.plugin.db.source.AbstractDBSource;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -266,6 +265,18 @@ public abstract class AbstractDBSpecificSourceConfig extends PluginConfig implem
   @Override
   public Integer getFetchSize() {
     return fetchSize;
+  }
+
+  public Integer getInitialRetryDuration() {
+    return getConnection().getInitialRetryDuration();
+  }
+
+  public Integer getMaxRetryDuration() {
+    return getConnection().getMaxRetryDuration();
+  }
+  
+  public Integer getMaxRetryCount() {
+    return getConnection().getMaxRetryCount();
   }
 
 }

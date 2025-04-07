@@ -20,7 +20,6 @@ import io.cdap.cdap.api.annotation.Description;
 import io.cdap.cdap.api.annotation.Name;
 import io.cdap.cdap.api.plugin.PluginConfig;
 import io.cdap.plugin.common.Constants;
-
 import javax.annotation.Nullable;
 
 /**

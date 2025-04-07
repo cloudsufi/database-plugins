@@ -34,7 +34,6 @@ public class CloudSQLUtil {
   public static final String CLOUDSQL_POSTGRESQL = "CloudSQL PostgreSQL";
   public static final String CLOUDSQL_MYSQL = "CloudSQL MySQL";
 
-
   /**
    * Utility method to check the Connection Name format of a CloudSQL instance.
    *

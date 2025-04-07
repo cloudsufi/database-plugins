@@ -19,7 +19,6 @@ package io.cdap.plugin.db;
 import com.google.common.collect.Lists;
 import io.cdap.cdap.api.data.schema.Schema;
 import io.cdap.plugin.common.db.DBUtils;
-
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -53,8 +52,8 @@ public class CommonSchemaReader implements SchemaReader {
   @Override
   public Schema getSchema(ResultSetMetaData metadata, int index) throws SQLException {
     return DBUtils.getSchema(metadata.getColumnTypeName(index), metadata.getColumnType(index),
-                             metadata.getPrecision(index), metadata.getScale(index), metadata.getColumnName(index),
-                             metadata.isSigned(index), true);
+            metadata.getPrecision(index), metadata.getScale(index), metadata.getColumnName(index),
+            metadata.isSigned(index), true);
   }
 
   @Override
