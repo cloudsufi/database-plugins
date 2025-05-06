@@ -17,6 +17,8 @@
 package io.cdap.plugin.common.stepsdesign;
 
 import com.google.cloud.bigquery.BigQueryException;
+import io.cdap.e2e.pages.actions.CdfConnectionActions;
+import io.cdap.e2e.pages.actions.CdfPluginPropertiesActions;
 import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.cdap.plugin.MssqlClient;
@@ -51,8 +53,10 @@ public class TestSetupHooks {
     String targetTableName = String.format("TARGETTABLE_%s", randomString);
     PluginPropertyUtils.addPluginProp("targetTable", targetTableName);
     targetTable = targetTableName;
-    PluginPropertyUtils.addPluginProp("selectQuery", String.format("select * from %s.%s", schema,
-                                                                   sourceTable));
+    PluginPropertyUtils.addPluginProp("selectQuery", String.format("select * from %s.%s"
+        + " WHERE $CONDITIONS", schema, sourceTable));
+    PluginPropertyUtils.addPluginProp("boundingQuery", String.format("select MIN(ID),MAX(ID)"
+        + " from %s.%s", schema, sourceTable));
   }
 
   @Before(order = 2, value = "@MSSQL_AS_SOURCE")
@@ -263,5 +267,50 @@ public class TestSetupHooks {
         Assert.fail(e.getMessage());
       }
     }
+  }
+
+  @Before(order = 1, value = "@CONNECTION")
+  public static void setNewConnectionName() {
+    String connectionName = "SQL Server" + RandomStringUtils.randomAlphanumeric(10);
+    PluginPropertyUtils.addPluginProp("connection.name", connectionName);
+    BeforeActions.scenario.write("New Connection name: " + connectionName);
+  }
+
+  private static void deleteConnection(String connectionType, String connectionName) throws IOException {
+    CdfConnectionActions.openWranglerConnectionsPage();
+    CdfConnectionActions.expandConnections(connectionType);
+    CdfConnectionActions.openConnectionActionMenu(connectionType, connectionName);
+    CdfConnectionActions.selectConnectionAction(connectionType, connectionName, "Delete");
+    CdfPluginPropertiesActions.clickPluginPropertyButton("Delete");
+  }
+
+  @After(order = 1, value = "@CONNECTION")
+  public static void deleteTestConnection() throws IOException {
+    deleteConnection("SQL Server", "connection.name");
+    PluginPropertyUtils.removePluginProp("connection.name");
+  }
+
+  @Before(order = 2, value = "@MSSQL_SOURCE")
+  public static void createMssqlSourceTables() throws SQLException, ClassNotFoundException {
+    MssqlClient.createMssqlSourceTable(sourceTable, schema);
+    BeforeActions.scenario.write("MSSQL SOURCE Table - " + sourceTable + " created successfully");
+  }
+
+  @After(order = 2, value = "@MSSQL_SOURCE")
+  public static void dropMssqlSourceTable() throws SQLException, ClassNotFoundException {
+    MssqlClient.deleteTable(schema, sourceTable);
+    BeforeActions.scenario.write("MSSQL SOURCE Table - " + sourceTable + " deleted successfully");
+  }
+
+  @Before(order = 2, value = "@MSSQL_TARGET")
+  public static void createMssqlTargetTables() throws SQLException, ClassNotFoundException {
+    MssqlClient.createMssqlTargetTable(targetTable, schema);
+    BeforeActions.scenario.write("MSSQL TARGET Table - " + targetTable + " created successfully");
+  }
+
+  @After(order = 2, value = "@MSSQL_TARGET")
+  public static void dropMssqlTargetTable() throws SQLException, ClassNotFoundException {
+    MssqlClient.deleteTable(schema, targetTable);
+    BeforeActions.scenario.write("MSSQL TARGET Table - " + targetTable + " deleted successfully");
   }
 }

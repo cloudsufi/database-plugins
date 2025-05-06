@@ -61,8 +61,8 @@
     <surefire.redirectTestOutputToFile>true</surefire.redirectTestOutputToFile>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- version properties -->
-    <cdap.version>6.11.0-SNAPSHOT</cdap.version>
-    <cdap.plugin.version>2.13.0-SNAPSHOT</cdap.plugin.version>
+    <cdap.version>6.11.0</cdap.version>
+    <cdap.plugin.version>2.13.1-SNAPSHOT</cdap.plugin.version>
     <guava.version>13.0.1</guava.version>
     <hadoop.version>3.3.6</hadoop.version>
     <hsql.version>2.2.4</hsql.version>
@@ -176,6 +176,8 @@
         <artifactId>guava</artifactId>
         <version>${guava.version}</version>
       </dependency>
+
+
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-common</artifactId>
@@ -297,6 +299,12 @@
         <artifactId>junit</artifactId>
         <version>${junit.version}</version>
         <scope>test</scope>
+      </dependency>
+      <!--    retry dependencies -->
+      <dependency>
+        <groupId>dev.failsafe</groupId>
+        <artifactId>failsafe</artifactId>
+        <version>3.3.2</version>
       </dependency>
       <dependency>
         <groupId>org.hsqldb</groupId>

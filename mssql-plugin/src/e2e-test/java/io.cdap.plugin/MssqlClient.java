@@ -255,5 +255,36 @@ public class MssqlClient {
                        rsTarget.next());
     return true;
   }
+
+  public static void createMssqlSourceTable(String sourceTable, String schema)
+      throws SQLException, ClassNotFoundException {
+    try (Connection connect = getMssqlConnection(); Statement statement = connect.createStatement()) {
+      String createSourceTableQuery = "CREATE TABLE " + schema + "." + sourceTable + " ("
+          + "Description VARCHAR(MAX), "
+          + "FileData VARBINARY(MAX), "
+          + "Notes NVARCHAR(MAX), "
+          + "CustomValue NVARCHAR(MAX))";
+      statement.executeUpdate(createSourceTableQuery);
+      String insertDataQuery = "INSERT INTO " + schema + "." + sourceTable
+          + " (Description, FileData, Notes, CustomValue) VALUES ("
+          + "'This is a long description stored in VARCHAR(MAX)', "
+          + "CONVERT(VARBINARY(MAX), 'BinaryDataExample'), "
+          + "N'This is a Unicode note stored in NVARCHAR(MAX)', "
+          + "'123.45')";
+      statement.executeUpdate(insertDataQuery);
+    }
+  }
+
+  public static void createMssqlTargetTable(String targetTable, String schema) throws SQLException,
+      ClassNotFoundException {
+    try (Connection connect = getMssqlConnection(); Statement statement = connect.createStatement()) {
+      String createTargetTableQuery = "CREATE TABLE " + schema + "." + targetTable + " ("
+          + "Description VARCHAR(MAX), "
+          + "FileData VARBINARY(MAX), "
+          + "Notes NVARCHAR(MAX), "
+          + "CustomValue NVARCHAR(MAX))";
+      statement.executeUpdate(createTargetTableQuery);
+    }
+  }
 }
 

@@ -39,6 +39,8 @@ public class ConnectionConfigAccessor {
   public static final String OPERATION_NAME = "io.cdap.plugin.db.operation.name";
   public static final String RELATION_TABLE_KEY = "io.cdap.plugin.db.relation.table.key";
 
+
+
   private static final Gson GSON = new Gson();
   private static final Type STRING_MAP_TYPE = new TypeToken<Map<String, String>>() { }.getType();
   private static final Type STRING_LIST_TYPE = new TypeToken<List<String>>() { }.getType();

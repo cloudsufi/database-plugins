@@ -200,3 +200,31 @@ Feature: Mssql source- Verify Mssql source plugin design time validation scenari
     Then Click on the Validate button
     Then Verify that the Plugin Property: "boundingQuery" is displaying an in-line error message: "errorMessageBoundingQuery"
     Then Verify that the Plugin Property: "numSplits" is displaying an in-line error message: "errorMessagenumofSplit"
+
+  @Mssql_Required
+  Scenario: Verify required fields missing validation messages
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "SQL Server" from the plugins list as: "Source"
+    Then Navigate to the properties page of plugin: "SQL Server"
+    Then Click on the Validate button
+    Then Verify mandatory property error for below listed properties:
+      | jdbcPluginName |
+      | referenceName  |
+      | database       |
+      | importQuery    |
+
+  @Mssql_Required
+  Scenario: Verify the validation error message with missing jdbc plugin name
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "SQL Server" from the plugins list as: "Source"
+    Then Navigate to the properties page of plugin: "SQL Server"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Click plugin property: "switch-useConnection"
+    Then Click on the Validate button
+    Then Verify that the Plugin is displaying an error message: "blank.jdbcPluginName.message" on the header

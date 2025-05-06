@@ -60,3 +60,55 @@ Feature: Mssql - Verify Mssql sink data transfer
     Then Close the pipeline logs
     Then Validate the values of records transferred to target MsSql table is equal to the values from source BigQuery table
 
+  @MSSQL_SOURCE @MSSQL_TARGET @CONNECTION @Mssql_Required
+  Scenario: To verify data is getting transferred from Mssql to Mssql successfully with use connection using MAX type datatypes
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "SQL Server" from the plugins list as: "Source"
+    When Expand Plugin group in the LHS plugins list: "Sink"
+    When Select plugin: "SQL Server" from the plugins list as: "Sink"
+    Then Connect plugins: "SQL Server" and "SQL Server2" to establish connection
+    Then Navigate to the properties page of plugin: "SQL Server"
+    And Click plugin property: "switch-useConnection"
+    And Click on the Browse Connections button
+    And Click on the Add Connection button
+    Then Click plugin property: "connector-SQL Server"
+    And Enter input plugin property: "name" with value: "connection.name"
+    Then Select dropdown plugin property: "select-jdbcPluginName" with option value: "driverName"
+    Then Replace input plugin property: "host" with value: "host" for Credentials and Authorization related fields
+    Then Replace input plugin property: "port" with value: "port" for Credentials and Authorization related fields
+    Then Replace input plugin property: "user" with value: "username" for Credentials and Authorization related fields
+    Then Replace input plugin property: "password" with value: "password" for Credentials and Authorization related fields
+    Then Click on the Test Connection button
+    And Verify the test connection is successful
+    Then Click on the Create button
+    Then Select connection: "connection.name"
+    Then Enter input plugin property: "referenceName" with value: "sourceRef"
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Enter textarea plugin property: "importQuery" with value: "selectQuery"
+    Then Click on the Get Schema button
+    Then Verify the Output Schema matches the Expected Schema: "mssqlOutputDatatypesSchema"
+    Then Validate "SQL Server" plugin properties
+    Then Close the Plugin Properties page
+    Then Navigate to the properties page of plugin: "SQL Server2"
+    And Click plugin property: "switch-useConnection"
+    And Click on the Browse Connections button
+    Then Select connection: "connection.name"
+    Then Replace input plugin property: "database" with value: "databaseName"
+    Then Replace input plugin property: "tableName" with value: "targetTable"
+    Then Replace input plugin property: "dbSchemaName" with value: "schema"
+    Then Enter input plugin property: "referenceName" with value: "targetRef"
+    Then Validate "SQL Server2" plugin properties
+    Then Close the Plugin Properties page
+    Then Save the pipeline
+    Then Preview and run the pipeline
+    Then Verify the preview of pipeline is "success"
+    Then Click on preview data for Mssql sink
+    Then Verify preview output schema matches the outputSchema captured in properties
+    Then Close the preview data
+    Then Deploy the pipeline
+    Then Run the Pipeline in Runtime
+    Then Wait till pipeline is in running state
+    Then Open and capture logs
+    Then Verify the pipeline status is "Succeeded"
+    Then Validate records transferred to target table are equal to number of records from the source table

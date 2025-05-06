@@ -203,3 +203,87 @@ Feature: Mssql Sink - Run time scenarios (macro)
     Then Open Pipeline logs and verify Log entries having below listed Level and Message:
       | Level | Message                         |
       | ERROR | errorMessageInvalidCredentials    |
+
+  @MSSQL_SOURCE_DATATYPES_UIDTYPE_TEST @MSSQL_TARGET_DATATYPES_UIDTYPE_TEST @Mssql_Required
+  Scenario: To verify data is getting transferred from MsSQL to MsSQL successfully when macro enabled
+    Given Open Datafusion Project to configure pipeline
+    When Expand Plugin group in the LHS plugins list: "Source"
+    When Select plugin: "SQL Server" from the plugins list as: "Source"
+    When Expand Plugin group in the LHS plugins list: "Sink"
+    When Select plugin: "SQL Server" from the plugins list as: "Sink"
+    Then Connect plugins: "SQL Server" and "SQL Server2" to establish connection
+    Then Navigate to the properties page of plugin: "SQL Server"
+    Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "SQLServerDriverName"
+    Then Click on the Macro button of Property: "host" and set the value to: "SQLServerHost"
+    Then Click on the Macro button of Property: "port" and set the value to: "SQLServerPort"
+    Then Click on the Macro button of Property: "user" and set the value to: "SQLServerUsername"
+    Then Click on the Macro button of Property: "password" and set the value to: "SQLServerPassword"
+    Then Click on the Macro button of Property: "connectionArguments" and set the value to: "connArgumentsSource"
+    Then Click on the Macro button of Property: "database" and set the value to: "SQLServerDatabaseName"
+    Then Click on the Macro button of Property: "importQuery" and set the value in textarea: "SQLServerImportQuery"
+    Then Enter input plugin property: "referenceName" with value: "sourceRef"
+    Then Click on the Macro button of Property: "numSplits" and set the value to: "SQLServerNumSplits"
+    Then Click on the Macro button of Property: "fetchSize" and set the value to: "SQLServerFetchSize"
+    Then Click on the Macro button of Property: "splitBy" and set the value to: "SQLServerSplitByColumn"
+    Then Click on the Macro button of Property: "boundingQuery" and set the value in textarea: "SQLServerBoundingQuery"
+    Then Validate "SQL Server" plugin properties
+    Then Close the Plugin Properties page
+    Then Navigate to the properties page of plugin: "SQL Server2"
+    Then Click on the Macro button of Property: "jdbcPluginName" and set the value to: "SQLServerDriverName"
+    Then Click on the Macro button of Property: "host" and set the value to: "SQLServerHost"
+    Then Click on the Macro button of Property: "port" and set the value to: "SQLServerPort"
+    Then Click on the Macro button of Property: "user" and set the value to: "SQLServerUsername"
+    Then Click on the Macro button of Property: "password" and set the value to: "SQLServerPassword"
+    Then Click on the Macro button of Property: "connectionArguments" and set the value to: "connArgumentsSink"
+    Then Click on the Macro button of Property: "database" and set the value to: "SQLServerDatabaseName"
+    Then Enter input plugin property: "referenceName" with value: "targetRef"
+    And Click on the Macro button of Property: "tableName" and set the value to: "SQLServerTableName"
+    And Click on the Macro button of Property: "dbSchemaName" and set the value to: "SQLServerSchemaName"
+    Then Validate "SQL Server" plugin properties
+    Then Close the Plugin Properties page
+    Then Save the pipeline
+    Then Preview and run the pipeline
+    Then Enter runtime argument value "driverName" for key "SQLServerDriverName"
+    Then Enter runtime argument value from environment variable "host" for key "SQLServerHost"
+    Then Enter runtime argument value from environment variable "port" for key "SQLServerPort"
+    Then Enter runtime argument value from environment variable "username" for key "SQLServerUsername"
+    Then Enter runtime argument value from environment variable "password" for key "SQLServerPassword"
+    Then Enter runtime argument value "connectionArguments" for key "connArgumentsSource"
+    Then Enter runtime argument value "connectionArguments" for key "connArgumentsSink"
+    Then Enter runtime argument value "fetchSize" for key "SQLServerFetchSize"
+    Then Enter runtime argument value "splitByField" for key "SQLServerSplitByColumn"
+    Then Enter runtime argument value "numberOfSplits" for key "SQLServerNumSplits"
+    Then Enter runtime argument value "selectQuery" for key "SQLServerImportQuery"
+    Then Enter runtime argument value "databaseName" for key "SQLServerDatabaseName"
+    Then Enter runtime argument value "boundingQuery" for key "SQLServerBoundingQuery"
+    Then Enter runtime argument value "targetTable" for key "SQLServerTableName"
+    Then Enter runtime argument value "schema" for key "SQLServerSchemaName"
+    Then Run the preview of pipeline with runtime arguments
+    Then Wait till pipeline preview is in running state
+    Then Open and capture pipeline preview logs
+    Then Verify the preview run status of pipeline in the logs is "succeeded"
+    Then Close the pipeline logs
+    Then Close the preview
+    Then Deploy the pipeline
+    Then Run the Pipeline in Runtime
+    Then Enter runtime argument value "driverName" for key "SQLServerDriverName"
+    Then Enter runtime argument value from environment variable "host" for key "SQLServerHost"
+    Then Enter runtime argument value from environment variable "port" for key "SQLServerPort"
+    Then Enter runtime argument value from environment variable "username" for key "SQLServerUsername"
+    Then Enter runtime argument value from environment variable "password" for key "SQLServerPassword"
+    Then Enter runtime argument value "connectionArguments" for key "connArgumentsSource"
+    Then Enter runtime argument value "connectionArguments" for key "connArgumentsSink"
+    Then Enter runtime argument value "fetchSize" for key "SQLServerFetchSize"
+    Then Enter runtime argument value "splitByField" for key "SQLServerSplitByColumn"
+    Then Enter runtime argument value "numberOfSplits" for key "SQLServerNumSplits"
+    Then Enter runtime argument value "selectQuery" for key "SQLServerImportQuery"
+    Then Enter runtime argument value "databaseName" for key "SQLServerDatabaseName"
+    Then Enter runtime argument value "boundingQuery" for key "SQLServerBoundingQuery"
+    Then Enter runtime argument value "targetTable" for key "SQLServerTableName"
+    Then Enter runtime argument value "schema" for key "SQLServerSchemaName"
+    Then Run the Pipeline in Runtime with runtime arguments
+    Then Wait till pipeline is in running state
+    Then Open and capture logs
+    Then Verify the pipeline status is "Succeeded"
+    Then Close the pipeline logs
+    Then Validate records transferred to target table are equal to number of records from the source table

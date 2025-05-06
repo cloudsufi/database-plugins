@@ -25,7 +25,6 @@ import io.cdap.plugin.db.JDBCDriverShim;
 import io.cdap.plugin.db.config.DatabaseConnectionConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -104,14 +103,13 @@ public final class DBUtils {
   public static DriverCleanup ensureJDBCDriverIsAvailable(Class<? extends Driver> jdbcDriverClass,
                                                           String connectionString, String jdbcPluginName)
     throws IllegalAccessException, InstantiationException, SQLException {
-
     try {
       DriverManager.getDriver(connectionString);
       return new DriverCleanup(null);
     } catch (SQLException e) {
       // Driver not found. We will try to register it with the DriverManager.
       LOG.debug("Plugin Name: {}; Driver Class: {} not found. Registering JDBC driver via shim {} ",
-                jdbcPluginName, jdbcDriverClass.getName(), JDBCDriverShim.class.getName());
+              jdbcPluginName, jdbcDriverClass.getName(), JDBCDriverShim.class.getName());
 
       final JDBCDriverShim driverShim = new JDBCDriverShim(jdbcDriverClass.newInstance());
       try {
