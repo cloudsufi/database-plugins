@@ -66,13 +66,16 @@ public class OracleSourceSchemaReader extends CommonSchemaReader {
 
   private final String sessionID;
 
+  private final boolean treatAsOldTimestamp;
+
   public OracleSourceSchemaReader() {
-    this(null);
+    this(null, false);
   }
 
-  public OracleSourceSchemaReader(String sessionID) {
+  public OracleSourceSchemaReader(String sessionID, boolean treatAsOldTimestamp) {
     super();
     this.sessionID = sessionID;
+    this.treatAsOldTimestamp = treatAsOldTimestamp;
   }
 
   @Override
@@ -83,8 +86,17 @@ public class OracleSourceSchemaReader extends CommonSchemaReader {
       case TIMESTAMP_TZ:
         return Schema.of(Schema.LogicalType.TIMESTAMP_MICROS);
       case Types.TIMESTAMP:
-      case TIMESTAMP_LTZ:
         return Schema.of(Schema.LogicalType.DATETIME);
+      case TIMESTAMP_LTZ:
+        // TIMESTAMP_LTZ (Local timezone timestamp)
+        // - Legacy behavior used TIMESTAMP_MICROS
+        // - New behavior uses DATETIME for accurate semantic representation
+        // Use treatAsOldTimestamp flag to ensure backward compatibility
+        if (treatAsOldTimestamp) {
+          return Schema.of(Schema.LogicalType.TIMESTAMP_MICROS);
+        } else {
+          return Schema.of(Schema.LogicalType.DATETIME);
+        }
       case BINARY_FLOAT:
         return Schema.of(Schema.Type.FLOAT);
       case BINARY_DOUBLE:
@@ -108,10 +120,10 @@ public class OracleSourceSchemaReader extends CommonSchemaReader {
           if (precision == 0) {
             // reference : https://docs.oracle.com/cd/B28359_01/server.111/b28318/datatype.htm#CNCPT1832
             LOG.warn(String.format("Field '%s' is a %s type without precision and scale, "
-                    + "converting into STRING type to avoid any precision loss.",
-                metadata.getColumnName(index),
-                metadata.getColumnTypeName(index),
-                metadata.getColumnName(index)));
+                                     + "converting into STRING type to avoid any precision loss.",
+                                   metadata.getColumnName(index),
+                                   metadata.getColumnTypeName(index),
+                                   metadata.getColumnName(index)));
             return Schema.of(Schema.Type.STRING);
           }
           return Schema.decimalOf(precision, scale);

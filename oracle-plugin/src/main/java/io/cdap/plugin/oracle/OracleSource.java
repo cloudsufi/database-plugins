@@ -63,7 +63,7 @@ public class OracleSource extends AbstractDBSource<OracleSource.OracleSourceConf
 
   @Override
   protected SchemaReader getSchemaReader() {
-    return new OracleSourceSchemaReader();
+    return new OracleSourceSchemaReader(null, oracleSourceConfig.shouldTreatAsOldTimestamp());
   }
 
   @Override
@@ -101,6 +101,7 @@ public class OracleSource extends AbstractDBSource<OracleSource.OracleSourceConf
     public static final String NAME_CONNECTION = "connection";
     public static final String DEFAULT_ROW_PREFETCH_VALUE = "40";
     public static final String DEFAULT_BATCH_SIZE = "10";
+    public static final String TREAT_AS_OLD_TIMESTAMP = "treatAsOldTimestamp";
 
     @Name(NAME_USE_CONNECTION)
     @Nullable
@@ -123,11 +124,19 @@ public class OracleSource extends AbstractDBSource<OracleSource.OracleSourceConf
     @Nullable
     private Integer defaultRowPrefetch;
 
+    @Name(TREAT_AS_OLD_TIMESTAMP)
+    @Description("For internal use only. If set to true, DATETIME types will be treated as TIMESTAMP_MICROS to maintain"
+      + "backward compatibility.")
+    @Macro
+    @Nullable
+    private Boolean treatAsOldTimestamp = false;
+
+
     public OracleSourceConfig(String host, int port, String user, String password, String jdbcPluginName,
                               String connectionArguments, String connectionType, String database, String role,
                               int defaultBatchValue, int defaultRowPrefetch,
                               String importQuery, Integer numSplits, int fetchSize,
-                              String boundingQuery, String splitBy, Boolean useSSL) {
+                              String boundingQuery, String splitBy, Boolean useSSL, Boolean treatAsOldTimestamp) {
       this.connection = new OracleConnectorConfig(host, port, user, password, jdbcPluginName, connectionArguments,
                                                   connectionType, database, role, useSSL);
       this.defaultBatchValue = defaultBatchValue;
@@ -137,12 +146,13 @@ public class OracleSource extends AbstractDBSource<OracleSource.OracleSourceConf
       this.numSplits = numSplits;
       this.boundingQuery = boundingQuery;
       this.splitBy = splitBy;
+      this.treatAsOldTimestamp = treatAsOldTimestamp;
     }
 
     @Override
     public String getConnectionString() {
       return OracleConstants.getConnectionString(connection.getConnectionType(), connection.getHost(),
-          connection.getPort(), connection.getDatabase(), connection.getSSlMode());
+                                                 connection.getPort(), connection.getDatabase(), connection.getSSlMode());
     }
 
     @Override
@@ -161,6 +171,10 @@ public class OracleSource extends AbstractDBSource<OracleSource.OracleSourceConf
     @Override
     public OracleConnectorConfig getConnection() {
       return connection;
+    }
+
+    public boolean shouldTreatAsOldTimestamp() {
+      return Boolean.TRUE.equals(treatAsOldTimestamp);
     }
 
     @Override
@@ -183,21 +197,21 @@ public class OracleSource extends AbstractDBSource<OracleSource.OracleSourceConf
       // contain Decimal(38, 0) (or something similar), and the code internally would try to identify
       // the schema of the field(without precision and scale) as String.
       if (Schema.LogicalType.DECIMAL.equals(expectedFieldSchema.getLogicalType())
-          && actualFieldSchema.getType().equals(Schema.Type.STRING)) {
+        && actualFieldSchema.getType().equals(Schema.Type.STRING)) {
         return;
       }
 
       // For handling TimestampTZ types allow if the expected schema is STRING and
       // actual schema is set to TIMESTAMP type to ensure backward compatibility.
       if (Schema.LogicalType.TIMESTAMP_MICROS.equals(actualFieldSchema.getLogicalType())
-          && Schema.Type.STRING.equals(expectedFieldSchema.getType())) {
+        && Schema.Type.STRING.equals(expectedFieldSchema.getType())) {
         return;
       }
 
       // For handling TimestampLTZ and Timestamp types allow if the expected schema is TIMESTAMP and
       // actual schema is set to DATETIME type to ensure backward compatibility.
       if (Schema.LogicalType.DATETIME.equals(actualFieldSchema.getLogicalType())
-              && Schema.LogicalType.TIMESTAMP_MICROS.equals(expectedFieldSchema.getLogicalType())) {
+        && Schema.LogicalType.TIMESTAMP_MICROS.equals(expectedFieldSchema.getLogicalType())) {
         return;
       }
 
