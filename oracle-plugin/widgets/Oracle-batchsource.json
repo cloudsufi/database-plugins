@@ -246,6 +246,15 @@
             "default": "40",
             "min": "1"
           }
+        },
+        {
+          "widget-type": "hidden",
+          "label": "Treat As Old Timestamp",
+          "name": "treatAsOldTimestamp",
+          "description": "For internal use only. If set to true, DATETIME types will be treated as TIMESTAMP_MICROS to maintain backward compatibility.",
+          "widget-attributes": {
+            "default": "false"
+          }
         }
       ]
     }

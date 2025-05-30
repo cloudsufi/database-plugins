@@ -152,7 +152,8 @@ public class OracleSource extends AbstractDBSource<OracleSource.OracleSourceConf
     @Override
     public String getConnectionString() {
       return OracleConstants.getConnectionString(connection.getConnectionType(), connection.getHost(),
-                                                 connection.getPort(), connection.getDatabase(), connection.getSSlMode());
+                                                 connection.getPort(), connection.getDatabase(),
+                                                 connection.getSSlMode());
     }
 
     @Override
