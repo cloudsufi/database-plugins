@@ -23,6 +23,7 @@ import io.cdap.cdap.api.annotation.Name;
 import io.cdap.plugin.db.ConnectionConfig;
 import io.cdap.plugin.db.connector.AbstractDBConnectorConfig;
 
+import java.util.Properties;
 import javax.annotation.Nullable;
 
 /**
@@ -82,7 +83,7 @@ public class DatabricksConnectorConfig extends AbstractDBConnectorConfig {
   }
 
   @Override
-  public java.util.Properties getConnectionArgumentsProperties() {
+  public Properties getConnectionArgumentsProperties() {
     return getConnectionArgumentsProperties(connectionArguments, getUser(), getPassword());
   }
 

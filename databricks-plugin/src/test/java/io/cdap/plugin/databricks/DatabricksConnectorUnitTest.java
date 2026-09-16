@@ -40,8 +40,24 @@ public class DatabricksConnectorUnitTest {
 
   @Test
   public void testGetRandomQuery() {
-    Assert.assertEquals("SELECT * FROM `main`.`default`.`my_table` LIMIT 10",
+    Assert.assertEquals("SELECT * FROM `main`.`default`.`my_table`\n" +
+                          "WHERE rand() < 10.0 / (SELECT COUNT(*) FROM `main`.`default`.`my_table`)",
                         CONNECTOR.getRandomQuery("`main`.`default`.`my_table`", 10));
+  }
+
+  @Test
+  public void testGetStratifiedQuery() {
+    Assert.assertEquals("WITH t_s1 AS (\n" +
+                          "    SELECT *,\n" +
+                          "    ROW_NUMBER() OVER (ORDER BY id, RAND()) AS sqn_s1,\n" +
+                          "    COUNT(*) OVER () AS c_s1\n" +
+                          "    FROM `main`.`default`.`my_table`\n" +
+                          "  )\n" +
+                          "SELECT * FROM t_s1\n" +
+                          "WHERE MOD(sqn_s1, GREATEST(1, CAST(c_s1 / 10 AS BIGINT))) = 1\n" +
+                          "ORDER BY id\n" +
+                          "LIMIT 10",
+                        CONNECTOR.getStratifiedQuery("`main`.`default`.`my_table`", 10, "id", "s1"));
   }
 
   @Test
@@ -56,7 +72,7 @@ public class DatabricksConnectorUnitTest {
       "token", "secret", "jdbc", "", "dbc-xxx.cloud.databricks.com",
       "sql/1.0/warehouses/xxx", "main", 443);
     Assert.assertEquals(
-      "jdbc:databricks://dbc-xxx.cloud.databricks.com:443/main;HttpPath=sql/1.0/warehouses/xxx;",
+      "jdbc:databricks://dbc-xxx.cloud.databricks.com:443;ConnCatalog=main;HttpPath=sql/1.0/warehouses/xxx;",
       config.getConnectionString());
 
     DatabricksConnectorConfig configNoDb = new DatabricksConnectorConfig(

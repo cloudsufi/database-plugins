@@ -21,7 +21,6 @@ import io.cdap.plugin.db.CommonSchemaReader;
 
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Types;
 
 /**
  * Databricks Schema Reader class
@@ -44,23 +43,14 @@ public class DatabricksSchemaReader extends CommonSchemaReader {
     String typeName = metadata.getColumnTypeName(index);
 
     if (typeName != null) {
-      if (typeName.equalsIgnoreCase("INT") || typeName.equalsIgnoreCase("INTEGER") ||
-          typeName.equalsIgnoreCase("SMALLINT") || typeName.equalsIgnoreCase("TINYINT")) {
-        return Schema.of(Schema.Type.INT);
-      }
-      if (typeName.equalsIgnoreCase("BIGINT")) {
-        return Schema.of(Schema.Type.LONG);
-      }
-      if (typeName.equalsIgnoreCase("TIMESTAMP") || typeName.equalsIgnoreCase("TIMESTAMP_NTZ") ||
-          typeName.equalsIgnoreCase("TIMESTAMPTZ")) {
+      if (typeName.equalsIgnoreCase("TIMESTAMP_NTZ")) {
         return Schema.of(Schema.LogicalType.DATETIME);
-      }
-      if (typeName.equalsIgnoreCase("DATE")) {
-        return Schema.of(Schema.LogicalType.DATE);
       }
       if (typeName.equalsIgnoreCase("VARIANT") || typeName.equalsIgnoreCase("ARRAY") ||
           typeName.equalsIgnoreCase("MAP") || typeName.equalsIgnoreCase("STRUCT") ||
-          typeName.equalsIgnoreCase("JSON")) {
+          typeName.equalsIgnoreCase("OBJECT") || typeName.equalsIgnoreCase("FILE") ||
+          typeName.equalsIgnoreCase("VOID") || typeName.equalsIgnoreCase("INTERVAL") ||
+          typeName.equalsIgnoreCase("GEOGRAPHY") || typeName.equalsIgnoreCase("GEOMETRY")) {
         return Schema.of(Schema.Type.STRING);
       }
     }

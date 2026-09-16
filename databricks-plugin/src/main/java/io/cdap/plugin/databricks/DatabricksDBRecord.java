@@ -24,6 +24,8 @@ import io.cdap.plugin.db.SchemaReader;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
 
 /**
  * Writable class for Databricks Source
@@ -48,15 +50,27 @@ public class DatabricksDBRecord extends DBRecord {
     ResultSetMetaData metadata = resultSet.getMetaData();
     String columnTypeName = metadata.getColumnTypeName(columnIndex);
 
+    if (sqlType == Types.NULL || (columnTypeName != null && columnTypeName.equalsIgnoreCase("VOID"))) {
+      recordBuilder.set(field.getName(), null);
+      return;
+    }
+
     if (columnTypeName != null && (columnTypeName.equalsIgnoreCase("VARIANT") ||
         columnTypeName.equalsIgnoreCase("ARRAY") || columnTypeName.equalsIgnoreCase("MAP") ||
-        columnTypeName.equalsIgnoreCase("STRUCT") || columnTypeName.equalsIgnoreCase("JSON"))) {
+        columnTypeName.equalsIgnoreCase("STRUCT") || columnTypeName.equalsIgnoreCase("OBJECT") ||
+        columnTypeName.equalsIgnoreCase("FILE") || columnTypeName.equalsIgnoreCase("INTERVAL") ||
+        columnTypeName.equalsIgnoreCase("GEOGRAPHY") || columnTypeName.equalsIgnoreCase("GEOMETRY"))) {
       Object value = resultSet.getObject(columnIndex);
-      if (value != null) {
-        recordBuilder.set(field.getName(), value.toString());
-      } else {
-        recordBuilder.set(field.getName(), null);
-      }
+      recordBuilder.set(field.getName(), value != null ? value.toString() : null);
+      return;
+    }
+
+    Schema nonNullableSchema = field.getSchema().isNullable() ?
+      field.getSchema().getNonNullable() : field.getSchema();
+    if (Schema.LogicalType.DATETIME.equals(nonNullableSchema.getLogicalType()) ||
+        (columnTypeName != null && columnTypeName.equalsIgnoreCase("TIMESTAMP_NTZ"))) {
+      Timestamp timestamp = resultSet.getTimestamp(columnIndex);
+      recordBuilder.setDateTime(field.getName(), timestamp != null ? timestamp.toLocalDateTime() : null);
       return;
     }
 

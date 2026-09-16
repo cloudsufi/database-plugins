@@ -28,7 +28,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <properties>
-    <databricks-jdbc.version>3.4.1</databricks-jdbc.version>
+    <databricks-jdbc.version>2.6.40</databricks-jdbc.version>
   </properties>
 
   <dependencies>

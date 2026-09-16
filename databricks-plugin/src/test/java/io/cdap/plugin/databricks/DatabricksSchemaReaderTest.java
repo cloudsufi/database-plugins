@@ -19,69 +19,72 @@ package io.cdap.plugin.databricks;
 import io.cdap.cdap.api.data.schema.Schema;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import java.lang.reflect.Proxy;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Map;
+import java.sql.Types;
 
 public class DatabricksSchemaReaderTest {
 
-  private ResultSetMetaData createMockMetadata(Map<Integer, String> columnTypeNames,
-                                                Map<Integer, String> columnNames) {
-    return (ResultSetMetaData) Proxy.newProxyInstance(
-      ResultSetMetaData.class.getClassLoader(),
-      new Class<?>[]{ResultSetMetaData.class},
-      (proxy, method, args) -> {
-        if ("getColumnTypeName".equals(method.getName())) {
-          int index = (Integer) args[0];
-          return columnTypeNames.get(index);
-        }
-        if ("getColumnName".equals(method.getName())) {
-          int index = (Integer) args[0];
-          return columnNames.get(index);
-        }
-        return null;
-      }
-    );
+  private void mockColumnType(ResultSetMetaData metadata, int index, String typeName, int sqlType) throws SQLException {
+    Mockito.when(metadata.getColumnTypeName(index)).thenReturn(typeName);
+    Mockito.when(metadata.getColumnType(index)).thenReturn(sqlType);
+    Mockito.when(metadata.isSigned(index)).thenReturn(true);
   }
 
   @Test
   public void testGetSchemaDatabricksTypes() throws SQLException {
     DatabricksSchemaReader schemaReader = new DatabricksSchemaReader();
-    Map<Integer, String> typeNames = new java.util.HashMap<>();
-    typeNames.put(1, "INT");
-    typeNames.put(2, "BIGINT");
-    typeNames.put(3, "TIMESTAMP");
-    typeNames.put(4, "TIMESTAMP_NTZ");
-    typeNames.put(5, "DATE");
-    typeNames.put(6, "VARIANT");
-    typeNames.put(7, "STRUCT");
-    typeNames.put(8, "ARRAY");
-    typeNames.put(9, "MAP");
+    ResultSetMetaData metadata = Mockito.mock(ResultSetMetaData.class);
 
-    ResultSetMetaData metadata = createMockMetadata(typeNames, java.util.Collections.emptyMap());
+    mockColumnType(metadata, 1, "INT", Types.INTEGER);
+    mockColumnType(metadata, 2, "BIGINT", Types.BIGINT);
+    mockColumnType(metadata, 3, "TIMESTAMP", Types.TIMESTAMP);
+    mockColumnType(metadata, 4, "TIMESTAMP_NTZ", Types.TIMESTAMP);
+    mockColumnType(metadata, 5, "DATE", Types.DATE);
+    mockColumnType(metadata, 6, "VARIANT", Types.OTHER);
+    mockColumnType(metadata, 7, "STRUCT", Types.STRUCT);
+    mockColumnType(metadata, 8, "ARRAY", Types.ARRAY);
+    mockColumnType(metadata, 9, "MAP", Types.OTHER);
+    mockColumnType(metadata, 10, "SMALLINT", Types.SMALLINT);
+    mockColumnType(metadata, 11, "TINYINT", Types.TINYINT);
+    mockColumnType(metadata, 12, "TIME", Types.TIME);
+    mockColumnType(metadata, 13, "INTERVAL", Types.OTHER);
+    mockColumnType(metadata, 14, "VOID", Types.NULL);
+    mockColumnType(metadata, 15, "GEOGRAPHY", Types.OTHER);
+    mockColumnType(metadata, 16, "GEOMETRY", Types.OTHER);
+    mockColumnType(metadata, 17, "FILE", Types.OTHER);
+    mockColumnType(metadata, 18, "OBJECT", Types.OTHER);
 
     Assert.assertEquals(Schema.of(Schema.Type.INT), schemaReader.getSchema(metadata, 1));
     Assert.assertEquals(Schema.of(Schema.Type.LONG), schemaReader.getSchema(metadata, 2));
-    Assert.assertEquals(Schema.of(Schema.LogicalType.DATETIME), schemaReader.getSchema(metadata, 3));
+    Assert.assertEquals(Schema.of(Schema.LogicalType.TIMESTAMP_MICROS), schemaReader.getSchema(metadata, 3));
     Assert.assertEquals(Schema.of(Schema.LogicalType.DATETIME), schemaReader.getSchema(metadata, 4));
     Assert.assertEquals(Schema.of(Schema.LogicalType.DATE), schemaReader.getSchema(metadata, 5));
     Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 6));
     Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 7));
     Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 8));
     Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 9));
+    Assert.assertEquals(Schema.of(Schema.Type.INT), schemaReader.getSchema(metadata, 10));
+    Assert.assertEquals(Schema.of(Schema.Type.INT), schemaReader.getSchema(metadata, 11));
+    Assert.assertEquals(Schema.of(Schema.LogicalType.TIME_MICROS), schemaReader.getSchema(metadata, 12));
+    Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 13));
+    Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 14));
+    Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 15));
+    Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 16));
+    Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 17));
+    Assert.assertEquals(Schema.of(Schema.Type.STRING), schemaReader.getSchema(metadata, 18));
   }
 
   @Test
   public void testShouldIgnoreColumn() throws SQLException {
     DatabricksSchemaReader schemaReader = new DatabricksSchemaReader("sessionID");
-    Map<Integer, String> names = new java.util.HashMap<>();
-    names.put(1, "c_sessionID");
-    names.put(2, "sqn_sessionID");
-    names.put(3, "columnName");
+    ResultSetMetaData metadata = Mockito.mock(ResultSetMetaData.class);
 
-    ResultSetMetaData metadata = createMockMetadata(java.util.Collections.emptyMap(), names);
+    Mockito.when(metadata.getColumnName(1)).thenReturn("c_sessionID");
+    Mockito.when(metadata.getColumnName(2)).thenReturn("sqn_sessionID");
+    Mockito.when(metadata.getColumnName(3)).thenReturn("columnName");
 
     Assert.assertTrue(schemaReader.shouldIgnoreColumn(metadata, 1));
     Assert.assertTrue(schemaReader.shouldIgnoreColumn(metadata, 2));

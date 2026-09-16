@@ -26,6 +26,7 @@ import io.cdap.cdap.etl.api.connector.Connector;
 import io.cdap.cdap.etl.api.connector.ConnectorSpec;
 import io.cdap.cdap.etl.api.connector.ConnectorSpecRequest;
 import io.cdap.cdap.etl.api.connector.PluginSpec;
+import io.cdap.cdap.etl.api.connector.SampleType;
 import io.cdap.plugin.common.Constants;
 import io.cdap.plugin.common.ReferenceNames;
 import io.cdap.plugin.common.db.DBConnectorPath;
@@ -126,7 +127,25 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
 
   @Override
   protected String getRandomQuery(String tableName, int limit) {
-    return String.format("SELECT * FROM %s LIMIT %d", tableName, limit);
+    return String.format("SELECT * FROM %s\n" +
+                           "WHERE rand() < %d.0 / (SELECT COUNT(*) FROM %s)",
+                         tableName, limit, tableName);
+  }
+
+  @Override
+  protected String getStratifiedQuery(String tableName, int limit, String strata, String sessionID) {
+    return String.format("WITH t_%s AS (\n" +
+        "    SELECT *,\n" +
+        "    ROW_NUMBER() OVER (ORDER BY %s, RAND()) AS sqn_%s,\n" +
+        "    COUNT(*) OVER () AS c_%s\n" +
+        "    FROM %s\n" +
+        "  )\n" +
+        "SELECT * FROM t_%s\n" +
+        "WHERE MOD(sqn_%s, GREATEST(1, CAST(c_%s / %d AS BIGINT))) = 1\n" +
+        "ORDER BY %s\n" +
+        "LIMIT %d",
+      sessionID, strata, sessionID, sessionID, tableName, sessionID, sessionID, sessionID,
+      limit, strata, limit);
   }
 
   @Override
@@ -134,8 +153,11 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
                                   ConnectorSpec.Builder builder) {
     Map<String, String> sourceProperties = new HashMap<>();
     setConnectionProperties(sourceProperties, request);
-    builder.addRelatedPlugin(new PluginSpec(DatabricksConstants.PLUGIN_NAME,
-                                            BatchSource.PLUGIN_TYPE, sourceProperties));
+    builder
+      .addRelatedPlugin(new PluginSpec(DatabricksConstants.PLUGIN_NAME,
+                                       BatchSource.PLUGIN_TYPE, sourceProperties))
+      .addSupportedSampleType(SampleType.RANDOM)
+      .addSupportedSampleType(SampleType.STRATIFIED);
 
     String schema = path.getSchema();
     sourceProperties.put(DatabricksSource.DatabricksSourceConfig.NUM_SPLITS, "1");

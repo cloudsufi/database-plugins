@@ -16,15 +16,16 @@
 
 package io.cdap.plugin.databricks;
 
-/** Databricks constants. */
-public final class DatabricksConstants {
+import io.cdap.cdap.common.test.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-  private DatabricksConstants() {
-  }
-
-  public static final String PLUGIN_NAME = "Databricks";
-  public static final String DATABRICKS_CONNECTION_STRING_FORMAT =
-    "jdbc:databricks://%s:%d;HttpPath=%s;";
-  public static final String DATABRICKS_DB_CONNECTION_STRING_FORMAT =
-    "jdbc:databricks://%s:%d;ConnCatalog=%s;HttpPath=%s;";
+/**
+ * This is a test suite that runs all the tests for Databricks plugins.
+ */
+@RunWith(TestSuite.class)
+@Suite.SuiteClasses({
+  DatabricksSourceTestRun.class,
+})
+public class DatabricksPluginTestSuite extends DatabricksPluginTestBase {
 }
