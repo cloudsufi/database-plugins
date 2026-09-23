@@ -29,16 +29,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.nio.ByteBuffer;
-import java.sql.Blob;
-import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.SQLXML;
 import java.sql.Struct;
 import java.sql.Timestamp;
 import java.sql.Types;
@@ -127,98 +123,6 @@ public class OracleSourceDBRecord extends DBRecord {
   }
 
   @Override
-  protected void populateRecordField(Connection connection, StructuredRecord.Builder recordBuilder,
-                                     Schema.Field field, Object attrValue)
-          throws SQLException {
-    if (attrValue == null) {
-      recordBuilder.set(field.getName(), null);
-      return;
-    }
-
-    Schema fieldSchema = field.getSchema().isNullable() ? field.getSchema().getNonNullable()
-            : field.getSchema();
-    String attrClassName = attrValue.getClass().getName();
-    if (attrValue instanceof Struct) {
-      recordBuilder.set(field.getName(), convertStructToRecord((Struct) attrValue, fieldSchema, connection));
-      return;
-    }
-    if (attrValue instanceof Clob) {
-      Clob clob = (Clob) attrValue;
-      recordBuilder.set(field.getName(), clob.getSubString(1, (int) clob.length()));
-      return;
-    }
-    if (attrValue instanceof Blob) {
-      Blob blob = (Blob) attrValue;
-      recordBuilder.set(field.getName(), blob.getBytes(1, (int) blob.length()));
-      return;
-    }
-    if (attrValue instanceof SQLXML) {
-      recordBuilder.set(field.getName(), ((SQLXML) attrValue).getString());
-      return;
-    }
-    if ("oracle.sql.INTERVALDS".equals(attrClassName) || "oracle.sql.INTERVALYM".equals(attrClassName)) {
-      recordBuilder.set(field.getName(), attrValue.toString());
-      return;
-    }
-    if (attrValue instanceof BigDecimal) {
-      handleDecimalValue((BigDecimal) attrValue, fieldSchema, recordBuilder, field);
-      return;
-    }
-    if (attrValue instanceof Timestamp) {
-      handleTimestampValue((Timestamp) attrValue, fieldSchema, recordBuilder, field, connection);
-      return;
-    }
-    if (attrValue instanceof OffsetDateTime) {
-      handleOffsetDateTimeValue((OffsetDateTime) attrValue, fieldSchema, recordBuilder, field);
-      return;
-    }
-    if (isBfileValue(attrValue, field.getName())) {
-      recordBuilder.set(field.getName(), getBfileBytes(attrValue, field.getName()));
-      return;
-    }
-
-    super.populateRecordField(connection, recordBuilder, field, attrValue);
-  }
-
-  private void handleTimestampValue(Timestamp timestamp, Schema fieldSchema,
-                                    StructuredRecord.Builder recordBuilder, Schema.Field field,
-                                    Connection connection) throws SQLException {
-    if (Schema.LogicalType.DATETIME.equals(fieldSchema.getLogicalType())) {
-      recordBuilder.setDateTime(field.getName(), timestamp.toLocalDateTime());
-    } else {
-      super.populateRecordField(connection, recordBuilder, field, timestamp);
-    }
-  }
-
-  private void handleOffsetDateTimeValue(OffsetDateTime offsetDateTime, Schema fieldSchema,
-                                          StructuredRecord.Builder recordBuilder, Schema.Field field) {
-    ZonedDateTime zonedDateTime = offsetDateTime.atZoneSameInstant(ZoneId.of("UTC"));
-    if (fieldSchema.getLogicalType() != null &&
-            (Schema.LogicalType.TIMESTAMP_MICROS.equals(fieldSchema.getLogicalType()) ||
-                    Schema.LogicalType.TIMESTAMP_MILLIS.equals(fieldSchema.getLogicalType()))) {
-      recordBuilder.setTimestamp(field.getName(), zonedDateTime);
-    } else if (Schema.LogicalType.DATETIME.equals(fieldSchema.getLogicalType())) {
-      LocalDateTime systemLocalDateTime = offsetDateTime.atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
-      recordBuilder.setDateTime(field.getName(), systemLocalDateTime);
-    } else {
-      recordBuilder.set(field.getName(), zonedDateTime.toString());
-    }
-  }
-
-  private boolean isBfileValue(Object attrValue, String fieldName) throws SQLException {
-    ClassLoader oracleLoader = attrValue.getClass().getClassLoader();
-    try {
-      if (oracleLoader != null && oracleLoader.loadClass("oracle.jdbc.OracleBfile").isInstance(attrValue)) {
-        return true;
-      }
-    } catch (ClassNotFoundException e) {
-      throw new SQLException(String.format("Column '%s' is of type 'BFILE', which is not supported with " +
-              "this version of the JDBC driver.", fieldName), e);
-    }
-    return false;
-  }
-
-  @Override
   protected void writeNonNullToDB(PreparedStatement stmt, Schema fieldSchema,
                                   String fieldName, int fieldIndex) throws SQLException {
     int sqlIndex = fieldIndex + 1;
@@ -271,33 +175,6 @@ public class OracleSourceDBRecord extends DBRecord {
       }
     } else {
       super.writeNonNullToDB(stmt, fieldSchema, fieldName, fieldIndex);
-    }
-  }
-
-  private void handleDecimalValue(BigDecimal bigDecimal, Schema fieldSchema,
-      StructuredRecord.Builder recordBuilder, Schema.Field field) {
-    if (Schema.LogicalType.DECIMAL.equals(fieldSchema.getLogicalType())) {
-      recordBuilder.setDecimal(field.getName(), bigDecimal.setScale(fieldSchema.getScale(), RoundingMode.HALF_UP));
-      return;
-    }
-    switch (fieldSchema.getType()) {
-      case DOUBLE:
-        recordBuilder.set(field.getName(), bigDecimal.doubleValue());
-        break;
-      case FLOAT:
-        recordBuilder.set(field.getName(), bigDecimal.floatValue());
-        break;
-      case INT:
-        recordBuilder.set(field.getName(), bigDecimal.intValue());
-        break;
-      case LONG:
-        recordBuilder.set(field.getName(), bigDecimal.longValue());
-        break;
-      case STRING:
-        recordBuilder.set(field.getName(), bigDecimal.toPlainString());
-        break;
-      default:
-        recordBuilder.set(field.getName(), bigDecimal);
     }
   }
 
@@ -532,7 +409,7 @@ public class OracleSourceDBRecord extends DBRecord {
 
     for (Schema.Field field : schema.getFields()) {
       Object attrValue = attributeMap.get(field.getName());
-      populateRecordField(connection, builder, field, attrValue);
+      OracleStructUtil.populateRecordField(this, connection, builder, field, attrValue);
     }
     return builder.build();
   }

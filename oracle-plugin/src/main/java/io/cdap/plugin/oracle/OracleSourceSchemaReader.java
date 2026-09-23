@@ -271,8 +271,9 @@ public class OracleSourceSchemaReader extends CommonSchemaReader {
           if (sqlType == null) {
             attributeOwner = attributeResultSet.getString(COLUMN_ATTR_TYPE_OWNER);
             if (attributeOwner == null || attributeOwner.isEmpty()) {
-              throw new SQLException(String.format("Attribute '%s' is not a primitive type, but it lacks a type " +
-                      "owner. Therefore, it cannot be resolved as a STRUCT type. ", attributeName));
+              throw new IllegalArgumentException(String.format("Attribute '%s' is not a primitive type,"
+                      + "but it lacks a type owner. Therefore, it cannot be resolved as "
+                      + "a STRUCT type. ", attributeName));
             }
             sqlType = Types.STRUCT;
             nextLevel = level + 1;
@@ -289,7 +290,7 @@ public class OracleSourceSchemaReader extends CommonSchemaReader {
     }
 
     if (fields.isEmpty()) {
-      throw new SQLException(String.format(
+      throw new IllegalArgumentException(String.format(
           "No attributes found for Oracle STRUCT type '%s'. "
               + "Ensure the type exists and is accessible.",
           typeName));

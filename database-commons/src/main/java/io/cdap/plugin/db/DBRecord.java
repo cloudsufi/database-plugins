@@ -201,7 +201,7 @@ public class DBRecord implements Writable, DBWritable, Configurable {
    * @param o the object value read from the database
    * @throws SQLException if an error occurs while setting the field value
    */
-  protected void populateRecordField(Connection connection, StructuredRecord.Builder recordBuilder,
+  public void populateRecordField(Connection connection, StructuredRecord.Builder recordBuilder,
                                      Schema.Field field, Object o)
           throws SQLException {
     if (o instanceof Date) {
