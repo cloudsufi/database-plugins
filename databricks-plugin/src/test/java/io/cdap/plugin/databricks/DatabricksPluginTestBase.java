@@ -16,7 +16,6 @@
 
 package io.cdap.plugin.databricks;
 
-import com.databricks.client.jdbc.Driver;
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
@@ -42,7 +41,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -60,6 +58,7 @@ public abstract class DatabricksPluginTestBase extends DatabasePluginTestBase {
   protected static final ArtifactSummary DATAPIPELINE_ARTIFACT = new ArtifactSummary("data-pipeline", "3.2.0");
   protected static final long CURRENT_TS = System.currentTimeMillis();
 
+  protected static final String DRIVER_CLASS = "com.databricks.client.jdbc.Driver";
   protected static final String JDBC_DRIVER_NAME = "databricks";
   protected static final Map<String, String> BASE_PROPS = new HashMap<>();
 
@@ -88,12 +87,14 @@ public abstract class DatabricksPluginTestBase extends DatabasePluginTestBase {
                       DatabricksSource.class, DatabricksDBRecord.class, DBRecord.class,
                       ETLDBOutputFormat.class, DataDrivenETLDBInputFormat.class);
 
+    Class<?> driverClass = Class.forName(DRIVER_CLASS);
+
     PluginClass databricksDriver = new PluginClass(ConnectionConfig.JDBC_PLUGIN_TYPE, JDBC_DRIVER_NAME,
-                                                   "databricks driver class", Driver.class.getName(),
+                                                   "databricks driver class", driverClass.getName(),
                                                    null, Collections.emptyMap());
     addPluginArtifact(NamespaceId.DEFAULT.artifact("databricks-jdbc-connector", "1.0.0"),
                       DATAPIPELINE_ARTIFACT_ID,
-                      Sets.newHashSet(databricksDriver), Driver.class);
+                      Sets.newHashSet(databricksDriver), driverClass);
 
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
@@ -180,7 +181,7 @@ public abstract class DatabricksPluginTestBase extends DatabasePluginTestBase {
 
   public static Connection createConnection() {
     try {
-      Class.forName(Driver.class.getCanonicalName());
+      Class.forName(DRIVER_CLASS);
       return DriverManager.getConnection(connectionUrl, BASE_PROPS.get(ConnectionConfig.USER),
                                          BASE_PROPS.get(ConnectionConfig.PASSWORD));
     } catch (Exception e) {
@@ -190,6 +191,9 @@ public abstract class DatabricksPluginTestBase extends DatabasePluginTestBase {
 
   @AfterClass
   public static void tearDownDB() {
+    if (connectionUrl == null) {
+      return;
+    }
     try (Connection conn = createConnection();
          Statement stmt = conn.createStatement()) {
       executeCleanup(Arrays.<Cleanup>asList(() -> stmt.execute("DROP TABLE IF EXISTS my_table"),

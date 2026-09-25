@@ -43,14 +43,16 @@ public class DatabricksSchemaReader extends CommonSchemaReader {
     String typeName = metadata.getColumnTypeName(index);
 
     if (typeName != null) {
-      if (typeName.equalsIgnoreCase("TIMESTAMP_NTZ")) {
+      String normalizedType = typeName.trim().toUpperCase();
+      if (normalizedType.equals("TIMESTAMP_NTZ")) {
         return Schema.of(Schema.LogicalType.DATETIME);
       }
-      if (typeName.equalsIgnoreCase("VARIANT") || typeName.equalsIgnoreCase("ARRAY") ||
-          typeName.equalsIgnoreCase("MAP") || typeName.equalsIgnoreCase("STRUCT") ||
-          typeName.equalsIgnoreCase("OBJECT") || typeName.equalsIgnoreCase("FILE") ||
-          typeName.equalsIgnoreCase("VOID") || typeName.equalsIgnoreCase("INTERVAL") ||
-          typeName.equalsIgnoreCase("GEOGRAPHY") || typeName.equalsIgnoreCase("GEOMETRY")) {
+      if (normalizedType.equals("VARIANT") || normalizedType.startsWith("ARRAY") ||
+          normalizedType.startsWith("MAP") || normalizedType.startsWith("STRUCT") ||
+          normalizedType.equals("OBJECT") || normalizedType.equals("FILE") ||
+          normalizedType.equals("VOID") || normalizedType.equals("NULL") ||
+          normalizedType.startsWith("INTERVAL") || normalizedType.startsWith("GEOGRAPHY") ||
+          normalizedType.startsWith("GEOMETRY")) {
         return Schema.of(Schema.Type.STRING);
       }
     }

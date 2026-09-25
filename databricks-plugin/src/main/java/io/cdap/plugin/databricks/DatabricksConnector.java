@@ -179,6 +179,6 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
 
   @Override
   protected String getTransactionIsolationLevel() {
-    return TransactionIsolationLevel.Level.TRANSACTION_READ_UNCOMMITTED.name();
+    return TransactionIsolationLevel.Level.TRANSACTION_REPEATABLE_READ.name();
   }
 }

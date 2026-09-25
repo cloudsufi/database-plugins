@@ -60,7 +60,7 @@ public class DatabricksSourceTest {
   public void testGetTransactionIsolationLevel() {
     DatabricksSource.DatabricksSourceConfig config =
       new DatabricksSource.DatabricksSourceConfig(false, createConnectorConfig());
-    Assert.assertEquals(TransactionIsolationLevel.Level.TRANSACTION_READ_UNCOMMITTED.name(),
+    Assert.assertEquals(TransactionIsolationLevel.Level.TRANSACTION_REPEATABLE_READ.name(),
                         config.getTransactionIsolationLevel());
   }
 

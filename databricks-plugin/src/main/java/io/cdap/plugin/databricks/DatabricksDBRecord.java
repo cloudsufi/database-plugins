@@ -49,17 +49,18 @@ public class DatabricksDBRecord extends DBRecord {
                              int columnIndex, int sqlType, int sqlPrecision, int sqlScale) throws SQLException {
     ResultSetMetaData metadata = resultSet.getMetaData();
     String columnTypeName = metadata.getColumnTypeName(columnIndex);
+    String normalizedType = columnTypeName != null ? columnTypeName.trim().toUpperCase() : null;
 
-    if (sqlType == Types.NULL || (columnTypeName != null && columnTypeName.equalsIgnoreCase("VOID"))) {
+    if (sqlType == Types.NULL || "VOID".equals(normalizedType) || "NULL".equals(normalizedType)) {
       recordBuilder.set(field.getName(), null);
       return;
     }
 
-    if (columnTypeName != null && (columnTypeName.equalsIgnoreCase("VARIANT") ||
-        columnTypeName.equalsIgnoreCase("ARRAY") || columnTypeName.equalsIgnoreCase("MAP") ||
-        columnTypeName.equalsIgnoreCase("STRUCT") || columnTypeName.equalsIgnoreCase("OBJECT") ||
-        columnTypeName.equalsIgnoreCase("FILE") || columnTypeName.equalsIgnoreCase("INTERVAL") ||
-        columnTypeName.equalsIgnoreCase("GEOGRAPHY") || columnTypeName.equalsIgnoreCase("GEOMETRY"))) {
+    if (normalizedType != null && (normalizedType.equals("VARIANT") ||
+        normalizedType.startsWith("ARRAY") || normalizedType.startsWith("MAP") ||
+        normalizedType.startsWith("STRUCT") || normalizedType.equals("OBJECT") ||
+        normalizedType.equals("FILE") || normalizedType.startsWith("INTERVAL") ||
+        normalizedType.startsWith("GEOGRAPHY") || normalizedType.startsWith("GEOMETRY"))) {
       Object value = resultSet.getObject(columnIndex);
       recordBuilder.set(field.getName(), value != null ? value.toString() : null);
       return;
@@ -68,7 +69,7 @@ public class DatabricksDBRecord extends DBRecord {
     Schema nonNullableSchema = field.getSchema().isNullable() ?
       field.getSchema().getNonNullable() : field.getSchema();
     if (Schema.LogicalType.DATETIME.equals(nonNullableSchema.getLogicalType()) ||
-        (columnTypeName != null && columnTypeName.equalsIgnoreCase("TIMESTAMP_NTZ"))) {
+        "TIMESTAMP_NTZ".equals(normalizedType)) {
       Timestamp timestamp = resultSet.getTimestamp(columnIndex);
       recordBuilder.setDateTime(field.getName(), timestamp != null ? timestamp.toLocalDateTime() : null);
       return;
