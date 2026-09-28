@@ -68,8 +68,7 @@ public class DatabricksDBRecord extends DBRecord {
 
     Schema nonNullableSchema = field.getSchema().isNullable() ?
       field.getSchema().getNonNullable() : field.getSchema();
-    if (Schema.LogicalType.DATETIME.equals(nonNullableSchema.getLogicalType()) ||
-        "TIMESTAMP_NTZ".equals(normalizedType)) {
+    if (Schema.LogicalType.DATETIME.equals(nonNullableSchema.getLogicalType())) {
       Timestamp timestamp = resultSet.getTimestamp(columnIndex);
       recordBuilder.setDateTime(field.getName(), timestamp != null ? timestamp.toLocalDateTime() : null);
       return;

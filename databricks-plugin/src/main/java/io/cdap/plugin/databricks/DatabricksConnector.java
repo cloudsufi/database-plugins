@@ -73,9 +73,9 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
   protected Connection getConnection(DBConnectorPath path) {
     Connection connection = super.getConnection(path);
     try {
-      connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+      connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
     } catch (SQLException e) {
-      LOG.warn("Failed to set transaction isolation level to READ_UNCOMMITTED", e);
+      LOG.warn("Failed to set transaction isolation level to REPEATABLE_READ", e);
     }
     return new NoOpCommitConnection(connection);
   }
@@ -84,9 +84,9 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
   protected Connection getConnection() {
     Connection connection = super.getConnection();
     try {
-      connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+      connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
     } catch (SQLException e) {
-      LOG.warn("Failed to set transaction isolation level to READ_UNCOMMITTED", e);
+      LOG.warn("Failed to set transaction isolation level to REPEATABLE_READ", e);
     }
     return new NoOpCommitConnection(connection);
   }
@@ -128,7 +128,7 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
   @Override
   protected String getRandomQuery(String tableName, int limit) {
     return String.format("SELECT * FROM %s\n" +
-                           "WHERE rand() < %d.0 / (SELECT COUNT(*) FROM %s)",
+                           "WHERE rand() < %d.0 / GREATEST(1, (SELECT COUNT(*) FROM %s))",
                          tableName, limit, tableName);
   }
 
@@ -153,23 +153,21 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
                                   ConnectorSpec.Builder builder) {
     Map<String, String> sourceProperties = new HashMap<>();
     setConnectionProperties(sourceProperties, request);
+    sourceProperties.put(DatabricksSource.DatabricksSourceConfig.NUM_SPLITS, "1");
+    sourceProperties.put(DatabricksSource.DatabricksSourceConfig.FETCH_SIZE,
+                         DatabricksSource.DatabricksSourceConfig.DEFAULT_FETCH_SIZE);
+    String schema = path.getSchema();
+    String table = path.getTable();
+    if (table != null) {
+      sourceProperties.put(DatabricksSource.DatabricksSourceConfig.IMPORT_QUERY,
+                           getTableQuery(path.getDatabase(), schema, table));
+      sourceProperties.put(Constants.Reference.REFERENCE_NAME, ReferenceNames.cleanseReferenceName(table));
+    }
     builder
       .addRelatedPlugin(new PluginSpec(DatabricksConstants.PLUGIN_NAME,
                                        BatchSource.PLUGIN_TYPE, sourceProperties))
       .addSupportedSampleType(SampleType.RANDOM)
       .addSupportedSampleType(SampleType.STRATIFIED);
-
-    String schema = path.getSchema();
-    sourceProperties.put(DatabricksSource.DatabricksSourceConfig.NUM_SPLITS, "1");
-    sourceProperties.put(DatabricksSource.DatabricksSourceConfig.FETCH_SIZE,
-                         DatabricksSource.DatabricksSourceConfig.DEFAULT_FETCH_SIZE);
-    String table = path.getTable();
-    if (table == null) {
-      return;
-    }
-    sourceProperties.put(DatabricksSource.DatabricksSourceConfig.IMPORT_QUERY,
-                         getTableQuery(path.getDatabase(), schema, table));
-    sourceProperties.put(Constants.Reference.REFERENCE_NAME, ReferenceNames.cleanseReferenceName(table));
   }
 
   @Override

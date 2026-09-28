@@ -41,7 +41,7 @@ public class DatabricksConnectorUnitTest {
   @Test
   public void testGetRandomQuery() {
     Assert.assertEquals("SELECT * FROM `main`.`default`.`my_table`\n" +
-                          "WHERE rand() < 10.0 / (SELECT COUNT(*) FROM `main`.`default`.`my_table`)",
+                          "WHERE rand() < 10.0 / GREATEST(1, (SELECT COUNT(*) FROM `main`.`default`.`my_table`))",
                         CONNECTOR.getRandomQuery("`main`.`default`.`my_table`", 10));
   }
 
