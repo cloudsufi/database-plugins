@@ -21,8 +21,11 @@ import io.cdap.cdap.api.annotation.Description;
 import io.cdap.cdap.api.annotation.Macro;
 import io.cdap.cdap.api.annotation.Name;
 import io.cdap.plugin.db.ConnectionConfig;
+import io.cdap.plugin.db.TransactionIsolationLevel;
 import io.cdap.plugin.db.connector.AbstractDBConnectorConfig;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import javax.annotation.Nullable;
 
@@ -55,6 +58,12 @@ public class DatabricksConnectorConfig extends AbstractDBConnectorConfig {
   @Nullable
   private String database;
 
+  @Name(ConnectionConfig.TRANSACTION_ISOLATION_LEVEL)
+  @Description("The transaction isolation level for the database session.")
+  @Macro
+  @Nullable
+  private String transactionIsolationLevel;
+
   public DatabricksConnectorConfig(@Nullable @Name(ConnectionConfig.USER) String user, 
                                   @Nullable @Name(ConnectionConfig.PASSWORD) String password, 
                                   @Name(ConnectionConfig.JDBC_PLUGIN_NAME) String jdbcPluginName,
@@ -63,6 +72,19 @@ public class DatabricksConnectorConfig extends AbstractDBConnectorConfig {
                                   @Name(DatabricksConnectorConfig.HTTP_PATH) String httpPath,
                                   @Nullable @Name(ConnectionConfig.DATABASE) String database, 
                                   @Nullable @Name(ConnectionConfig.PORT) Integer port) {
+    this(user, password, jdbcPluginName, connectionArguments, host, httpPath, database, port, null);
+  }
+
+  public DatabricksConnectorConfig(@Nullable @Name(ConnectionConfig.USER) String user,
+                                   @Nullable @Name(ConnectionConfig.PASSWORD) String password,
+                                   @Name(ConnectionConfig.JDBC_PLUGIN_NAME) String jdbcPluginName,
+                                   @Nullable @Name(ConnectionConfig.CONNECTION_ARGUMENTS) String connectionArguments,
+                                   @Name(ConnectionConfig.HOST) String host,
+                                   @Name(DatabricksConnectorConfig.HTTP_PATH) String httpPath,
+                                   @Nullable @Name(ConnectionConfig.DATABASE) String database,
+                                   @Nullable @Name(ConnectionConfig.PORT) Integer port,
+                                   @Nullable @Name(ConnectionConfig.TRANSACTION_ISOLATION_LEVEL)
+                                   String transactionIsolationLevel) {
     this.user = user;
     this.password = password;
     this.jdbcPluginName = jdbcPluginName;
@@ -71,6 +93,7 @@ public class DatabricksConnectorConfig extends AbstractDBConnectorConfig {
     this.httpPath = httpPath;
     this.database = database;
     this.port = port;
+    this.transactionIsolationLevel = transactionIsolationLevel;
   }
 
   @Nullable
@@ -102,6 +125,21 @@ public class DatabricksConnectorConfig extends AbstractDBConnectorConfig {
 
   public String getHttpPath() {
     return httpPath;
+  }
+
+  public String getTransactionIsolationLevel() {
+    return Strings.isNullOrEmpty(transactionIsolationLevel)
+      ? TransactionIsolationLevel.Level.TRANSACTION_REPEATABLE_READ.name()
+      : transactionIsolationLevel;
+  }
+
+  @Override
+  public Map<String, String> getAdditionalArguments() {
+    Map<String, String> additionalArguments = new HashMap<>();
+    if (getTransactionIsolationLevel() != null) {
+      additionalArguments.put(TransactionIsolationLevel.CONF_KEY, getTransactionIsolationLevel());
+    }
+    return additionalArguments;
   }
 
   @Override

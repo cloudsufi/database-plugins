@@ -83,4 +83,14 @@ public class DatabricksConnectorUnitTest {
       configNoDb.getConnectionString());
   }
 
+  @Test
+  public void testTransactionIsolationLevel() {
+    Assert.assertEquals("TRANSACTION_REPEATABLE_READ", CONNECTOR.getTransactionIsolationLevel());
+
+    DatabricksConnector customConnector = new DatabricksConnector(new DatabricksConnectorConfig(
+      "token", "password", "jdbc", "", "dbc-xxx.cloud.databricks.com",
+      "sql/1.0/warehouses/xxx", "main", 443, "TRANSACTION_READ_UNCOMMITTED"));
+    Assert.assertEquals("TRANSACTION_READ_UNCOMMITTED", customConnector.getTransactionIsolationLevel());
+  }
+
 }

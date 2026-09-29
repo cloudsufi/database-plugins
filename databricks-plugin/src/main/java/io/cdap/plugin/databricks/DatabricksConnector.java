@@ -73,9 +73,10 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
   protected Connection getConnection(DBConnectorPath path) {
     Connection connection = super.getConnection(path);
     try {
-      connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+      connection.setTransactionIsolation(
+        TransactionIsolationLevel.getLevel(getTransactionIsolationLevel()));
     } catch (SQLException e) {
-      LOG.warn("Failed to set transaction isolation level to REPEATABLE_READ", e);
+      LOG.warn("Failed to set transaction isolation level to {}", getTransactionIsolationLevel(), e);
     }
     return new NoOpCommitConnection(connection);
   }
@@ -84,9 +85,10 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
   protected Connection getConnection() {
     Connection connection = super.getConnection();
     try {
-      connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+      connection.setTransactionIsolation(
+        TransactionIsolationLevel.getLevel(getTransactionIsolationLevel()));
     } catch (SQLException e) {
-      LOG.warn("Failed to set transaction isolation level to REPEATABLE_READ", e);
+      LOG.warn("Failed to set transaction isolation level to {}", getTransactionIsolationLevel(), e);
     }
     return new NoOpCommitConnection(connection);
   }
@@ -177,6 +179,6 @@ public class DatabricksConnector extends AbstractDBSpecificConnector<DatabricksD
 
   @Override
   protected String getTransactionIsolationLevel() {
-    return TransactionIsolationLevel.Level.TRANSACTION_REPEATABLE_READ.name();
+    return config.getTransactionIsolationLevel();
   }
 }

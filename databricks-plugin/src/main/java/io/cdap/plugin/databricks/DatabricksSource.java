@@ -130,7 +130,9 @@ public class DatabricksSource extends AbstractDBSource<DatabricksSource.Databric
 
     @Override
     public String getTransactionIsolationLevel() {
-      return TransactionIsolationLevel.Level.TRANSACTION_REPEATABLE_READ.name();
+      return connection == null
+        ? TransactionIsolationLevel.Level.TRANSACTION_REPEATABLE_READ.name()
+        : connection.getTransactionIsolationLevel();
     }
 
     @Override
